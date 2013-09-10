@@ -150,15 +150,15 @@ public class Constants {
     // Strings
     public static final String NO_STRING = "no";
     
-    public static final String FRONTPAGE_STRING = "reddit front page";
+    public static final String FRONTPAGE_STRING = "thefempire.org front page";
     
     public static final String REDDIT_SEARCH_STRING = "search";
-    public static final String DEFAULT_REDDIT_SEARCH = "bacon";
+    public static final String DEFAULT_REDDIT_SEARCH = "misandry";
     public static final String DEFAULT_SEARCH_SORT = "relevant";
     
-    public static final String HAVE_MAIL_TICKER = "reddit mail";
-    public static final String HAVE_MAIL_TITLE = "diode";
-    public static final String HAVE_MAIL_TEXT = "You have reddit mail.";
+    public static final String HAVE_MAIL_TICKER = "thefempire.org mail";
+    public static final String HAVE_MAIL_TITLE = "thefempire.org";
+    public static final String HAVE_MAIL_TEXT = "You have thefempire.org mail.";
     
     // save instance state Bundle keys
     public static final String AFTER_KEY = "after";
@@ -328,9 +328,9 @@ public class Constants {
 
     
     // Reddit's base URL, without trailing slash
-    public static final String REDDIT_BASE_URL = "http://www.reddit.com";
-    public static final String REDDIT_SSL_BASE_URL = "https://pay.reddit.com";
-	public static final String REDDIT_LOGIN_URL = "https://ssl.reddit.com/api/login";
+    public static final String REDDIT_BASE_URL = "http://www.thefempire.org";
+    public static final String REDDIT_SSL_BASE_URL = "http://thefempire.org"; // SSL isn't enabled on thefempire.org
+	public static final String REDDIT_LOGIN_URL = "http://thefempire.org/api/login";
 	
     // A short HTML file returned by reddit, so we can get the modhash
     public static final String MODHASH_URL = REDDIT_BASE_URL + "/r";
