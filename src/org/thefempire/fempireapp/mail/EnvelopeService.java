@@ -1,27 +1,27 @@
 /*
  * Copyright 2009 Andrew Shu
  *
- * This file is part of "diode".
+ * This file is part of "Fempire App".
  *
- * "diode" is free software: you can redistribute it and/or modify
+ * "Fempire App" is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
  * the Free Software Foundation, either version 3 of the License, or
  * (at your option) any later version.
  *
- * "diode" is distributed in the hope that it will be useful,
+ * "Fempire App" is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  * GNU General Public License for more details.
  *
  * You should have received a copy of the GNU General Public License
- * along with "diode".  If not, see <http://www.gnu.org/licenses/>.
+ * along with "Fempire App".  If not, see <http://www.gnu.org/licenses/>.
  */
 
 package org.thefempire.fempireapp.mail;
 
 import org.apache.http.client.HttpClient;
-import org.thefempire.fempireapp.common.RedditIsFunHttpClientFactory;
-import org.thefempire.fempireapp.settings.RedditSettings;
+import org.thefempire.fempireapp.common.FempireAppHttpClientFactory;
+import org.thefempire.fempireapp.settings.FempireSettings;
 
 
 import android.app.AlarmManager;
@@ -46,13 +46,13 @@ import android.os.SystemClock;
  */
 public class EnvelopeService extends Service {
     NotificationManager mNM;
-    private RedditSettings mSettings = new RedditSettings();
-    private HttpClient mClient = RedditIsFunHttpClientFactory.getGzipHttpClient();
+    private FempireSettings mSettings = new FempireSettings();
+    private HttpClient mClient = FempireAppHttpClientFactory.getGzipHttpClient();
 
     @Override
     public void onCreate() {
         mNM = (NotificationManager)getSystemService(NOTIFICATION_SERVICE);
-        mSettings.loadRedditPreferences(this, mClient);
+        mSettings.loadFempirePreferences(this, mClient);
         new PeekEnvelopeServiceTask(this, mClient, mSettings.getMailNotificationStyle()).execute();
     }
     

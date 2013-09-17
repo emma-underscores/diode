@@ -2,20 +2,20 @@
 <!--
  * Copyright 2009 Andrew Shu, 2012 Michael Shick
  *
- * This file is part of "diode".
+ * This file is part of "Fempire App".
  *
- * "diode" is free software: you can redistribute it and/or modify
+ * "Fempire App" is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
  * the Free Software Foundation, either version 3 of the License, or
  * (at your option) any later version.
  *
- * "diode" is distributed in the hope that it will be useful,
+ * "Fempire App" is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  * GNU General Public License for more details.
  *
  * You should have received a copy of the GNU General Public License
- * along with "diode".  If not, see <http://www.gnu.org/licenses/>.
+ * along with "Fempire App".  If not, see <http://www.gnu.org/licenses/>.
 -->
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
       package="org.thefempire.fempireapp"
@@ -35,7 +35,7 @@
 
     <supports-screens />
     
-    <application android:icon="@drawable/icon" android:label="@string/app_name" android:name=".RedditIsFunApplication" android:hardwareAccelerated="true">
+    <application android:icon="@drawable/icon" android:label="@string/app_name" android:name=".FempireApp" android:hardwareAccelerated="true">
         <activity android:name=".threads.ThreadsListActivity"
                   android:label="@string/app_name">
             <intent-filter>
@@ -47,8 +47,7 @@
                 <action android:name="android.intent.action.VIEW" />
                 <category android:name="android.intent.category.DEFAULT" />
                 <category android:name="android.intent.category.BROWSABLE" />
-                <data android:scheme="http" android:host="www.reddit.com" android:pathPattern="/r/.*/" />
-                <data android:scheme="http" android:host="redd.it" android:pathPattern="/" />
+                <data android:scheme="http" android:host="www.thefempire.org" android:pathPattern="/r/.*/" />
             </intent-filter>
         </activity>
 	    <activity android:name=".comments.CommentsListActivity">
@@ -56,9 +55,9 @@
 	            <action android:name="android.intent.action.VIEW" />
 	            <category android:name="android.intent.category.DEFAULT" />
 	            <category android:name="android.intent.category.BROWSABLE" />
-	            <data android:scheme="http" android:host="www.reddit.com" android:pathPattern="/r/.*/comments/.*" />
-	            <data android:scheme="http" android:host="www.reddit.com" android:pathPrefix="/comments/" />
-	            <data android:scheme="http" android:host="www.reddit.com" android:pathPrefix="/tb/" />
+	            <data android:scheme="http" android:host="www.thefempire.org" android:pathPattern="/r/.*/comments/.*" />
+	            <data android:scheme="http" android:host="www.thefempire.org" android:pathPrefix="/comments/" />
+	            <data android:scheme="http" android:host="www.thefempire.org" android:pathPrefix="/tb/" />
 	        </intent-filter>
             <!-- Separate filter because when added to above filter, the host is ignored -->
             <intent-filter>
@@ -68,7 +67,7 @@
                 <data android:scheme="http" android:host="redd.it" android:pathPattern="/..*" />
             </intent-filter>
 	    </activity>
-	    <activity android:name=".reddits.PickSubredditActivity"></activity>
+	    <activity android:name=".femdoms.PickFemdomActivity"></activity>
 	    <activity android:name=".submit.SubmitLinkActivity">
 	        <intent-filter>
             	<action android:name="android.intent.action.SEND" />
@@ -83,17 +82,17 @@
 	            <action android:name="android.intent.action.VIEW" />
 	            <category android:name="android.intent.category.DEFAULT" />
 	            <category android:name="android.intent.category.BROWSABLE" />
-	            <data android:scheme="http" android:host="www.reddit.com" android:pathPrefix="/user/" />
+	            <data android:scheme="http" android:host="www.thefempire.org" android:pathPrefix="/user/" />
 	        </intent-filter>
 	    </activity>
-	    <activity android:name=".settings.RedditPreferencesPage"></activity>
+	    <activity android:name=".settings.FempirePreferencesPage"></activity>
 	    <activity android:name=".browser.BrowserActivity"
 	              android:configChanges="keyboardHidden|orientation"
 	              android:hardwareAccelerated="true">
 	    </activity>
 	    <service android:name=".mail.EnvelopeService" android:label="@string/pref_mail_notification_service"></service>
 
-		<activity android:name=".search.RedditSearchActivity">
+		<activity android:name=".search.FemdomSearchActivity">
 	        <intent-filter>
 	            <action android:name="android.intent.action.SEARCH"></action>
 	        </intent-filter>

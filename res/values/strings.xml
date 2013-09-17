@@ -2,39 +2,39 @@
 <!--
  * Copyright 2009 Andrew Shu
  *
- * This file is part of "diode".
+ * This file is part of "fempire app".
  *
- * "diode" is free software: you can redistribute it and/or modify
+ * "fempire app" is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
  * the Free Software Foundation, either version 3 of the License, or
  * (at your option) any later version.
  *
- * "diode" is distributed in the hope that it will be useful,
+ * "fempire app" is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTBILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  * GNU General Public License for more details.
  *
  * You should have received a copy of the GNU General Public License
- * along with "diode".  If not, see <http://www.gnu.org/licenses/>.
+ * along with "fempire app".  If not, see <http://www.gnu.org/licenses/>.
 -->
 
 <resources>
 
-    <string name="app_label">reddit is fun</string>
-    <string name="app_name">Diode</string>
-    <string name="user_agent">Diode for Reddit (Android) %s</string>
+    <string name="app_label">fempire app</string>
+    <string name="app_name">Fempire App</string>
+    <string name="user_agent">Fempire App (Android) %s</string>
  
     <!-- Searches -->
     <string name="menu_search">[beta] Search</string>
     <string name="search_title_prefix">[beta] Search: </string>
-    <string name="search_hint">[beta] Search reddit</string>
+    <string name="search_hint">[beta] Search the fempire</string>
     <string name="search_sort_label">Sort results by </string>
  	<string-array name="search_results_sorting">
         <item>relevant</item>
         <item>new</item>
         <item>top</item>
     </string-array>
-    <string name="search_tips_text">reddit:\'{name}\' find things posted in {name} only
+    <string name="search_tips_text">Fempire:\'{name}\' find things posted in {name} only
         							author:\'{username}\' return things submitted by {username} only
 									site:\'{domain}\' get links to pages on {domain} only
 									url:\'{text}\' search for {text} in url
@@ -52,7 +52,7 @@
     <string name="noThreads">No threads here</string>
     <string name="noComments">No comments here</string>
     <string name="noMessages">Your inbox is empty.</string>
-    <string name="noSubreddits">No subreddits</string>
+    <string name="nofemdoms">No femdoms</string>
     
     <string name="loading_splash_text">Loading…</string>
     
@@ -63,13 +63,13 @@
     <string name="day_age_format" formatted="false">%d day</string>
     <string name="month_age_format" formatted="false">%d month</string>
     <string name="year_age_format" formatted="false">%d year</string>
-    <string name="pick_subreddit_label">Subreddit name:</string>
-    <string name="pick_subreddit_button">Go</string>
-    <string name="frontpage">reddit front page</string>
+    <string name="pick_femdom_label">Femdom name:</string>
+    <string name="pick_femdom_button">Go</string>
+    <string name="frontpage">the fempire front page</string>
     
-    <string name="subreddit_layout_srtext_text">Android</string>
-    <string name="subreddit_layout_statustext_text"></string>
-    <string name="subreddit_layout_download_text">Download</string>
+    <string name="femdom_layout_srtext_text">Android</string>
+    <string name="femdom_layout_statustext_text"></string>
+    <string name="femdom_layout_download_text">Download</string>
     
 	<string name="login_username_label">Username:</string>
 	<string name="login_password_label">Password:</string>
@@ -103,17 +103,17 @@
 	<string name="previous_threads">prev</string>
 	
 	<string name="error_voting_toast">Error voting. Please try again.</string>
-	<string name="mail_notification_unscheduled">Reddit mail notification service disabled.</string>
-	<string name="mail_notification_scheduled_5min">Reddit mail set to check every 5 minutes.</string>
-	<string name="mail_notification_scheduled_30min">Reddit mail set to check every 30 minutes.</string>
-	<string name="mail_notification_scheduled_1hour">Reddit mail set to check every 1 hour.</string>
-	<string name="mail_notification_scheduled_6hours">Reddit mail set to check every 6 hours.</string>
-	<string name="mail_notification_scheduled_1day">Reddit mail set to check every 24 hours.</string>
+	<string name="mail_notification_unscheduled">Fempire mail notification service disabled.</string>
+	<string name="mail_notification_scheduled_5min">Fempire mail set to check every 5 minutes.</string>
+	<string name="mail_notification_scheduled_30min">Fempire mail set to check every 30 minutes.</string>
+	<string name="mail_notification_scheduled_1hour">Fempire mail set to check every 1 hour.</string>
+	<string name="mail_notification_scheduled_6hours">Fempire mail set to check every 6 hours.</string>
+	<string name="mail_notification_scheduled_1day">Fempire mail set to check every 24 hours.</string>
 	
 	<string name="submit_title_label">title</string>
 	<string name="submit_url_label">url</string>
 	<string name="submit_text_label">text (optional)</string>
-	<string name="submit_reddit_label">reddit</string>
+	<string name="submit_Fempire_label">the fempire</string>
 	<string name="submit_captcha_label">are you human? (sorry)</string>
 	<string name="submit_captcha_loading">loading CAPTCHA…</string>
 	<string name="submit_button">submit</string>
@@ -149,7 +149,7 @@
 	<string name="op_edit">Edit OP</string>
 	<string name="op_delete">Delete thread</string>
 	<string name="open_browser">Open in browser</string>
-	<string name="pick_subreddit">Pick subreddit</string>
+	<string name="pick_femdom">Pick femdom</string>
 	<string name="refresh">Refresh</string>
 	<string name="share">Share</string>
 	<string name="sort_by_best">Sort by: best</string>
@@ -162,7 +162,7 @@
 	<string name="update_captcha">Update CAPTCHA</string>
 	<string name="user_profile">%s\'s profile</string>
 	<string name="view_comments">View comments</string>
-	<string name="view_subreddit">View subreddit</string>
+	<string name="view_femdom">View femdom</string>
 	<string name="close_browser">Close browser</string>
 	<string name="saved_content">Saved Comments</string>
 	<string name="author">Author</string>
@@ -175,9 +175,9 @@
 	<!-- === Preferences === -->
 	<string name="pref_general_category">General settings</string>
 	<string name="pref_appearance_category">Appearance</string>
-	<string name="pref_mail_category">Reddit mail</string>
+	<string name="pref_mail_category">Fempire mail</string>
 	
-	<string name="pref_homepage">Default starting reddit</string>
+	<string name="pref_homepage">Default starting femdom</string>
 	<string name="pref_homepage_hint">Leave blank to use default</string>
 	
 	<string name="pref_use_external_browser">Use external browser</string>
@@ -281,7 +281,7 @@
     <string name="edit_filter">Edit filter</string>
     <string name="delete_filter">Delete filter</string>
     <string name="filter_name">Filter name</string>
-    <string name="subreddit_name">Subreddit name</string>
+    <string name="femdom_name">femdom name</string>
     <string name="filter_text">Filter text</string>
     <string name="clear_filters">Delete All</string>
     <string name="filter_help_text">Links with titles that contain filter text will not be displayed.</string>

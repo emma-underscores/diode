@@ -2,20 +2,20 @@
 <!--
  * Copyright 2009 Andrew Shu
  *
- * This file is part of "diode".
+ * This file is part of "Fempire App".
  *
- * "diode" is free software: you can redistribute it and/or modify
+ * "Fempire App" is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
  * the Free Software Foundation, either version 3 of the License, or
  * (at your option) any later version.
  *
- * "diode" is distributed in the hope that it will be useful,
+ * "Fempire App" is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  * GNU General Public License for more details.
  *
  * You should have received a copy of the GNU General Public License
- * along with "diode".  If not, see <http://www.gnu.org/licenses/>.
+ * along with "Fempire App".  If not, see <http://www.gnu.org/licenses/>.
 -->
 <!--
 /*
@@ -115,7 +115,7 @@
 			        android:textColor="@color/red"
 			    />
 			    
-		        <TextView android:id="@+id/numCommentsSubreddit"
+		        <TextView android:id="@+id/numCommentsfemdom"
 			        android:layout_width="wrap_content"
 			        android:layout_height="wrap_content"
 			        android:layout_marginRight="5dip"
@@ -153,7 +153,7 @@
                 android:background="@drawable/divider_vertical_dark"
             />
             
-            <in.shick.diode.threads.DontPressWithParentFrameLayout
+            <org.thefempire.fempireapp.threads.DontPressWithParentFrameLayout
                 android:id="@+id/thumbnail_frame"
                 android:layout_width="?android:attr/listPreferredItemHeight"
                 android:layout_height="fill_parent"
@@ -176,7 +176,7 @@
                     android:indeterminate="true"
                     android:visibility="gone"
                     />
-            </in.shick.diode.threads.DontPressWithParentFrameLayout>
+            </org.thefempire.fempireapp.threads.DontPressWithParentFrameLayout>
             
         </LinearLayout>
 		

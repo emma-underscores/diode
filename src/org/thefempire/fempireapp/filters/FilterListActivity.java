@@ -15,7 +15,7 @@ import android.widget.ListView;
 import java.util.ArrayList;
 
 import org.thefempire.fempireapp.R;
-import org.thefempire.fempireapp.settings.RedditSettings;
+import org.thefempire.fempireapp.settings.FempireSettings;
 
 /**
  * Activity for configuring filters
@@ -27,11 +27,11 @@ public class FilterListActivity extends Activity
     /** The display for the list of filters */
     ListView m_filterListView;
 	/** The filters we are displaying */
-	ArrayList<SubredditFilter> m_filters;
+	ArrayList<FemdomFilter> m_filters;
 	/** The adapter showing our filters */
 	FilterAdapter m_adapter;
-	/** Reddit settings*/
-	RedditSettings m_settings;
+	/** Fempire settings*/
+	FempireSettings m_settings;
     /** Constant indiciating dialog to confirm deletion of all filters */
     public static final int DIALOG_CLEAR = 0;
 	
@@ -52,8 +52,8 @@ public class FilterListActivity extends Activity
             }
         });
 		
-		m_settings = new RedditSettings();
-		m_settings.loadRedditPreferences(this,null);
+		m_settings = new FempireSettings();
+		m_settings.loadFempirePreferences(this,null);
 	}
 	
 	@Override
@@ -61,7 +61,7 @@ public class FilterListActivity extends Activity
 	{
 		// Save filters on pause
 		m_settings.setFilters(m_filters);
-		m_settings.saveRedditPreferences(this);
+		m_settings.saveFempirePreferences(this);
 		super.onPause();
 	}
 	
@@ -69,7 +69,7 @@ public class FilterListActivity extends Activity
 	public void onResume() 
 	{
 		// Re-load filters on resume (i.e. after editing)
-		m_settings.loadRedditPreferences(this,null);
+		m_settings.loadFempirePreferences(this,null);
 		m_filters = m_settings.getFilters();
 		m_adapter = new FilterAdapter(this,m_filters);
 		m_filterListView.setAdapter(m_adapter);

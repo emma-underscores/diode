@@ -45,7 +45,7 @@ public class PeekEnvelopeTask extends MeTask {
 			if (!me.isHas_mail() && !me.isHas_mod_mail())
 				return 0;
 			
-			HttpGet request = new HttpGet(Constants.REDDIT_BASE_URL + "/message/inbox/.json?mark=false");
+			HttpGet request = new HttpGet(Constants.FEMPIRE_BASE_URL + "/message/inbox/.json?mark=false");
         	HttpResponse response = mClient.execute(request);
         	entity = response.getEntity();
         	
@@ -122,7 +122,7 @@ public class PeekEnvelopeTask extends MeTask {
 		JsonParser jp = jsonFactory.createJsonParser(in);
 		
 		/* The comments JSON file is a JSON array with 2 elements. First element is a thread JSON object,
-		 * equivalent to the thread object you get from a subreddit .json file.
+		 * equivalent to the thread object you get from a femdom .json file.
 		 * Second element is a similar JSON object, but the "children" array is an array of comments
 		 * instead of threads. 
 		 */

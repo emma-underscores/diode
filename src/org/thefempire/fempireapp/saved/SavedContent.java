@@ -17,7 +17,7 @@ public class SavedContent
     private String body;
     private String linkId;
     private String commentId;
-    private String subreddit;
+    private String femdom;
     
     /**
      * @param user the current logged in user
@@ -25,16 +25,16 @@ public class SavedContent
      * @param body the html of the comment's body
      * @param linkId equivalent to link_id in the comment's ThingInfo
      * @param commentId equivalent to id in the comment's ThingInfo
-     * @param subreddit the subreddit the comment exists in
+     * @param femdom the femdom the comment exists in
      */
-    public SavedContent(String user, String author, String body, String linkId, String commentId, String subreddit)
+    public SavedContent(String user, String author, String body, String linkId, String commentId, String femdom)
     {
         this.user = user;
         this.author = author;
         this.body = body;
         this.linkId = linkId;
         this.commentId = commentId;
-        this.subreddit = subreddit;
+        this.femdom = femdom;
     }
     
     /**
@@ -44,10 +44,10 @@ public class SavedContent
      * @param body the html of the comment's body
      * @param linkId equivalent to link_id in the comment's ThingInfo
      * @param commentId equivalent to id in the comment's ThingInfo
-     * @param subreddit the subreddit the comment exists in
+     * @param femdom the femdom the comment exists in
      */
     public SavedContent(int id, String user, String author, String body, String linkId,
-            String commentId, String subreddit)
+            String commentId, String femdom)
     {
         this.id = id;
         this.user = user;
@@ -55,7 +55,7 @@ public class SavedContent
         this.body = body;
         this.linkId = linkId;
         this.commentId = commentId;
-        this.subreddit = subreddit;
+        this.femdom = femdom;
     }
     
     public int getId()
@@ -88,9 +88,9 @@ public class SavedContent
         return commentId;
     }
     
-    public String getSubreddit()
+    public String getfemdom()
     {
-        return subreddit;
+        return femdom;
     }
     
     public void setId(int id)
@@ -123,9 +123,9 @@ public class SavedContent
         this.commentId = commentId;
     }
     
-    public void setSubreddit(String subreddit)
+    public void setfemdom(String femdom)
     {
-        this.subreddit = subreddit;
+        this.femdom = femdom;
     }
     
 }

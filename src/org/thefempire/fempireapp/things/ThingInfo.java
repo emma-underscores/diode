@@ -1,20 +1,20 @@
 /*
  * Copyright 2009 Andrew Shu
  *
- * This file is part of "diode".
+ * This file is part of "Fempire App".
  *
- * "diode" is free software: you can redistribute it and/or modify
+ * "Fempire App" is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
  * the Free Software Foundation, either version 3 of the License, or
  * (at your option) any later version.
  *
- * "diode" is distributed in the hope that it will be useful,
+ * "Fempire App" is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  * GNU General Public License for more details.
  *
  * You should have received a copy of the GNU General Public License
- * along with "diode".  If not, see <http://www.gnu.org/licenses/>.
+ * along with "Fempire App".  If not, see <http://www.gnu.org/licenses/>.
  */
 
 package org.thefempire.fempireapp.things;
@@ -33,7 +33,7 @@ import android.text.SpannableString;
 
 
 /**
- * Class representing a thread posting in reddit API.
+ * Class representing a thread posting in Fempire API.
  * 
  * @author TalkLittle
  *
@@ -76,8 +76,8 @@ public class ThingInfo implements Serializable, Parcelable {
 	private String selftext;				// t
 	private String selftext_html;			// t
 	private String subject;					//     m
-	private String subreddit;				// t c
-	private String subreddit_id;			// t
+	private String femdom;				// t c
+	private String femdom_id;			// t
 	private String thumbnail;				// t
 	private String title;					// t
 	private int ups;						// t c
@@ -214,12 +214,12 @@ public class ThingInfo implements Serializable, Parcelable {
 		return subject;
 	}
 
-	public String getSubreddit() {
-		return subreddit;
+	public String getfemdom() {
+		return femdom;
 	}
 
-	public String getSubreddit_id() {
-		return subreddit_id;
+	public String getfemdom_id() {
+		return femdom_id;
 	}
 
 	public String getThumbnail() {
@@ -443,12 +443,12 @@ public class ThingInfo implements Serializable, Parcelable {
 		this.subject = subject;
 	}
 
-	public void setSubreddit(String subreddit) {
-		this.subreddit = subreddit;
+	public void setfemdom(String femdom) {
+		this.femdom = femdom;
 	}
 
-	public void setSubreddit_id(String subreddit_id) {
-		this.subreddit_id = subreddit_id;
+	public void setfemdom_id(String femdom_id) {
+		this.femdom_id = femdom_id;
 	}
 
 	public void setThumbnail(String thumbnail) {
@@ -508,8 +508,8 @@ public class ThingInfo implements Serializable, Parcelable {
 		out.writeValue(selftext);
 		out.writeValue(selftext_html);
 		out.writeValue(subject);
-		out.writeValue(subreddit);
-		out.writeValue(subreddit_id);
+		out.writeValue(femdom);
+		out.writeValue(femdom_id);
 		out.writeValue(thumbnail);
 		out.writeValue(title);
 		out.writeInt(ups);
@@ -552,8 +552,8 @@ public class ThingInfo implements Serializable, Parcelable {
 		selftext      = (String) in.readValue(null);
 		selftext_html = (String) in.readValue(null);
 		subject       = (String) in.readValue(null);
-		subreddit     = (String) in.readValue(null);
-		subreddit_id  = (String) in.readValue(null);
+		femdom     = (String) in.readValue(null);
+		femdom_id  = (String) in.readValue(null);
 		thumbnail     = (String) in.readValue(null);
 		title         = (String) in.readValue(null);
 		ups           = in.readInt();

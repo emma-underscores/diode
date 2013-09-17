@@ -7,3 +7,5 @@ proguard
 local.properties
 build.xml
 tags
+*.directory
+*~

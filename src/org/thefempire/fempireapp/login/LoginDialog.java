@@ -1,7 +1,7 @@
 package org.thefempire.fempireapp.login;
 
 import org.thefempire.fempireapp.R;
-import org.thefempire.fempireapp.settings.RedditSettings;
+import org.thefempire.fempireapp.settings.FempireSettings;
 
 import android.app.Activity;
 import android.app.Dialog;
@@ -17,17 +17,17 @@ import android.widget.EditText;
  */
 public abstract class LoginDialog extends Dialog {
 	private final Activity mActivity;
-	private final RedditSettings mSettings;
+	private final FempireSettings mSettings;
 	private final EditText loginUsernameInput;
 	private final EditText loginPasswordInput;
 
-	public LoginDialog(final Activity activity, RedditSettings settings, boolean finishActivityIfCanceled) {
+	public LoginDialog(final Activity activity, FempireSettings settings, boolean finishActivityIfCanceled) {
 		super(activity, settings.getDialogTheme());
 		mActivity = activity;
 		mSettings = settings;
 		
 		setContentView(R.layout.login_dialog);
-		setTitle("Login to reddit.com");
+		setTitle("Login to Fempire.com");
 		if (finishActivityIfCanceled) {
 			// If user presses "back" then quit.
 			setOnCancelListener(new OnCancelListener() {

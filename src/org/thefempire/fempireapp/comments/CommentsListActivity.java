@@ -1,20 +1,20 @@
 /*
  * Copyright 2009 Andrew Shu, 2012 veeti
  *
- * This file is part of "diode".
+ * This file is part of "Fempire App".
  *
- * "diode" is free software: you can redistribute it and/or modify
+ * "Fempire App" is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
  * the Free Software Foundation, either version 3 of the License, or
  * (at your option) any later version.
  *
- * "diode" is distributed in the hope that it will be useful,
+ * "Fempire App" is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  * GNU General Public License for more details.
  *
  * You should have received a copy of the GNU General Public License
- * along with "diode".  If not, see <http://www.gnu.org/licenses/>.
+ * along with "Fempire App".  If not, see <http://www.gnu.org/licenses/>.
  */
 
 package org.thefempire.fempireapp.comments;
@@ -26,7 +26,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
-
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
 import org.apache.http.NameValuePair;
@@ -41,7 +40,7 @@ import org.thefempire.fempireapp.R;
 import org.thefempire.fempireapp.common.CacheInfo;
 import org.thefempire.fempireapp.common.Common;
 import org.thefempire.fempireapp.common.Constants;
-import org.thefempire.fempireapp.common.RedditIsFunHttpClientFactory;
+import org.thefempire.fempireapp.common.FempireAppHttpClientFactory;
 import org.thefempire.fempireapp.common.tasks.HideTask;
 import org.thefempire.fempireapp.common.tasks.SaveTask;
 import org.thefempire.fempireapp.common.util.CollectionUtils;
@@ -54,13 +53,14 @@ import org.thefempire.fempireapp.mail.PeekEnvelopeTask;
 import org.thefempire.fempireapp.markdown.MarkdownURL;
 import org.thefempire.fempireapp.saved.SavedContent;
 import org.thefempire.fempireapp.saved.SavedDBHandler;
-import org.thefempire.fempireapp.settings.RedditPreferencesPage;
-import org.thefempire.fempireapp.settings.RedditSettings;
+import org.thefempire.fempireapp.settings.FempirePreferencesPage;
+import org.thefempire.fempireapp.settings.FempireSettings;
 import org.thefempire.fempireapp.things.ThingInfo;
 import org.thefempire.fempireapp.threads.ThreadsListActivity;
 import org.thefempire.fempireapp.threads.ThumbnailOnClickListenerFactory;
 import org.thefempire.fempireapp.user.ProfileActivity;
-
+import android.annotation.SuppressLint;
+import android.annotation.TargetApi;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.Dialog;
@@ -74,6 +74,7 @@ import android.graphics.Color;
 import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.AsyncTask;
+import android.os.Build;
 import android.os.AsyncTask.Status;
 import android.os.Bundle;
 import android.telephony.PhoneNumberUtils;
@@ -107,7 +108,7 @@ import android.widget.Toast;
 
 
 /**
- * Main Activity class representing a Subreddit, i.e., a ThreadsList.
+ * Main Activity class representing a femdom, i.e., a ThreadsList.
  * 
  * @author TalkLittle
  *
@@ -124,19 +125,19 @@ public class CommentsListActivity extends ListActivity
 
 	private static final String TAG = "CommentsListActivity";
 	
-    // Group 2: subreddit name. Group 3: thread id36. Group 4: Comment id36.
+    // Group 2: femdom name. Group 3: thread id36. Group 4: Comment id36.
     private final Pattern COMMENT_PATH_PATTERN = Pattern.compile(Constants.COMMENT_PATH_PATTERN_STRING);
     private final Pattern COMMENT_CONTEXT_PATTERN = Pattern.compile("context=(\\d+)");
 
     /** Custom list adapter that fits our threads data into the list. */
     CommentsListAdapter mCommentsAdapter = null;
     
-    private final HttpClient mClient = RedditIsFunHttpClientFactory.getGzipHttpClient();
+    private final HttpClient mClient = FempireAppHttpClientFactory.getGzipHttpClient();
     
     // Common settings are stored here
-    private final RedditSettings mSettings = new RedditSettings();
+    private final FempireSettings mSettings = new FempireSettings();
     
-    private String mSubreddit = null;
+    private String mfemdom = null;
     private String mThreadId = null;
     private String mThreadTitle = null;
 	
@@ -188,7 +189,7 @@ public class CommentsListActivity extends ListActivity
         
 		CookieSyncManager.createInstance(getApplicationContext());
 		
-		mSettings.loadRedditPreferences(this, mClient);
+		mSettings.loadFempirePreferences(this, mClient);
 
         restoreLastNonConfigurationInstance();
         if(mObjectStates == null) {
@@ -217,12 +218,12 @@ public class CommentsListActivity extends ListActivity
         	mEditTargetBody = savedInstanceState.getString(Constants.EDIT_TARGET_BODY_KEY);
         	mDeleteTargetKind = savedInstanceState.getString(Constants.DELETE_TARGET_KIND_KEY);
         	mThreadTitle = savedInstanceState.getString(Constants.THREAD_TITLE_KEY);
-        	mSubreddit = savedInstanceState.getString(Constants.SUBREDDIT_KEY);
+        	mfemdom = savedInstanceState.getString(Constants.FEMDOM_KEY);
         	mThreadId = savedInstanceState.getString(Constants.THREAD_ID_KEY);
         	mVoteTargetThing = savedInstanceState.getParcelable(Constants.VOTE_TARGET_THING_INFO_KEY);
         	
         	if (mThreadTitle != null) {
-        	    setTitle(mThreadTitle + " : " + mSubreddit);
+        	    setTitle(mThreadTitle + " : " + mfemdom);
         	}
 
         	if (mObjectStates.mCommentsList == null) {
@@ -246,7 +247,7 @@ public class CommentsListActivity extends ListActivity
             	commentPath = data.getPath();
             	commentQuery = data.getQuery();
             } else {
-        		if (Constants.LOGGING) Log.e(TAG, "Quitting because no subreddit and thread id data was passed into the Intent.");
+        		if (Constants.LOGGING) Log.e(TAG, "Quitting because no femdom and thread id data was passed into the Intent.");
         		finish();
         		return;
             }
@@ -254,14 +255,14 @@ public class CommentsListActivity extends ListActivity
         	if (commentPath != null) {
         		if (Constants.LOGGING) Log.d(TAG, "comment path: "+commentPath);
         		
-        		if (Util.isRedditShortenedUri(data)) {
+        		if (Util.isfemdomshortenedUri(data)) {
         			// http://redd.it/abc12
         			mThreadId = commentPath.substring(1);
         		} else {
-        			// http://www.reddit.com/...
+        			// http://www.thefempire.org/...
 	        		Matcher m = COMMENT_PATH_PATTERN.matcher(commentPath);
 	        		if (m.matches()) {
-	            		mSubreddit = m.group(1);
+	            		mfemdom = m.group(1);
 	        			mThreadId = m.group(2);
 	        			jumpToCommentId = m.group(3);
 	        		}
@@ -279,19 +280,19 @@ public class CommentsListActivity extends ListActivity
         		}
         	}
         	
-        	// Extras: subreddit, threadTitle, numComments
-        	// subreddit is not always redundant to Intent.getData(),
-        	// since URL does not always contain the subreddit. (e.g., self posts)
+        	// Extras: femdom, threadTitle, numComments
+        	// femdom is not always redundant to Intent.getData(),
+        	// since URL does not always contain the femdom. (e.g., self posts)
         	Bundle extras = getIntent().getExtras();
         	if (extras != null) {
-        		// subreddit could have already been set from the Intent.getData. don't overwrite with null here!
-        		String subreddit = extras.getString(Constants.EXTRA_SUBREDDIT);
-        		if (subreddit != null)
-        			mSubreddit = subreddit;
+        		// femdom could have already been set from the Intent.getData. don't overwrite with null here!
+        		String femdom = extras.getString(Constants.EXTRA_FEMDOM);
+        		if (femdom != null)
+        			mfemdom = femdom;
         		// mThreadTitle has not been set yet, so no need for null check before setting it
         		mThreadTitle = extras.getString(Constants.EXTRA_TITLE);
         		if (mThreadTitle != null) {
-            	    setTitle(mThreadTitle + " : " + mSubreddit);
+            	    setTitle(mThreadTitle + " : " + mfemdom);
             	}
         		// TODO: use extras.getInt(Constants.EXTRA_NUM_COMMENTS) somehow
         	}
@@ -311,7 +312,7 @@ public class CommentsListActivity extends ListActivity
     	super.onResume();
 		int previousTheme = mSettings.getTheme();
 		
-    	mSettings.loadRedditPreferences(this, mClient);
+    	mSettings.loadFempirePreferences(this, mClient);
 
     	if (mSettings.getTheme() != previousTheme) {
     		relaunchActivity();
@@ -334,7 +335,7 @@ public class CommentsListActivity extends ListActivity
     protected void onPause() {
     	super.onPause();
 		CookieSyncManager.getInstance().stopSync();
-		mSettings.saveRedditPreferences(this);
+		mSettings.saveFempirePreferences(this);
     }
     
     @Override
@@ -354,7 +355,7 @@ public class CommentsListActivity extends ListActivity
         if(mObjectStates.mDownloadCommentsTask == null || mObjectStates.mDownloadCommentsTask.getStatus() == Status.FINISHED)
             mObjectStates.mDownloadCommentsTask = new DownloadCommentsTask(
 				this,
-				mSubreddit,
+				mfemdom,
 				mThreadId,
 				mSettings,
 				mClient
@@ -547,7 +548,7 @@ public class CommentsListActivity extends ListActivity
     	this.mShouldClearReply = shouldClearReply;
     }
     
-    public static void setCommentIndent(View commentListItemView, int indentLevel, RedditSettings settings) {
+    public static void setCommentIndent(View commentListItemView, int indentLevel, FempireSettings settings) {
         View[] indentViews = new View[] {
         	commentListItemView.findViewById(R.id.left_indent1),
         	commentListItemView.findViewById(R.id.left_indent2),
@@ -735,12 +736,12 @@ public class CommentsListActivity extends ListActivity
     			List<NameValuePair> nvps = new ArrayList<NameValuePair>();
     			nvps.add(new BasicNameValuePair("thing_id", _mParentThingId));
     			nvps.add(new BasicNameValuePair("text", text[0]));
-    			nvps.add(new BasicNameValuePair("r", mSubreddit));
+    			nvps.add(new BasicNameValuePair("r", mfemdom));
     			nvps.add(new BasicNameValuePair("uh", mSettings.getModhash()));
-    			// Votehash is currently unused by reddit 
+    			// Votehash is currently unused by Fempire 
 //    				nvps.add(new BasicNameValuePair("vh", "0d4ab0ffd56ad0f66841c15609e9a45aeec6b015"));
     			
-    			HttpPost httppost = new HttpPost(Constants.REDDIT_BASE_URL + "/api/comment");
+    			HttpPost httppost = new HttpPost(Constants.FEMPIRE_BASE_URL + "/api/comment");
     	        httppost.setEntity(new UrlEncodedFormEntity(nvps, HTTP.UTF_8));
     	        
     	        HttpParams params = httppost.getParams();
@@ -822,10 +823,10 @@ public class CommentsListActivity extends ListActivity
     			List<NameValuePair> nvps = new ArrayList<NameValuePair>();
     			nvps.add(new BasicNameValuePair("thing_id", _mThingId.toString()));
     			nvps.add(new BasicNameValuePair("text", text[0].toString()));
-    			nvps.add(new BasicNameValuePair("r", mSubreddit.toString()));
+    			nvps.add(new BasicNameValuePair("r", mfemdom.toString()));
     			nvps.add(new BasicNameValuePair("uh", mSettings.getModhash().toString()));
     			
-    			HttpPost httppost = new HttpPost(Constants.REDDIT_BASE_URL + "/api/editusertext");
+    			HttpPost httppost = new HttpPost(Constants.FEMPIRE_BASE_URL + "/api/editusertext");
     	        httppost.setEntity(new UrlEncodedFormEntity(nvps, HTTP.UTF_8));
     	        
     	        HttpParams params = httppost.getParams();
@@ -908,10 +909,10 @@ public class CommentsListActivity extends ListActivity
     			List<NameValuePair> nvps = new ArrayList<NameValuePair>();
     			nvps.add(new BasicNameValuePair("id", thingFullname[0].toString()));
     			nvps.add(new BasicNameValuePair("executed", "deleted"));
-    			nvps.add(new BasicNameValuePair("r", mSubreddit.toString()));
+    			nvps.add(new BasicNameValuePair("r", mfemdom.toString()));
     			nvps.add(new BasicNameValuePair("uh", mSettings.getModhash().toString()));
     			
-    			HttpPost httppost = new HttpPost(Constants.REDDIT_BASE_URL + "/api/del");
+    			HttpPost httppost = new HttpPost(Constants.FEMPIRE_BASE_URL + "/api/del");
     	        httppost.setEntity(new UrlEncodedFormEntity(nvps, HTTP.UTF_8));
     	        
     	        HttpParams params = httppost.getParams();
@@ -1016,12 +1017,12 @@ public class CommentsListActivity extends ListActivity
     			List<NameValuePair> nvps = new ArrayList<NameValuePair>();
     			nvps.add(new BasicNameValuePair("id", _mThingFullname.toString()));
     			nvps.add(new BasicNameValuePair("dir", String.valueOf(_mDirection)));
-    			nvps.add(new BasicNameValuePair("r", mSubreddit.toString()));
+    			nvps.add(new BasicNameValuePair("r", mfemdom.toString()));
     			nvps.add(new BasicNameValuePair("uh", mSettings.getModhash().toString()));
-    			// Votehash is currently unused by reddit 
+    			// Votehash is currently unused by Fempire 
 //    				nvps.add(new BasicNameValuePair("vh", "0d4ab0ffd56ad0f66841c15609e9a45aeec6b015"));
     			
-    			HttpPost httppost = new HttpPost(Constants.REDDIT_BASE_URL + "/api/vote");
+    			HttpPost httppost = new HttpPost(Constants.FEMPIRE_BASE_URL + "/api/vote");
     	        httppost.setEntity(new UrlEncodedFormEntity(nvps, HTTP.UTF_8));
     	        
     	        if (Constants.LOGGING) Log.d(TAG, nvps.toString());
@@ -1168,12 +1169,12 @@ public class CommentsListActivity extends ListActivity
     			List<NameValuePair> nvps = new ArrayList<NameValuePair>();
     			nvps.add(new BasicNameValuePair("id", _mFullId));
     			nvps.add(new BasicNameValuePair("executed", "reported"));
-    			nvps.add(new BasicNameValuePair("r", mSubreddit.toString()));
+    			nvps.add(new BasicNameValuePair("r", mfemdom.toString()));
     			nvps.add(new BasicNameValuePair("uh", mSettings.getModhash().toString()));
-    			// Votehash is currently unused by reddit 
+    			// Votehash is currently unused by Fempire 
 //    				nvps.add(new BasicNameValuePair("vh", "0d4ab0ffd56ad0f66841c15609e9a45aeec6b015"));
     			
-    			HttpPost httppost = new HttpPost(Constants.REDDIT_BASE_URL + "/api/report");
+    			HttpPost httppost = new HttpPost(Constants.FEMPIRE_BASE_URL + "/api/report");
     	        httppost.setEntity(new UrlEncodedFormEntity(nvps, HTTP.UTF_8));
     	        
     	        if (Constants.LOGGING) Log.d(TAG, nvps.toString());
@@ -1321,9 +1322,9 @@ public class CommentsListActivity extends ListActivity
         	mReplyTargetName = getOpThingInfo().getName();
     		showDialog(Constants.DIALOG_COMMENT_CLICK);
     		break;
-    	case R.id.op_subreddit_menu_id:
+    	case R.id.op_femdom_menu_id:
 			Intent intent = new Intent(getApplicationContext(), ThreadsListActivity.class);
-			intent.setData(Util.createSubredditUri(mSubreddit));
+			intent.setData(Util.createfemdomUri(mfemdom));
 			intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
 			startActivity(intent);
 			Util.overridePendingTransition(mActivity_overridePendingTransition, this,
@@ -1356,8 +1357,8 @@ public class CommentsListActivity extends ListActivity
     		showDialog(Constants.DIALOG_SORT_BY);
     		break;
     	case R.id.open_browser_menu_id:
-    		String url = new StringBuilder(Constants.REDDIT_BASE_URL + "/r/")
-				.append(mSubreddit).append("/comments/").append(mThreadId).toString();
+    		String url = new StringBuilder(Constants.FEMPIRE_BASE_URL + "/r/")
+				.append(mfemdom).append("/comments/").append(mThreadId).toString();
     		Common.launchBrowser(this, url, url, false, true, true, false);
     		break;
     	case R.id.op_delete_menu_id:
@@ -1383,7 +1384,7 @@ public class CommentsListActivity extends ListActivity
         	startActivity(profileIntent);
         	break;
     	case R.id.preferences_menu_id:
-            Intent prefsIntent = new Intent(getApplicationContext(), RedditPreferencesPage.class);
+            Intent prefsIntent = new Intent(getApplicationContext(), FempirePreferencesPage.class);
             startActivity(prefsIntent);
             break;
     	case R.id.saved_comments_menu_id:
@@ -1459,8 +1460,8 @@ public class CommentsListActivity extends ListActivity
     	}
     }
     
-    @Override
-    public boolean onContextItemSelected(MenuItem item) {
+    @SuppressLint("NewApi")
+	public boolean onContextItemSelected(MenuItem item) {
     	AdapterContextMenuInfo info = (AdapterContextMenuInfo) item.getMenuInfo();
     	int rowId = (int) info.id;
     	
@@ -1511,7 +1512,7 @@ public class CommentsListActivity extends ListActivity
             String linkId = saveCommentThing.getLink_id();
             String commentId = saveCommentThing.getId();
 
-            sdb.addSavedContent(new SavedContent(user, author, body, linkId, commentId, mSubreddit));
+            sdb.addSavedContent(new SavedContent(user, author, body, linkId, commentId, mfemdom));
             Toast.makeText(CommentsListActivity.this, "Comment saved", Toast.LENGTH_LONG).show();
     	    return true;
     	    
@@ -1522,7 +1523,7 @@ public class CommentsListActivity extends ListActivity
             linkId = saveCommentThing.getLink_id();
             commentId = saveCommentThing.getId();
             
-            sdb.deleteSavedContent(new SavedContent(user, author, body, linkId, commentId, mSubreddit));
+            sdb.deleteSavedContent(new SavedContent(user, author, body, linkId, commentId, mfemdom));
             Toast.makeText(CommentsListActivity.this, "Comment unsaved", Toast.LENGTH_LONG).show();
             return true;
     	
@@ -1884,7 +1885,7 @@ public class CommentsListActivity extends ListActivity
     		Boolean likes;
     		final TextView titleView = (TextView) dialog.findViewById(R.id.title);
     		final TextView urlView = (TextView) dialog.findViewById(R.id.url);
-    		final TextView submissionStuffView = (TextView) dialog.findViewById(R.id.submissionTime_submitter_subreddit);
+    		final TextView submissionStuffView = (TextView) dialog.findViewById(R.id.submissionTime_submitter_femdom);
     		final Button linkButton = (Button) dialog.findViewById(R.id.thread_link_button);
 			
     		if (mVoteTargetThing == getOpThingInfo()) {
@@ -2085,7 +2086,7 @@ public class CommentsListActivity extends ListActivity
         }
     }
     
-    public static void fillCommentsListItemView(View view, ThingInfo item, RedditSettings settings) {
+    public static void fillCommentsListItemView(View view, ThingInfo item, FempireSettings settings) {
         // Set the values of the Views for the CommentsListItem
         
         TextView votesView = (TextView) view.findViewById(R.id.votes);
@@ -2217,7 +2218,7 @@ public class CommentsListActivity extends ListActivity
     	state.putString(Constants.REPORT_TARGET_NAME_KEY, mReportTargetName);
     	state.putString(Constants.EDIT_TARGET_BODY_KEY, mEditTargetBody);
     	state.putString(Constants.DELETE_TARGET_KIND_KEY, mDeleteTargetKind);
-    	state.putString(Constants.SUBREDDIT_KEY, mSubreddit);
+    	state.putString(Constants.FEMDOM_KEY, mfemdom);
     	state.putString(Constants.THREAD_ID_KEY, mThreadId);
     	state.putString(Constants.THREAD_TITLE_KEY, mThreadTitle);
     	state.putParcelable(Constants.VOTE_TARGET_THING_INFO_KEY, mVoteTargetThing);

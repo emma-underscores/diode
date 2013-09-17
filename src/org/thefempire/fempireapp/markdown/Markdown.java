@@ -1,20 +1,20 @@
 /*
  * Copyright 2009 Andrew Shu
  *
- * This file is part of "diode".
+ * This file is part of "Fempire App".
  *
- * "diode" is free software: you can redistribute it and/or modify
+ * "Fempire App" is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
  * the Free Software Foundation, either version 3 of the License, or
  * (at your option) any later version.
  *
- * "diode" is distributed in the hope that it will be useful,
+ * "Fempire App" is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  * GNU General Public License for more details.
  *
  * You should have received a copy of the GNU General Public License
- * along with "diode".  If not, see <http://www.gnu.org/licenses/>.
+ * along with "Fempire App".  If not, see <http://www.gnu.org/licenses/>.
  */
 package org.thefempire.fempireapp.markdown;
 
@@ -78,7 +78,7 @@ public class Markdown {
     static final RunAutomaton autoLinkUrlAutomaton = new RunAutomaton(new RegExp("((https?|ftp):([^'\"> \t\r\n])+)", RegExp.NONE).toAutomaton());
 //    static final Pattern autoLinkEmail = Pattern.compile("<([-.\\w]+\\@[-a-z0-9]+(\\.[-a-z0-9]+)*\\.[a-z]+)>");
     
-    static final RunAutomaton subredditAutomaton = new RunAutomaton(new RegExp("/[rR]/[a-zA-Z0-9]+/?", RegExp.NONE).toAutomaton());
+    static final RunAutomaton femdomAutomaton = new RunAutomaton(new RegExp("/[rR]/[a-zA-Z0-9]+/?", RegExp.NONE).toAutomaton());
 	
     /**
      * @param txt input
@@ -106,7 +106,7 @@ public class Markdown {
         // doAnchors originally called from runBlockGamut -> formParagraphs -> runSpanGamut 
         txt = doAnchorURLs(txt, urls, startToEndOffsetMap);
         txt = doAutoLinkURLs(txt, urls, startToEndOffsetMap);
-        txt = doAutoLinkSubredditURLs(txt, urls, startToEndOffsetMap);
+        txt = doAutoLinkfemdomURLs(txt, urls, startToEndOffsetMap);
         
         startToEndOffsetMap.clear();
         
@@ -244,7 +244,7 @@ public class Markdown {
 	        	urls.add(new MarkdownURL(am.start(), url, null));
 	        }
         }
-        // Don't autolink emails for now. Neither does reddit.com
+        // Don't autolink emails for now. Neither does Fempire.com
 //        m = autoLinkEmail.matcher(ssb);
 //        int start = 0;
 //        while (m.find(start)) {
@@ -267,17 +267,17 @@ public class Markdown {
     
     /**
      * @param txt input text
-     * @param urls Out URLs from subreddit references
+     * @param urls Out URLs from femdom references
      * @return txt, unchanged
      */
-    private String doAutoLinkSubredditURLs(String txt, ArrayList<MarkdownURL> urls, TreeMap<Integer, Integer> startToEndOffsetMap) {
-        AutomatonMatcher am = subredditAutomaton.newMatcher(txt);
+    private String doAutoLinkfemdomURLs(String txt, ArrayList<MarkdownURL> urls, TreeMap<Integer, Integer> startToEndOffsetMap) {
+        AutomatonMatcher am = femdomAutomaton.newMatcher(txt);
         while (am.find()) {
-        	String subreddit = am.group();
-        	if (Constants.LOGGING) Log.d(TAG, "pos="+am.start() + " subreddit="+subreddit);
-	        if (!isOverlapping(am.start(), am.start() + subreddit.length(), startToEndOffsetMap)) {
-	        	saveStartAndEnd(am.start(), am.start() + subreddit.length(), startToEndOffsetMap);
-	        	urls.add(new MarkdownURL(am.start(), Util.absolutePathToURL(subreddit), subreddit));
+        	String femdom = am.group();
+        	if (Constants.LOGGING) Log.d(TAG, "pos="+am.start() + " femdom="+femdom);
+	        if (!isOverlapping(am.start(), am.start() + femdom.length(), startToEndOffsetMap)) {
+	        	saveStartAndEnd(am.start(), am.start() + femdom.length(), startToEndOffsetMap);
+	        	urls.add(new MarkdownURL(am.start(), Util.absolutePathToURL(femdom), femdom));
 	        }
         }
         return txt;
@@ -340,7 +340,7 @@ public class Markdown {
         	ssb.setSpan(fcs, am.start(), am.end(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
 	        urls.add(new MarkdownURL(am.start(), am.group(), null));
         }
-        // Don't autolink emails for now. Neither does reddit.com
+        // Don't autolink emails for now. Neither does Fempire.com
 //        m = autoLinkEmail.matcher(ssb);
 //        int start = 0;
 //        while (m.find(start)) {

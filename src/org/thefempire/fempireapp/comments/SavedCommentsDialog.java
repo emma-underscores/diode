@@ -1,7 +1,7 @@
 package org.thefempire.fempireapp.comments;
 
 import org.thefempire.fempireapp.R;
-import org.thefempire.fempireapp.settings.RedditSettings;
+import org.thefempire.fempireapp.settings.FempireSettings;
 
 import android.app.Dialog;
 import android.content.Context;
@@ -23,7 +23,7 @@ import android.widget.Button;
 public class SavedCommentsDialog extends Dialog
 {
     
-    public SavedCommentsDialog(Context context, RedditSettings settings)
+    public SavedCommentsDialog(Context context, FempireSettings settings)
     {
         super(context, settings.getDialogNoTitleTheme());
     }

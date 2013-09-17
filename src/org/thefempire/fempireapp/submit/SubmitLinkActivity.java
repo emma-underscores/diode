@@ -1,20 +1,20 @@
 /*
  * Copyright 2009 Andrew Shu
  *
- * This file is part of "diode".
+ * This file is part of "Fempire App".
  *
- * "diode" is free software: you can redistribute it and/or modify
+ * "Fempire App" is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
  * the Free Software Foundation, either version 3 of the License, or
  * (at your option) any later version.
  *
- * "diode" is distributed in the hope that it will be useful,
+ * "Fempire App" is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  * GNU General Public License for more details.
  *
  * You should have received a copy of the GNU General Public License
- * along with "diode".  If not, see <http://www.gnu.org/licenses/>.
+ * along with "Fempire App".  If not, see <http://www.gnu.org/licenses/>.
  */
 
 package org.thefempire.fempireapp.submit;
@@ -44,14 +44,14 @@ import org.thefempire.fempireapp.captcha.CaptchaDownloadTask;
 import org.thefempire.fempireapp.comments.CommentsListActivity;
 import org.thefempire.fempireapp.common.Common;
 import org.thefempire.fempireapp.common.Constants;
-import org.thefempire.fempireapp.common.RedditIsFunHttpClientFactory;
+import org.thefempire.fempireapp.common.FempireAppHttpClientFactory;
 import org.thefempire.fempireapp.common.util.StringUtils;
 import org.thefempire.fempireapp.common.util.Util;
 import org.thefempire.fempireapp.login.LoginDialog;
 import org.thefempire.fempireapp.login.LoginTask;
 import org.thefempire.fempireapp.mail.PeekEnvelopeTask;
-import org.thefempire.fempireapp.reddits.PickSubredditActivity;
-import org.thefempire.fempireapp.settings.RedditSettings;
+import org.thefempire.fempireapp.femdoms.PickFemdomActivity;
+import org.thefempire.fempireapp.settings.FempireSettings;
 import org.thefempire.fempireapp.things.ThingInfo;
 
 import android.app.Activity;
@@ -85,17 +85,17 @@ public class SubmitLinkActivity extends TabActivity {
 	
 	private static final String TAG = "SubmitLinkActivity";
 	
-    // Group 1: Subreddit. Group 2: thread id (no t3_ prefix)
+    // Group 1: femdom. Group 2: thread id (no t3_ prefix)
     private final Pattern NEW_THREAD_PATTERN = Pattern.compile(Constants.COMMENT_PATH_PATTERN_STRING);
     // Group 1: whole error. Group 2: the time part
     private final Pattern RATELIMIT_RETRY_PATTERN = Pattern.compile("(you are trying to submit too fast. try again in (.+?)\\.)");
-	// Group 1: Subreddit
+	// Group 1: femdom
     private final Pattern SUBMIT_PATH_PATTERN = Pattern.compile("/(?:r/([^/]+)/)?submit/?");
     
 	TabHost mTabHost;
 	
-	private RedditSettings mSettings = new RedditSettings();
-	private final HttpClient mClient = RedditIsFunHttpClientFactory.getGzipHttpClient();
+	private FempireSettings mSettings = new FempireSettings();
+	private final HttpClient mClient = FempireAppHttpClientFactory.getGzipHttpClient();
 
 	private String mSubmitUrl;
 	
@@ -108,7 +108,7 @@ public class SubmitLinkActivity extends TabActivity {
 		
 		CookieSyncManager.createInstance(getApplicationContext());
 		
-		mSettings.loadRedditPreferences(this, mClient);
+		mSettings.loadFempirePreferences(this, mClient);
 		setRequestedOrientation(mSettings.getRotation());
 		setTheme(mSettings.getTheme());
 		
@@ -128,15 +128,15 @@ public class SubmitLinkActivity extends TabActivity {
 			public void onTabChanged(String tabId) {
 				// Copy everything (except url and text) from old tab to new tab
 				final EditText submitLinkTitle = (EditText) findViewById(R.id.submit_link_title);
-				final EditText submitLinkReddit = (EditText) findViewById(R.id.submit_link_reddit);
+				final EditText submitLinkFempire = (EditText) findViewById(R.id.submit_link_Fempire);
 	        	final EditText submitTextTitle = (EditText) findViewById(R.id.submit_text_title);
-	        	final EditText submitTextReddit = (EditText) findViewById(R.id.submit_text_reddit);
+	        	final EditText submitTextFempire = (EditText) findViewById(R.id.submit_text_Fempire);
 				if (Constants.TAB_LINK.equals(tabId)) {
 					submitLinkTitle.setText(submitTextTitle.getText());
-					submitLinkReddit.setText(submitTextReddit.getText());
+					submitLinkFempire.setText(submitTextFempire.getText());
 				} else {
 					submitTextTitle.setText(submitLinkTitle.getText());
-					submitTextReddit.setText(submitLinkReddit.getText());
+					submitTextFempire.setText(submitLinkFempire.getText());
 				}
 			}
 		});
@@ -158,7 +158,7 @@ public class SubmitLinkActivity extends TabActivity {
 	@Override
     protected void onPause() {
     	super.onPause();
-    	mSettings.saveRedditPreferences(this);
+    	mSettings.saveFempirePreferences(this);
 		CookieSyncManager.getInstance().stopSync();
     }
     
@@ -166,7 +166,7 @@ public class SubmitLinkActivity extends TabActivity {
 	 * Enable the UI after user is logged in.
 	 */
 	private void start() {
-		// Intents can be external (browser share page) or from Reddit is fun.
+		// Intents can be external (browser share page) or from Fempire is fun.
         String intentAction = getIntent().getAction();
         if (Intent.ACTION_SEND.equals(intentAction)) {
         	// Share
@@ -194,19 +194,19 @@ public class SubmitLinkActivity extends TabActivity {
                         String url = bestUri.toString();
                         String title = titleBuilder.toString();
 	        	final EditText submitLinkUrl = (EditText) findViewById(R.id.submit_link_url);
-	        	final EditText submitLinkReddit = (EditText) findViewById(R.id.submit_link_reddit);
+	        	final EditText submitLinkFempire = (EditText) findViewById(R.id.submit_link_Fempire);
 			final EditText submitLinkTitle = (EditText) findViewById(R.id.submit_link_title);
-	        	final EditText submitTextReddit = (EditText) findViewById(R.id.submit_text_reddit);
+	        	final EditText submitTextFempire = (EditText) findViewById(R.id.submit_text_Fempire);
 	        	submitLinkUrl.setText(url);
-	        	submitLinkReddit.setText("");
-        		submitTextReddit.setText("");
+	        	submitLinkFempire.setText("");
+        		submitTextFempire.setText("");
                         submitLinkTitle.setText(title);
-        		mSubmitUrl = Constants.REDDIT_BASE_URL + "/submit";
+        		mSubmitUrl = Constants.FEMPIRE_BASE_URL + "/submit";
 	        }
         } else {
         	String submitPath = null;
         	Uri data = getIntent().getData();
-        	if (data != null && Util.isRedditUri(data))
+        	if (data != null && Util.isFempireUri(data))
         		submitPath = data.getPath();
         	if (submitPath == null)
     			submitPath = "/submit";
@@ -214,18 +214,18 @@ public class SubmitLinkActivity extends TabActivity {
         	// the URL to do HTTP POST to
         	mSubmitUrl = Util.absolutePathToURL(submitPath);
         	
-        	// Put the subreddit in the text field
-        	final EditText submitLinkReddit = (EditText) findViewById(R.id.submit_link_reddit);
-        	final EditText submitTextReddit = (EditText) findViewById(R.id.submit_text_reddit);
+        	// Put the femdom in the text field
+        	final EditText submitLinkFempire = (EditText) findViewById(R.id.submit_link_Fempire);
+        	final EditText submitTextFempire = (EditText) findViewById(R.id.submit_text_Fempire);
         	Matcher m = SUBMIT_PATH_PATTERN.matcher(submitPath);
         	if (m.matches()) {
-        		String subreddit = m.group(1);
-        		if (StringUtils.isEmpty(subreddit)) {
-            		submitLinkReddit.setText("");
-            		submitTextReddit.setText("");
+        		String femdom = m.group(1);
+        		if (StringUtils.isEmpty(femdom)) {
+            		submitLinkFempire.setText("");
+            		submitTextFempire.setText("");
         		} else {
-		        	submitLinkReddit.setText(subreddit);
-		        	submitTextReddit.setText(subreddit);
+		        	submitLinkFempire.setText(femdom);
+		        	submitTextFempire.setText(femdom);
 		    	}
         	}
         }
@@ -236,11 +236,11 @@ public class SubmitLinkActivity extends TabActivity {
         		if (validateLinkForm()) {
 	        		final EditText submitLinkTitle = (EditText) findViewById(R.id.submit_link_title);
 	        		final EditText submitLinkUrl = (EditText) findViewById(R.id.submit_link_url);
-	        		final EditText submitLinkReddit = (EditText) findViewById(R.id.submit_link_reddit);
+	        		final EditText submitLinkFempire = (EditText) findViewById(R.id.submit_link_Fempire);
 	        		final EditText submitLinkCaptcha = (EditText) findViewById(R.id.submit_link_captcha);
 	        		new SubmitLinkTask(submitLinkTitle.getText().toString(),
 	        				submitLinkUrl.getText().toString(),
-	        				submitLinkReddit.getText().toString(),
+	        				submitLinkFempire.getText().toString(),
 	        				Constants.SUBMIT_KIND_LINK,
 	        				submitLinkCaptcha.getText().toString()).execute();
         		}
@@ -252,11 +252,11 @@ public class SubmitLinkActivity extends TabActivity {
         		if (validateTextForm()) {
 	        		final EditText submitTextTitle = (EditText) findViewById(R.id.submit_text_title);
 	        		final EditText submitTextText = (EditText) findViewById(R.id.submit_text_text);
-	        		final EditText submitTextReddit = (EditText) findViewById(R.id.submit_text_reddit);
+	        		final EditText submitTextFempire = (EditText) findViewById(R.id.submit_text_Fempire);
 	        		final EditText submitTextCaptcha = (EditText) findViewById(R.id.submit_text_captcha);
 	        		new SubmitLinkTask(submitTextTitle.getText().toString(),
 	        				submitTextText.getText().toString(),
-	        				submitTextReddit.getText().toString(),
+	        				submitTextFempire.getText().toString(),
 	        				Constants.SUBMIT_KIND_SELF,
 	        				submitTextCaptcha.getText().toString()).execute();
         		}
@@ -304,13 +304,13 @@ public class SubmitLinkActivity extends TabActivity {
     
 
 	private class SubmitLinkTask extends AsyncTask<Void, Void, ThingInfo> {
-    	String _mTitle, _mUrlOrText, _mSubreddit, _mKind, _mCaptcha;
+    	String _mTitle, _mUrlOrText, _mfemdom, _mKind, _mCaptcha;
 		String _mUserError = "Error creating submission. Please try again.";
     	
-    	SubmitLinkTask(String title, String urlOrText, String subreddit, String kind, String captcha) {
+    	SubmitLinkTask(String title, String urlOrText, String femdom, String kind, String captcha) {
     		_mTitle = title;
     		_mUrlOrText = urlOrText;
-    		_mSubreddit = subreddit;
+    		_mfemdom = femdom;
     		_mKind = kind;
     		_mCaptcha = captcha;
     	}
@@ -340,8 +340,8 @@ public class SubmitLinkActivity extends TabActivity {
         	try {
         		// Construct data
     			List<NameValuePair> nvps = new ArrayList<NameValuePair>();
-    			nvps.add(new BasicNameValuePair("sr", _mSubreddit.toString()));
-    			nvps.add(new BasicNameValuePair("r", _mSubreddit.toString()));
+    			nvps.add(new BasicNameValuePair("sr", _mfemdom.toString()));
+    			nvps.add(new BasicNameValuePair("r", _mfemdom.toString()));
     			nvps.add(new BasicNameValuePair("title", _mTitle.toString()));
     			nvps.add(new BasicNameValuePair("kind", _mKind.toString()));
     			// Put a url or selftext based on the kind of submission
@@ -354,10 +354,10 @@ public class SubmitLinkActivity extends TabActivity {
     				nvps.add(new BasicNameValuePair("iden", mCaptchaIden));
     				nvps.add(new BasicNameValuePair("captcha", _mCaptcha.toString()));
     			}
-    			// Votehash is currently unused by reddit 
+    			// Votehash is currently unused by Fempire 
 //    				nvps.add(new BasicNameValuePair("vh", "0d4ab0ffd56ad0f66841c15609e9a45aeec6b015"));
     			
-    			HttpPost httppost = new HttpPost(Constants.REDDIT_BASE_URL + "/api/submit");
+    			HttpPost httppost = new HttpPost(Constants.FEMPIRE_BASE_URL + "/api/submit");
     	        httppost.setEntity(new UrlEncodedFormEntity(nvps, HTTP.UTF_8));
     	        // The progress dialog is non-cancelable, so set a shorter timeout than system's
     	        HttpParams params = httppost.getParams();
@@ -388,21 +388,21 @@ public class SubmitLinkActivity extends TabActivity {
             		mSettings.setModhash(null);
             		throw new Exception("User required. Huh?");
             	}
-            	if (line.contains("SUBREDDIT_NOEXIST")) {
-            		_mUserError = "That subreddit does not exist.";
-            		throw new Exception("SUBREDDIT_NOEXIST: " + _mSubreddit);
+            	if (line.contains("femdom_NOEXIST")) {
+            		_mUserError = "That femdom does not exist.";
+            		throw new Exception("femdom_NOEXIST: " + _mfemdom);
             	}
-            	if (line.contains("SUBREDDIT_NOTALLOWED")) {
-            		_mUserError = "You are not allowed to post to that subreddit.";
-            		throw new Exception("SUBREDDIT_NOTALLOWED: " + _mSubreddit);
+            	if (line.contains("femdom_NOTALLOWED")) {
+            		_mUserError = "You are not allowed to post to that femdom.";
+            		throw new Exception("femdom_NOTALLOWED: " + _mfemdom);
             	}
             	
             	if (Constants.LOGGING) Common.logDLong(TAG, line);
 
-            	String newId, newSubreddit;
+            	String newId, newfemdom;
             	Matcher idMatcher = NEW_THREAD_PATTERN.matcher(line);
             	if (idMatcher.find()) {
-            		newSubreddit = idMatcher.group(1);
+            		newfemdom = idMatcher.group(1);
             		newId = idMatcher.group(2);
             	} else {
             		if (line.contains("RATELIMIT")) {
@@ -427,7 +427,7 @@ public class SubmitLinkActivity extends TabActivity {
             	newlyCreatedThread = new ThingInfo();
             	// We only need to fill in a few fields.
             	newlyCreatedThread.setId(newId);
-            	newlyCreatedThread.setSubreddit(newSubreddit);
+            	newlyCreatedThread.setfemdom(newfemdom);
             	newlyCreatedThread.setTitle(_mTitle.toString());
             	
             	return newlyCreatedThread;
@@ -457,10 +457,10 @@ public class SubmitLinkActivity extends TabActivity {
     		if (newlyCreatedThread == null) {
     			Common.showErrorToast(_mUserError, Toast.LENGTH_LONG, SubmitLinkActivity.this);
     		} else {
-        		// Success. Return the subreddit and thread id
+        		// Success. Return the femdom and thread id
     			Intent i = new Intent(getApplicationContext(), CommentsListActivity.class);
     			i.setData(Util.createThreadUri(newlyCreatedThread));
-    			i.putExtra(Constants.EXTRA_SUBREDDIT, newlyCreatedThread.getSubreddit());
+    			i.putExtra(Constants.EXTRA_FEMDOM, newlyCreatedThread.getfemdom());
     			i.putExtra(Constants.EXTRA_TITLE, newlyCreatedThread.getTitle());
     			i.putExtra(Constants.EXTRA_NUM_COMMENTS, 0);
     			startActivity(i);
@@ -612,7 +612,7 @@ public class SubmitLinkActivity extends TabActivity {
 	private boolean validateLinkForm() {
 		final EditText titleText = (EditText) findViewById(R.id.submit_link_title);
 		final EditText urlText = (EditText) findViewById(R.id.submit_link_url);
-		final EditText redditText = (EditText) findViewById(R.id.submit_link_reddit);
+		final EditText FempireText = (EditText) findViewById(R.id.submit_link_Fempire);
 		if (StringUtils.isEmpty(titleText.getText())) {
 			Common.showErrorToast("Please provide a title.", Toast.LENGTH_LONG, this);
 			return false;
@@ -621,21 +621,21 @@ public class SubmitLinkActivity extends TabActivity {
 			Common.showErrorToast("Please provide a URL.", Toast.LENGTH_LONG, this);
 			return false;
 		}
-		if (StringUtils.isEmpty(redditText.getText())) {
-			Common.showErrorToast("Please provide a subreddit.", Toast.LENGTH_LONG, this);
+		if (StringUtils.isEmpty(FempireText.getText())) {
+			Common.showErrorToast("Please provide a femdom.", Toast.LENGTH_LONG, this);
 			return false;
 		}
 		return true;
 	}
 	private boolean validateTextForm() {
 		final EditText titleText = (EditText) findViewById(R.id.submit_text_title);
-		final EditText redditText = (EditText) findViewById(R.id.submit_text_reddit);
+		final EditText FempireText = (EditText) findViewById(R.id.submit_text_Fempire);
 		if (StringUtils.isEmpty(titleText.getText())) {
 			Common.showErrorToast("Please provide a title.", Toast.LENGTH_LONG, this);
 			return false;
 		}
-		if (StringUtils.isEmpty(redditText.getText())) {
-			Common.showErrorToast("Please provide a subreddit.", Toast.LENGTH_LONG, this);
+		if (StringUtils.isEmpty(FempireText.getText())) {
+			Common.showErrorToast("Please provide a femdom.", Toast.LENGTH_LONG, this);
 			return false;
 		}
 		return true;
@@ -667,10 +667,10 @@ public class SubmitLinkActivity extends TabActivity {
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
     	switch (item.getItemId()) {
-    	case R.id.pick_subreddit_menu_id:
-    		Intent pickSubredditIntent = new Intent(getApplicationContext(), PickSubredditActivity.class);
-    		pickSubredditIntent.putExtra(Constants.EXTRA_HIDE_FAKE_SUBREDDITS_STRING, true);
-    		startActivityForResult(pickSubredditIntent, Constants.ACTIVITY_PICK_SUBREDDIT);
+    	case R.id.pick_femdom_menu_id:
+    		Intent pickfemdomIntent = new Intent(getApplicationContext(), PickFemdomActivity.class);
+    		pickfemdomIntent.putExtra(Constants.EXTRA_HIDE_FAKE_FEMDOMS_STRING, true);
+    		startActivityForResult(pickfemdomIntent, Constants.ACTIVITY_PICK_FEMDOM);
     		break;
     	case R.id.update_captcha_menu_id:
     		new MyCaptchaCheckRequiredTask().execute();
@@ -690,21 +690,21 @@ public class SubmitLinkActivity extends TabActivity {
     	super.onActivityResult(requestCode, resultCode, intent);
     	
     	switch(requestCode) {
-    	case Constants.ACTIVITY_PICK_SUBREDDIT:
+    	case Constants.ACTIVITY_PICK_FEMDOM:
     		if (resultCode == Activity.RESULT_OK) {
-    		    // Group 1: Subreddit.
-    		    final Pattern REDDIT_PATH_PATTERN = Pattern.compile(Constants.REDDIT_PATH_PATTERN_STRING);
-    			Matcher redditContextMatcher = REDDIT_PATH_PATTERN.matcher(intent.getData().getPath());
-    			if (redditContextMatcher.find()) {
-    				String newSubreddit = redditContextMatcher.group(1);
-    				final EditText linkSubreddit = (EditText) findViewById(R.id.submit_link_reddit);
-	    			final EditText textSubreddit = (EditText) findViewById(R.id.submit_text_reddit);
-	    			if (newSubreddit != null) {
-	    				linkSubreddit.setText(newSubreddit);
-		    			textSubreddit.setText(newSubreddit);
+    		    // Group 1: femdom.
+    		    final Pattern Fempire_PATH_PATTERN = Pattern.compile(Constants.FEMDOM_PATH_PATTERN_STRING);
+    			Matcher FempireContextMatcher = Fempire_PATH_PATTERN.matcher(intent.getData().getPath());
+    			if (FempireContextMatcher.find()) {
+    				String newfemdom = FempireContextMatcher.group(1);
+    				final EditText linkfemdom = (EditText) findViewById(R.id.submit_link_Fempire);
+	    			final EditText textfemdom = (EditText) findViewById(R.id.submit_text_Fempire);
+	    			if (newfemdom != null) {
+	    				linkfemdom.setText(newfemdom);
+		    			textfemdom.setText(newfemdom);
     				} else {
-	    				linkSubreddit.setText("");
-		    			textSubreddit.setText("");
+	    				linkfemdom.setText("");
+		    			textfemdom.setText("");
     				}
 	    		}
     		}

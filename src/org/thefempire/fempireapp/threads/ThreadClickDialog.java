@@ -1,7 +1,7 @@
 package org.thefempire.fempireapp.threads;
 
 import org.thefempire.fempireapp.R;
-import org.thefempire.fempireapp.settings.RedditSettings;
+import org.thefempire.fempireapp.settings.FempireSettings;
 
 import android.app.Dialog;
 import android.content.Context;
@@ -14,7 +14,7 @@ import android.view.WindowManager;
 
 public class ThreadClickDialog extends Dialog {
 
-	public ThreadClickDialog(Context context, RedditSettings settings) {
+	public ThreadClickDialog(Context context, FempireSettings settings) {
 		super(context, settings.getDialogNoTitleTheme());
 	}
 

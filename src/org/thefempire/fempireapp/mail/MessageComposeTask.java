@@ -15,7 +15,7 @@ import org.apache.http.protocol.HTTP;
 import org.thefempire.fempireapp.captcha.CaptchaException;
 import org.thefempire.fempireapp.common.Common;
 import org.thefempire.fempireapp.common.Constants;
-import org.thefempire.fempireapp.settings.RedditSettings;
+import org.thefempire.fempireapp.settings.FempireSettings;
 import org.thefempire.fempireapp.things.ThingInfo;
 
 
@@ -35,12 +35,12 @@ public abstract class MessageComposeTask extends AsyncTask<String, Void, Boolean
 	String _mCaptcha;
 	String _mCaptchaIden;
 	
-	RedditSettings _mSettings;
+	FempireSettings _mSettings;
 	HttpClient _mClient;
 	Context _mContext;
 	
 	protected MessageComposeTask(Dialog dialog, ThingInfo targetThingInfo, String captcha, String captchaIden,
-			RedditSettings settings, HttpClient client, Context context) {
+			FempireSettings settings, HttpClient client, Context context) {
 		_mDialog = dialog;
 		_mTargetThingInfo = targetThingInfo;
 		_mCaptcha = captcha;
@@ -84,7 +84,7 @@ public abstract class MessageComposeTask extends AsyncTask<String, Void, Boolean
 				nvps.add(new BasicNameValuePair("captcha", _mCaptcha.toString()));
 			}
 			
-			HttpPost httppost = new HttpPost(Constants.REDDIT_BASE_URL + "/api/compose");
+			HttpPost httppost = new HttpPost(Constants.FEMPIRE_BASE_URL + "/api/compose");
 	        httppost.setEntity(new UrlEncodedFormEntity(nvps, HTTP.UTF_8));
 	        
 	        if (Constants.LOGGING) Log.d(TAG, nvps.toString());

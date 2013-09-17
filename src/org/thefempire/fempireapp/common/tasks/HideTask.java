@@ -16,9 +16,9 @@ import org.apache.http.message.BasicNameValuePair;
 import org.apache.http.protocol.HTTP;
 import org.thefempire.fempireapp.common.Common;
 import org.thefempire.fempireapp.common.Constants;
-import org.thefempire.fempireapp.common.RedditIsFunHttpClientFactory;
+import org.thefempire.fempireapp.common.FempireAppHttpClientFactory;
 import org.thefempire.fempireapp.common.util.StringUtils;
-import org.thefempire.fempireapp.settings.RedditSettings;
+import org.thefempire.fempireapp.settings.FempireSettings;
 import org.thefempire.fempireapp.things.ThingInfo;
 
 
@@ -33,21 +33,21 @@ public class HideTask extends AsyncTask<Void, Void, Boolean> {
 	protected ThingInfo mTargetThreadInfo;
 	protected String mUserError = "Error hiding thread.";
 	protected String mUrl;
-	private RedditSettings mSettings;
+	private FempireSettings mSettings;
 	private Context mContext;
 	protected boolean mHide;
 	
-	private final HttpClient mClient = RedditIsFunHttpClientFactory.getGzipHttpClient();
+	private final HttpClient mClient = FempireAppHttpClientFactory.getGzipHttpClient();
 	
-	public HideTask(boolean hide, ThingInfo mVoteTargetThreadInfo, RedditSettings mSettings, Context mContext){
+	public HideTask(boolean hide, ThingInfo mVoteTargetThreadInfo, FempireSettings mSettings, Context mContext){
 		this.mTargetThreadInfo = mVoteTargetThreadInfo;
 		this.mSettings = mSettings;
 		this.mContext = mContext;
 		this.mHide = hide;
 		if (hide) {
-			mUrl = Constants.REDDIT_BASE_URL + "/api/hide";
+			mUrl = Constants.FEMPIRE_BASE_URL + "/api/hide";
 		} else {
-			mUrl = Constants.REDDIT_BASE_URL + "/api/unhide";
+			mUrl = Constants.FEMPIRE_BASE_URL + "/api/unhide";
 		}
 	}
 	

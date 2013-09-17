@@ -1,20 +1,20 @@
 /*
  * Copyright 2009 Andrew Shu
  *
- * This file is part of "diode".
+ * This file is part of "Fempire App".
  *
- * "diode" is free software: you can redistribute it and/or modify
+ * "Fempire App" is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
  * the Free Software Foundation, either version 3 of the License, or
  * (at your option) any later version.
  *
- * "diode" is distributed in the hope that it will be useful,
+ * "Fempire App" is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  * GNU General Public License for more details.
  *
  * You should have received a copy of the GNU General Public License
- * along with "diode".  If not, see <http://www.gnu.org/licenses/>.
+ * along with "Fempire App".  If not, see <http://www.gnu.org/licenses/>.
  */
 
 package org.thefempire.fempireapp.threads;
@@ -33,7 +33,7 @@ import org.thefempire.fempireapp.comments.SavedCommentsActivity;
 import org.thefempire.fempireapp.common.CacheInfo;
 import org.thefempire.fempireapp.common.Common;
 import org.thefempire.fempireapp.common.Constants;
-import org.thefempire.fempireapp.common.RedditIsFunHttpClientFactory;
+import org.thefempire.fempireapp.common.FempireAppHttpClientFactory;
 import org.thefempire.fempireapp.common.tasks.HideTask;
 import org.thefempire.fempireapp.common.tasks.SaveTask;
 import org.thefempire.fempireapp.common.tasks.VoteTask;
@@ -44,13 +44,13 @@ import org.thefempire.fempireapp.login.LoginDialog;
 import org.thefempire.fempireapp.login.LoginTask;
 import org.thefempire.fempireapp.mail.InboxActivity;
 import org.thefempire.fempireapp.mail.PeekEnvelopeTask;
-import org.thefempire.fempireapp.reddits.PickSubredditActivity;
-import org.thefempire.fempireapp.reddits.SubredditInfo;
-import org.thefempire.fempireapp.reddits.SubscribeTask;
-import org.thefempire.fempireapp.reddits.UnsubscribeTask;
-import org.thefempire.fempireapp.search.RedditSearchActivity;
-import org.thefempire.fempireapp.settings.RedditPreferencesPage;
-import org.thefempire.fempireapp.settings.RedditSettings;
+import org.thefempire.fempireapp.femdoms.PickFemdomActivity;
+import org.thefempire.fempireapp.femdoms.FemdomInfo;
+import org.thefempire.fempireapp.femdoms.SubscribeTask;
+import org.thefempire.fempireapp.femdoms.UnsubscribeTask;
+import org.thefempire.fempireapp.search.FemdomSearchActivity;
+import org.thefempire.fempireapp.settings.FempirePreferencesPage;
+import org.thefempire.fempireapp.settings.FempireSettings;
 import org.thefempire.fempireapp.submit.SubmitLinkActivity;
 import org.thefempire.fempireapp.things.ThingInfo;
 import org.thefempire.fempireapp.threads.ShowThumbnailsTask.ThumbnailLoadAction;
@@ -101,7 +101,7 @@ import android.widget.Toast;
 
 
 /**
- * Main Activity class representing a Subreddit, i.e., a ThreadsList.
+ * Main Activity class representing a femdom, i.e., a ThreadsList.
  * 
  * @author TalkLittle
  *
@@ -116,7 +116,7 @@ public final class ThreadsListActivity extends ListActivity {
 	}
 
 	private static final String TAG = "ThreadsListActivity";
-	private final Pattern REDDIT_PATH_PATTERN = Pattern.compile(Constants.REDDIT_PATH_PATTERN_STRING);
+	private final Pattern Fempire_PATH_PATTERN = Pattern.compile(Constants.FEMDOM_PATH_PATTERN_STRING);
 	
 	private final ObjectMapper mObjectMapper = Common.getObjectMapper();
 
@@ -124,10 +124,10 @@ public final class ThreadsListActivity extends ListActivity {
     private ThreadsListAdapter mThreadsAdapter = null;
     private static final Object THREAD_ADAPTER_LOCK = new Object();
 
-    private final HttpClient mClient = RedditIsFunHttpClientFactory.getGzipHttpClient();
+    private final HttpClient mClient = FempireAppHttpClientFactory.getGzipHttpClient();
 	
    
-    private final RedditSettings mSettings = new RedditSettings();
+    private final FempireSettings mSettings = new FempireSettings();
     
     // UI State
     private ThingInfo mVoteTargetThing = null;
@@ -138,7 +138,7 @@ public final class ThreadsListActivity extends ListActivity {
     private final Object mCurrentShowThumbnailsTaskLock = new Object();
     
     // Navigation that can be cached
-    private String mSubreddit = Constants.FRONTPAGE_STRING;
+    private String mfemdom = Constants.FRONTPAGE_STRING;
     // The after, before, and count to navigate away from current page of results
     private String mAfter = null;
     private String mBefore = null;
@@ -171,7 +171,7 @@ public final class ThreadsListActivity extends ListActivity {
         
 		CookieSyncManager.createInstance(getApplicationContext());
 		
-        mSettings.loadRedditPreferences(getApplicationContext(), mClient);
+        mSettings.loadFempirePreferences(getApplicationContext(), mClient);
         setRequestedOrientation(mSettings.getRotation());
         setTheme(mSettings.getTheme());
         requestWindowFeature(Window.FEATURE_PROGRESS);
@@ -182,9 +182,9 @@ public final class ThreadsListActivity extends ListActivity {
     	
 		if (savedInstanceState != null) {
         	if (Constants.LOGGING) Log.d(TAG, "using savedInstanceState");
-			mSubreddit = savedInstanceState.getString(Constants.SUBREDDIT_KEY);
-	        if (mSubreddit == null)
-	        	mSubreddit = mSettings.getHomepage();
+			mfemdom = savedInstanceState.getString(Constants.FEMDOM_KEY);
+	        if (mfemdom == null)
+	        	mfemdom = mSettings.getHomepage();
 	        mAfter = savedInstanceState.getString(Constants.AFTER_KEY);
 	        mBefore = savedInstanceState.getString(Constants.BEFORE_KEY);
 	        mCount = savedInstanceState.getInt(Constants.THREAD_COUNT_KEY);
@@ -205,11 +205,11 @@ public final class ThreadsListActivity extends ListActivity {
 			    if (mObjectStates.mThreadsList == null) {
 		        	// Load previous view of threads
 			        if (mLastAfter != null) {
-			        	mObjectStates.mCurrentDownloadThreadsTask = new MyDownloadThreadsTask(mSubreddit, mLastAfter, null, mLastCount);
+			        	mObjectStates.mCurrentDownloadThreadsTask = new MyDownloadThreadsTask(mfemdom, mLastAfter, null, mLastCount);
 			        } else if (mLastBefore != null) {
-			        	mObjectStates.mCurrentDownloadThreadsTask = new MyDownloadThreadsTask(mSubreddit, null, mLastBefore, mLastCount);
+			        	mObjectStates.mCurrentDownloadThreadsTask = new MyDownloadThreadsTask(mfemdom, null, mLastBefore, mLastCount);
 			        } else {
-			        	mObjectStates.mCurrentDownloadThreadsTask = new MyDownloadThreadsTask(mSubreddit);
+			        	mObjectStates.mCurrentDownloadThreadsTask = new MyDownloadThreadsTask(mfemdom);
 			        }
 			        mObjectStates.mCurrentDownloadThreadsTask.execute();
 			    }
@@ -220,31 +220,31 @@ public final class ThreadsListActivity extends ListActivity {
 	        	else {
 		    	// Orientation change. Use prior instance.
 		    	resetUI(new ThreadsListAdapter(this, mObjectStates.mThreadsList));
-		    	if (Constants.FRONTPAGE_STRING.equals(mSubreddit)) {
-		    		setTitle("reddit.com: what's new online!");
+		    	if (Constants.FRONTPAGE_STRING.equals(mfemdom)) {
+		    		setTitle("thefempire.org: Feminism, You And Downvotes");
 		    	}
-		    	else if(Constants.REDDIT_SEARCH_STRING.equals(mSubreddit)) {
+		    	else if(Constants.FEMPIRE_SEARCH_STRING.equals(mfemdom)) {
 		    		setTitle(getResources().getString(R.string.search_title_prefix) + mSearchQuery);
 		    	}
 		    	else {
-		    		setTitle("/r/" + mSubreddit.trim());
+		    		setTitle("/r/" + mfemdom.trim());
 		    	}
 		    	}
 		    	return;
 	        }
         }
-		// Handle subreddit Uri passed via Intent
+		// Handle femdom Uri passed via Intent
         else if (getIntent().getData() != null) {
         	mObjectStates = new ObjectStates();
-	    	Matcher redditContextMatcher = REDDIT_PATH_PATTERN.matcher(getIntent().getData().getPath());
-			if (redditContextMatcher.matches()) {
-				mObjectStates.mCurrentDownloadThreadsTask = new MyDownloadThreadsTask(redditContextMatcher.group(1));
+	    	Matcher FempireContextMatcher = Fempire_PATH_PATTERN.matcher(getIntent().getData().getPath());
+			if (FempireContextMatcher.matches()) {
+				mObjectStates.mCurrentDownloadThreadsTask = new MyDownloadThreadsTask(FempireContextMatcher.group(1));
 			} else {
 				mObjectStates.mCurrentDownloadThreadsTask = new MyDownloadThreadsTask(mSettings.getHomepage());
 			}
 	        mObjectStates.mCurrentDownloadThreadsTask.execute();
 		}
-		// No subreddit specified by Intent, so load the user's home reddit
+		// No femdom specified by Intent, so load the user's home Fempire
 		else {
 			mObjectStates = new ObjectStates();
 			mObjectStates.mCurrentDownloadThreadsTask = new MyDownloadThreadsTask(mSettings.getHomepage());
@@ -260,14 +260,14 @@ public final class ThreadsListActivity extends ListActivity {
     	long timeMillis = System.currentTimeMillis();
         if (timeMillis >= 1326891600000L && timeMillis <= 1326934800000L) {
         	Toast.makeText(this, "Let's Protest SOPA", Toast.LENGTH_LONG).show();
-        	Common.launchBrowser(this, "http://www.reddit.com", null, false, true, false, false);
+        	Common.launchBrowser(this, "http://www.thefempire.org", null, false, true, false, false);
         	finish();
         	return;
         }
         
 		int previousTheme = mSettings.getTheme();
 
-    	mSettings.loadRedditPreferences(this, mClient);
+    	mSettings.loadFempirePreferences(this, mClient);
 
     	if (mSettings.getTheme() != previousTheme) {
     		relaunchActivity();
@@ -295,7 +295,7 @@ public final class ThreadsListActivity extends ListActivity {
     protected void onPause() {
     	super.onPause();
 		CookieSyncManager.getInstance().stopSync();
-		mSettings.saveRedditPreferences(this);
+		mSettings.saveFempirePreferences(this);
     }
     
     @Override
@@ -328,20 +328,20 @@ public final class ThreadsListActivity extends ListActivity {
     	
     	switch(requestCode) {
     	//add constant to specify search
-    	case Constants.ACTIVITY_PICK_SUBREDDIT:
+    	case Constants.ACTIVITY_PICK_FEMDOM:
     		if (resultCode == Activity.RESULT_OK) {
-    	    	Matcher redditContextMatcher = REDDIT_PATH_PATTERN.matcher(intent.getData().getPath());
-    			if (redditContextMatcher.matches()) {
-    				mObjectStates.mCurrentDownloadThreadsTask = new MyDownloadThreadsTask(redditContextMatcher.group(1));
+    	    	Matcher FempireContextMatcher = Fempire_PATH_PATTERN.matcher(intent.getData().getPath());
+    			if (FempireContextMatcher.matches()) {
+    				mObjectStates.mCurrentDownloadThreadsTask = new MyDownloadThreadsTask(FempireContextMatcher.group(1));
 			        mObjectStates.mCurrentDownloadThreadsTask.execute();
     			}
     		}
     		break;
-    	case Constants.ACTIVITY_SEARCH_REDDIT:
+    	case Constants.ACTIVITY_SEARCH_FEMPIRE:
     		if(resultCode==Activity.RESULT_OK){
     			//changed it so each piece of data is passed separately as extras in the intent
     			//rather than having to use regex to split apart a string
-    			//could probably do away with the "subreddit" field since we're
+    			//could probably do away with the "femdom" field since we're
     			//using a modified constructor anyways
     			mObjectStates.mCurrentDownloadThreadsTask = new MyDownloadThreadsTask(intent.getExtras().getString("searchurl"), intent.getExtras().getString("query"),intent.getExtras().getString("sort"));
 		        mObjectStates.mCurrentDownloadThreadsTask.execute();
@@ -378,7 +378,7 @@ public final class ThreadsListActivity extends ListActivity {
         //if the search button is pressed
         else if(keyCode == KeyEvent.KEYCODE_SEARCH){
         	//start activity
-        	startActivityForResult(new Intent(this, RedditSearchActivity.class), Constants.ACTIVITY_SEARCH_REDDIT);
+        	startActivityForResult(new Intent(this, FemdomSearchActivity.class), Constants.ACTIVITY_SEARCH_FEMPIRE);
         	return true;
         	
         }
@@ -450,7 +450,7 @@ public final class ThreadsListActivity extends ListActivity {
     		ThingInfo item,
     		ListActivity activity,
     		HttpClient client,
-    		RedditSettings settings,
+    		FempireSettings settings,
     		ThumbnailOnClickListenerFactory thumbnailOnClickListenerFactory
 	) {
     	
@@ -458,7 +458,7 @@ public final class ThreadsListActivity extends ListActivity {
     	
     	TextView titleView = (TextView) view.findViewById(R.id.title);
         TextView votesView = (TextView) view.findViewById(R.id.votes);
-        TextView numCommentsSubredditView = (TextView) view.findViewById(R.id.numCommentsSubreddit);
+        TextView numCommentsfemdomView = (TextView) view.findViewById(R.id.numCommentsfemdom);
         TextView nsfwView = (TextView) view.findViewById(R.id.nsfw);
 //        TextView submissionTimeView = (TextView) view.findViewById(R.id.submissionTime);
         ImageView voteUpView = (ImageView) view.findViewById(R.id.vote_up_image);
@@ -511,7 +511,7 @@ public final class ThreadsListActivity extends ListActivity {
         titleView.setText(builder);
         
         votesView.setText("" + item.getScore());
-        numCommentsSubredditView.setText(Util.showNumComments(item.getNum_comments()) + "  " + item.getSubreddit());
+        numCommentsfemdomView.setText(Util.showNumComments(item.getNum_comments()) + "  " + item.getfemdom());
         
         if(item.isOver_18()){
             nsfwView.setVisibility(View.VISIBLE);
@@ -582,14 +582,14 @@ public final class ThreadsListActivity extends ListActivity {
         }
     }
     
-	public static void fillThreadClickDialog(Dialog dialog, ThingInfo thingInfo, RedditSettings settings,
+	public static void fillThreadClickDialog(Dialog dialog, ThingInfo thingInfo, FempireSettings settings,
 			ThreadClickDialogOnClickListenerFactory threadClickDialogOnClickListenerFactory) {
 		
 		final CheckBox voteUpButton = (CheckBox) dialog.findViewById(R.id.vote_up_button);
 		final CheckBox voteDownButton = (CheckBox) dialog.findViewById(R.id.vote_down_button);
 		final TextView titleView = (TextView) dialog.findViewById(R.id.title);
 		final TextView urlView = (TextView) dialog.findViewById(R.id.url);
-		final TextView submissionStuffView = (TextView) dialog.findViewById(R.id.submissionTime_submitter_subreddit);
+		final TextView submissionStuffView = (TextView) dialog.findViewById(R.id.submissionTime_submitter_femdom);
 		final Button loginButton = (Button) dialog.findViewById(R.id.login_button);
 		final Button linkButton = (Button) dialog.findViewById(R.id.thread_link_button);
 		final Button commentsButton = (Button) dialog.findViewById(R.id.thread_comments_button);
@@ -598,7 +598,7 @@ public final class ThreadsListActivity extends ListActivity {
 		urlView.setText(thingInfo.getUrl());
 		StringBuilder sb = new StringBuilder(Util.getTimeAgo(thingInfo.getCreated_utc()))
 			.append(" by ").append(thingInfo.getAuthor())
-			.append(" to ").append(thingInfo.getSubreddit());
+			.append(" to ").append(thingInfo.getfemdom());
 		submissionStuffView.setText(sb);
         
 		// Only show upvote/downvote if user is logged in
@@ -752,49 +752,49 @@ public final class ThreadsListActivity extends ListActivity {
     
     
     /**
-     * Given a subreddit name string, starts the threadlist-download-thread going.
+     * Given a femdom name string, starts the threadlist-download-thread going.
      * 
-     * @param subreddit The name of a subreddit ("android", "gaming", etc.)
-     *        If the number of elements in subreddit is >= 2, treat 2nd element as "after" 
+     * @param femdom The name of a femdom ("android", "gaming", etc.)
+     *        If the number of elements in femdom is >= 2, treat 2nd element as "after" 
      */
     private class MyDownloadThreadsTask extends DownloadThreadsTask {
     	ThreadsListActivity threadListActivity=null;
     	
-    	public MyDownloadThreadsTask(String subreddit) {
+    	public MyDownloadThreadsTask(String femdom) {
 			super(getApplicationContext(),
 					ThreadsListActivity.this.mClient,
 					ThreadsListActivity.this.mObjectMapper,
 					ThreadsListActivity.this.mSortByUrl,
 					ThreadsListActivity.this.mSortByUrlExtra,
-					subreddit);
+					femdom);
 			attach(ThreadsListActivity.this);
 		}
     	
-    	public MyDownloadThreadsTask(String subreddit, String query, String sort) {
+    	public MyDownloadThreadsTask(String femdom, String query, String sort) {
 			super(getApplicationContext(),
 					ThreadsListActivity.this.mClient,
 					ThreadsListActivity.this.mObjectMapper,
 					ThreadsListActivity.this.mSortByUrl,
 					ThreadsListActivity.this.mSortByUrlExtra,
-					subreddit, query, sort);
+					femdom, query, sort);
 			attach(ThreadsListActivity.this);
 		}
     	
-    	public MyDownloadThreadsTask(String subreddit,
+    	public MyDownloadThreadsTask(String femdom,
 				String after, String before, int count) {
 			super(getApplicationContext(),
 					ThreadsListActivity.this.mClient,
 					ThreadsListActivity.this.mObjectMapper,
 					ThreadsListActivity.this.mSortByUrl,
 					ThreadsListActivity.this.mSortByUrlExtra,
-					subreddit, after, before, count);
+					femdom, after, before, count);
 			attach(ThreadsListActivity.this);
 		}
 
 		@Override
     	protected void saveState() {
 			mSettings.setModhash(mModhash);
-			ThreadsListActivity.this.mSubreddit = mSubreddit;
+			ThreadsListActivity.this.mfemdom = mfemdom;
 			ThreadsListActivity.this.mSearchQuery = mSearchQuery;
 			ThreadsListActivity.this.mLastAfter = mLastAfter;
 			ThreadsListActivity.this.mLastBefore = mLastBefore;
@@ -818,12 +818,12 @@ public final class ThreadsListActivity extends ListActivity {
     			getWindow().setFeatureInt(Window.FEATURE_PROGRESS, 0);
     		}
     		
-	    	if (Constants.FRONTPAGE_STRING.equals(mSubreddit))
-	    		setTitle("reddit.com: what's new online!");
-	    	else if(Constants.REDDIT_SEARCH_STRING.equals(mSubreddit))
+	    	if (Constants.FRONTPAGE_STRING.equals(mfemdom))
+	    		setTitle("thefempire.org: Feminism, Downvotes, And You");
+	    	else if(Constants.FEMPIRE_SEARCH_STRING.equals(mfemdom))
 	    		setTitle(getResources().getString(R.string.search_title_prefix) + mSearchQuery);
 	    	else
-	    		setTitle("/r/" + mSubreddit.trim());
+	    		setTitle("/r/" + mfemdom.trim());
     	}
     	
     	@Override
@@ -912,7 +912,7 @@ public final class ThreadsListActivity extends ListActivity {
     			// Check mail
     			new PeekEnvelopeTask(getApplicationContext(), mClient, mSettings.getMailNotificationStyle()).execute();
     			// Refresh the threads list
-    			mObjectStates.mCurrentDownloadThreadsTask = new MyDownloadThreadsTask(mSubreddit);
+    			mObjectStates.mCurrentDownloadThreadsTask = new MyDownloadThreadsTask(mfemdom);
     			mObjectStates.mCurrentDownloadThreadsTask.execute();
         	} else {
             	Common.showErrorToast(mUserError, Toast.LENGTH_LONG, ThreadsListActivity.this);
@@ -927,8 +927,8 @@ public final class ThreadsListActivity extends ListActivity {
     	private Boolean _mPreviousLikes;
     	private ThingInfo _mTargetThingInfo;
     	
-    	public MyVoteTask(ThingInfo thingInfo, int direction, String subreddit) {
-    		super(thingInfo.getName(), direction, subreddit, getApplicationContext(), mSettings, mClient);
+    	public MyVoteTask(ThingInfo thingInfo, int direction, String femdom) {
+    		super(thingInfo.getName(), direction, femdom, getApplicationContext(), mSettings, mClient);
     		_mTargetThingInfo = thingInfo;
     		_mPreviousScore = thingInfo.getScore();
     		_mPreviousLikes = thingInfo.getLikes();
@@ -991,7 +991,7 @@ public final class ThreadsListActivity extends ListActivity {
     	@Override
     	public void onPostExecute(Boolean success) {
     		if (success) {
-    			CacheInfo.invalidateCachedSubreddit(_mContext);
+    			CacheInfo.invalidateCachedfemdom(_mContext);
     		} else {
     			// Vote failed. Undo the score.
             	_mTargetThingInfo.setLikes(_mPreviousLikes);
@@ -1006,7 +1006,7 @@ public final class ThreadsListActivity extends ListActivity {
     private final class MyHideTask extends HideTask {
 
 		public MyHideTask(boolean hide, ThingInfo mVoteTargetThreadInfo,
-				RedditSettings mSettings, Context mContext) {
+				FempireSettings mSettings, Context mContext) {
 			super(hide, mVoteTargetThreadInfo, mSettings, mContext);
 		}
 		
@@ -1036,7 +1036,7 @@ public final class ThreadsListActivity extends ListActivity {
         super.onCreateOptionsMenu(menu);
         
         MenuInflater inflater = getMenuInflater();
-        inflater.inflate(R.menu.subreddit, menu);
+        inflater.inflate(R.menu.femdom, menu);
         return true;
     }
     
@@ -1050,7 +1050,7 @@ public final class ThreadsListActivity extends ListActivity {
     	
     	mVoteTargetThing = _item;
     	
-    	menu.add(0, Constants.VIEW_SUBREDDIT_CONTEXT_ITEM, 0, R.string.view_subreddit);
+    	menu.add(0, Constants.VIEW_FEMDOM_CONTEXT_ITEM, 0, R.string.view_femdom);
     	menu.add(0, Constants.SHARE_CONTEXT_ITEM, 0, R.string.share);
     	menu.add(0, Constants.OPEN_IN_BROWSER_CONTEXT_ITEM, 0, R.string.open_browser);
     	
@@ -1075,8 +1075,8 @@ public final class ThreadsListActivity extends ListActivity {
         ThingInfo _item = mThreadsAdapter.getItem(info.position);
         
         switch (item.getItemId()) {
-        case Constants.VIEW_SUBREDDIT_CONTEXT_ITEM:
-        	mObjectStates.mCurrentDownloadThreadsTask = new MyDownloadThreadsTask(_item.getSubreddit());
+        case Constants.VIEW_FEMDOM_CONTEXT_ITEM:
+        	mObjectStates.mCurrentDownloadThreadsTask = new MyDownloadThreadsTask(_item.getfemdom());
         	mObjectStates.mCurrentDownloadThreadsTask.execute();
         	return true;
         
@@ -1138,12 +1138,12 @@ public final class ThreadsListActivity extends ListActivity {
     	if (mSettings.isLoggedIn()) {
     		menu.findItem(R.id.login_menu_id).setVisible(false);
 
-    		if(!mSubreddit.equals(Constants.FRONTPAGE_STRING)){
-    			ArrayList<SubredditInfo> mSubredditsList = CacheInfo.getCachedSubredditList(getApplicationContext());	
-                        SubredditInfo key = new SubredditInfo();
-                        key.name = mSubreddit;
+    		if(!mfemdom.equals(Constants.FRONTPAGE_STRING)){
+    			ArrayList<FemdomInfo> mfemdomsList = CacheInfo.getCachedfemdomList(getApplicationContext());	
+                        FemdomInfo key = new FemdomInfo();
+                        key.name = mfemdom;
     			
-    			if(mSubredditsList != null && mSubredditsList.contains(key)){
+    			if(mfemdomsList != null && mfemdomsList.contains(key)){
 	    			menu.findItem(R.id.unsubscribe_menu_id).setVisible(true);
 	    			menu.findItem(R.id.subscribe_menu_id).setVisible(false);
 	    		}
@@ -1207,9 +1207,9 @@ public final class ThreadsListActivity extends ListActivity {
         }
         
         switch (item.getItemId()) {
-        case R.id.pick_subreddit_menu_id:
-    		Intent pickSubredditIntent = new Intent(getApplicationContext(), PickSubredditActivity.class);
-    		startActivityForResult(pickSubredditIntent, Constants.ACTIVITY_PICK_SUBREDDIT);
+        case R.id.pick_femdom_menu_id:
+    		Intent pickfemdomIntent = new Intent(getApplicationContext(), PickFemdomActivity.class);
+    		startActivityForResult(pickfemdomIntent, Constants.ACTIVITY_PICK_FEMDOM);
     		break;
     	case R.id.login_menu_id:
     		showDialog(Constants.DIALOG_LOGIN);
@@ -1236,13 +1236,13 @@ public final class ThreadsListActivity extends ListActivity {
 			}
 			break;
     	case R.id.refresh_menu_id:
-    		CacheInfo.invalidateCachedSubreddit(getApplicationContext());
-    		mObjectStates.mCurrentDownloadThreadsTask = new MyDownloadThreadsTask(mSubreddit);
+    		CacheInfo.invalidateCachedfemdom(getApplicationContext());
+    		mObjectStates.mCurrentDownloadThreadsTask = new MyDownloadThreadsTask(mfemdom);
     		mObjectStates.mCurrentDownloadThreadsTask.execute();
     		break;
     	case R.id.submit_link_menu_id:
     		Intent submitLinkIntent = new Intent(getApplicationContext(), SubmitLinkActivity.class);
-    		submitLinkIntent.setData(Util.createSubmitUri(mSubreddit));
+    		submitLinkIntent.setData(Util.createSubmitUri(mfemdom));
     		startActivity(submitLinkIntent);
     		break;
     	case R.id.sort_by_menu_id:
@@ -1250,10 +1250,10 @@ public final class ThreadsListActivity extends ListActivity {
     		break;
     	case R.id.open_browser_menu_id:
     		String url;
-    		if (mSubreddit.equals(Constants.FRONTPAGE_STRING))
-    			url = Constants.REDDIT_BASE_URL;
+    		if (mfemdom.equals(Constants.FRONTPAGE_STRING))
+    			url = Constants.FEMPIRE_BASE_URL;
     		else
-        		url = new StringBuilder(Constants.REDDIT_BASE_URL + "/r/").append(mSubreddit).toString();
+        		url = new StringBuilder(Constants.FEMPIRE_BASE_URL + "/r/").append(mfemdom).toString();
     		Common.launchBrowser(this, url, null, false, true, true, false);
     		break;
         case R.id.light_dark_menu_id:
@@ -1269,22 +1269,22 @@ public final class ThreadsListActivity extends ListActivity {
         	startActivity(profileIntent);
         	break;
     	case R.id.preferences_menu_id:
-            Intent prefsIntent = new Intent(getApplicationContext(), RedditPreferencesPage.class);
+            Intent prefsIntent = new Intent(getApplicationContext(), FempirePreferencesPage.class);
             startActivity(prefsIntent);
             break;
     	case R.id.subscribe_menu_id:
-    		CacheInfo.invalidateCachedSubreddit(getApplicationContext());
-    		new SubscribeTask(mSubreddit, getApplicationContext(), mSettings).execute();
+    		CacheInfo.invalidateCachedfemdom(getApplicationContext());
+    		new SubscribeTask(mfemdom, getApplicationContext(), mSettings).execute();
     		break;
     	case R.id.unsubscribe_menu_id:
-    		CacheInfo.invalidateCachedSubreddit(getApplicationContext());
-    		new UnsubscribeTask(mSubreddit, getApplicationContext(), mSettings).execute();
+    		CacheInfo.invalidateCachedfemdom(getApplicationContext());
+    		new UnsubscribeTask(mfemdom, getApplicationContext(), mSettings).execute();
     		break;
     	case android.R.id.home:
     		Common.goHome(this);
     		break;
     	case R.id.search:
-        	startActivityForResult(new Intent(this, RedditSearchActivity.class), Constants.ACTIVITY_SEARCH_REDDIT);
+        	startActivityForResult(new Intent(this, FemdomSearchActivity.class), Constants.ACTIVITY_SEARCH_FEMPIRE);
     		break;
     	case R.id.saved_comments_menu_id:
     	    Intent toSC = new Intent(getApplicationContext(), SavedCommentsActivity.class);
@@ -1302,7 +1302,7 @@ public final class ThreadsListActivity extends ListActivity {
 		Common.doLogout(mSettings, mClient, getApplicationContext());
 		Toast.makeText(this, "You have been logged out.", Toast.LENGTH_SHORT)
 				.show();
-		mObjectStates.mCurrentDownloadThreadsTask = new MyDownloadThreadsTask(mSubreddit);
+		mObjectStates.mCurrentDownloadThreadsTask = new MyDownloadThreadsTask(mfemdom);
 		mObjectStates.mCurrentDownloadThreadsTask.execute();
 	}
 
@@ -1444,12 +1444,12 @@ public final class ThreadsListActivity extends ListActivity {
 
 	private final OnClickListener downloadAfterOnClickListener = new OnClickListener() {
 		public void onClick(View v) {
-			new MyDownloadThreadsTask(mSubreddit, mAfter, null, mCount).execute();
+			new MyDownloadThreadsTask(mfemdom, mAfter, null, mCount).execute();
 		}
 	};
 	private final OnClickListener downloadBeforeOnClickListener = new OnClickListener() {
 		public void onClick(View v) {
-			mObjectStates.mCurrentDownloadThreadsTask = new MyDownloadThreadsTask(mSubreddit, null, mBefore, mCount);
+			mObjectStates.mCurrentDownloadThreadsTask = new MyDownloadThreadsTask(mfemdom, null, mBefore, mCount);
 			mObjectStates.mCurrentDownloadThreadsTask.execute();
 		}
 	};
@@ -1462,7 +1462,7 @@ public final class ThreadsListActivity extends ListActivity {
 			if (Constants.ThreadsSort.SORT_BY_HOT.equals(itemString)) {
 				mSortByUrl = Constants.ThreadsSort.SORT_BY_HOT_URL;
 				mSortByUrlExtra = "";
-				mObjectStates.mCurrentDownloadThreadsTask = new MyDownloadThreadsTask(mSubreddit);
+				mObjectStates.mCurrentDownloadThreadsTask = new MyDownloadThreadsTask(mfemdom);
 				mObjectStates.mCurrentDownloadThreadsTask.execute();
 			} else if (Constants.ThreadsSort.SORT_BY_NEW.equals(itemString)) {
 				showDialog(Constants.DIALOG_SORT_BY_NEW);
@@ -1478,7 +1478,7 @@ public final class ThreadsListActivity extends ListActivity {
 			dialog.dismiss();
 			mSortByUrl = Constants.ThreadsSort.SORT_BY_NEW_URL;
 			mSortByUrlExtra = Constants.ThreadsSort.SORT_BY_NEW_URL_CHOICES[item];
-			mObjectStates.mCurrentDownloadThreadsTask = new MyDownloadThreadsTask(mSubreddit);
+			mObjectStates.mCurrentDownloadThreadsTask = new MyDownloadThreadsTask(mfemdom);
 			mObjectStates.mCurrentDownloadThreadsTask.execute();
 		}
 	};
@@ -1487,7 +1487,7 @@ public final class ThreadsListActivity extends ListActivity {
 			dialog.dismiss();
 			mSortByUrl = Constants.ThreadsSort.SORT_BY_CONTROVERSIAL_URL;
 			mSortByUrlExtra = Constants.ThreadsSort.SORT_BY_CONTROVERSIAL_URL_CHOICES[item];
-			mObjectStates.mCurrentDownloadThreadsTask = new MyDownloadThreadsTask(mSubreddit);
+			mObjectStates.mCurrentDownloadThreadsTask = new MyDownloadThreadsTask(mfemdom);
 			mObjectStates.mCurrentDownloadThreadsTask.execute();
 		}
 	};
@@ -1496,7 +1496,7 @@ public final class ThreadsListActivity extends ListActivity {
 			dialog.dismiss();
 			mSortByUrl = Constants.ThreadsSort.SORT_BY_TOP_URL;
 			mSortByUrlExtra = Constants.ThreadsSort.SORT_BY_TOP_URL_CHOICES[item];
-			mObjectStates.mCurrentDownloadThreadsTask = new MyDownloadThreadsTask(mSubreddit);
+			mObjectStates.mCurrentDownloadThreadsTask = new MyDownloadThreadsTask(mfemdom);
 			mObjectStates.mCurrentDownloadThreadsTask.execute();
 		}
 	};
@@ -1557,7 +1557,7 @@ public final class ThreadsListActivity extends ListActivity {
 					// Launch an Intent for CommentsListActivity
 					Intent i = new Intent(ThreadsListActivity.this, CommentsListActivity.class);
 					i.setData(Util.createThreadUri(thingInfo));
-					i.putExtra(Constants.EXTRA_SUBREDDIT, thingInfo.getSubreddit());
+					i.putExtra(Constants.EXTRA_FEMDOM, thingInfo.getfemdom());
 					i.putExtra(Constants.EXTRA_TITLE, thingInfo.getTitle());
 					i.putExtra(Constants.EXTRA_NUM_COMMENTS, Integer.valueOf(thingInfo.getNum_comments()));
 					startActivity(i);
@@ -1570,9 +1570,9 @@ public final class ThreadsListActivity extends ListActivity {
 		    	public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
 		    		removeDialog(Constants.DIALOG_THREAD_CLICK);
 			    	if (isChecked) {
-						new MyVoteTask(thingInfo, 1, thingInfo.getSubreddit()).execute();
+						new MyVoteTask(thingInfo, 1, thingInfo.getfemdom()).execute();
 					} else {
-						new MyVoteTask(thingInfo, 0, thingInfo.getSubreddit()).execute();
+						new MyVoteTask(thingInfo, 0, thingInfo.getfemdom()).execute();
 					}
 				}
 		    };
@@ -1583,9 +1583,9 @@ public final class ThreadsListActivity extends ListActivity {
 		        public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
 			    	removeDialog(Constants.DIALOG_THREAD_CLICK);
 					if (isChecked) {
-						new MyVoteTask(thingInfo, -1, thingInfo.getSubreddit()).execute();
+						new MyVoteTask(thingInfo, -1, thingInfo.getfemdom()).execute();
 					} else {
-						new MyVoteTask(thingInfo, 0, thingInfo.getSubreddit()).execute();
+						new MyVoteTask(thingInfo, 0, thingInfo.getfemdom()).execute();
 					}
 				}
 		    };
@@ -1600,7 +1600,7 @@ public final class ThreadsListActivity extends ListActivity {
 	@Override
     protected void onSaveInstanceState(Bundle state) {
     	super.onSaveInstanceState(state);
-    	state.putString(Constants.SUBREDDIT_KEY, mSubreddit);
+    	state.putString(Constants.FEMDOM_KEY, mfemdom);
     	state.putString(Constants.QUERY_KEY, mSearchQuery);
     	state.putString(Constants.ThreadsSort.SORT_BY_KEY, mSortByUrl);
     	state.putString(Constants.JUMP_TO_THREAD_ID_KEY, mJumpToThreadId);

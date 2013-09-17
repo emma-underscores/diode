@@ -1,20 +1,20 @@
 /*
  * Copyright 2009 Andrew Shu
  *
- * This file is part of "diode".
+ * This file is part of "Fempire App".
  *
- * "diode" is free software: you can redistribute it and/or modify
+ * "Fempire App" is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
  * the Free Software Foundation, either version 3 of the License, or
  * (at your option) any later version.
  *
- * "diode" is distributed in the hope that it will be useful,
+ * "Fempire App" is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  * GNU General Public License for more details.
  *
  * You should have received a copy of the GNU General Public License
- * along with "diode".  If not, see <http://www.gnu.org/licenses/>.
+ * along with "Fempire App".  If not, see <http://www.gnu.org/licenses/>.
  */
 
 package org.thefempire.fempireapp.mail;
@@ -46,13 +46,13 @@ import org.thefempire.fempireapp.comments.CommentsListActivity;
 import org.thefempire.fempireapp.common.Common;
 import org.thefempire.fempireapp.common.Constants;
 import org.thefempire.fempireapp.common.ProgressInputStream;
-import org.thefempire.fempireapp.common.RedditIsFunHttpClientFactory;
+import org.thefempire.fempireapp.common.FempireAppHttpClientFactory;
 import org.thefempire.fempireapp.common.util.Assert;
 import org.thefempire.fempireapp.common.util.StringUtils;
 import org.thefempire.fempireapp.common.util.Util;
 import org.thefempire.fempireapp.login.LoginDialog;
 import org.thefempire.fempireapp.login.LoginTask;
-import org.thefempire.fempireapp.settings.RedditSettings;
+import org.thefempire.fempireapp.settings.FempireSettings;
 import org.thefempire.fempireapp.things.Listing;
 import org.thefempire.fempireapp.things.ListingData;
 import org.thefempire.fempireapp.things.ThingInfo;
@@ -96,7 +96,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 /**
- * Main Activity class representing a Subreddit, i.e., a ThreadsList.
+ * Main Activity class representing a femdom, i.e., a ThreadsList.
  * 
  * @author TalkLittle
  *
@@ -115,11 +115,11 @@ public final class InboxListActivity extends ListActivity
     private static final Object MESSAGE_ADAPTER_LOCK = new Object();
     
     
-    private final HttpClient mClient = RedditIsFunHttpClientFactory.getGzipHttpClient();
+    private final HttpClient mClient = FempireAppHttpClientFactory.getGzipHttpClient();
     
     
     // Common settings are stored here
-    private final RedditSettings mSettings = new RedditSettings();
+    private final FempireSettings mSettings = new FempireSettings();
     
     // UI State
     private View mVoteTargetView = null;
@@ -158,7 +158,7 @@ public final class InboxListActivity extends ListActivity
         
 		CookieSyncManager.createInstance(getApplicationContext());
 		
-        mSettings.loadRedditPreferences(this, mClient);
+        mSettings.loadFempirePreferences(this, mClient);
         setRequestedOrientation(mSettings.getRotation());
         setTheme(mSettings.getTheme());
         requestWindowFeature(Window.FEATURE_PROGRESS);
@@ -220,7 +220,7 @@ public final class InboxListActivity extends ListActivity
 		CookieSyncManager.getInstance().startSync();
     	int previousTheme = mSettings.getTheme();
     	boolean previousLoggedIn = mSettings.isLoggedIn();
-    	mSettings.loadRedditPreferences(this, mClient);
+    	mSettings.loadFempirePreferences(this, mClient);
     	setRequestedOrientation(mSettings.getRotation());
     	if (mSettings.getTheme() != previousTheme) {
     		resetUI(mMessagesAdapter);
@@ -235,7 +235,7 @@ public final class InboxListActivity extends ListActivity
     protected void onPause() {
     	super.onPause();
 		CookieSyncManager.getInstance().stopSync();
-		mSettings.saveRedditPreferences(this);
+		mSettings.saveFempirePreferences(this);
     }
     
     @Override
@@ -387,7 +387,7 @@ public final class InboxListActivity extends ListActivity
     	case Constants.DIALOG_COMMENT_CLICK:
 			Intent i = new Intent(getApplicationContext(), CommentsListActivity.class);
 			i.setData(Util.createCommentUri(mVoteTargetThingInfo, 0));
-			i.putExtra(Constants.EXTRA_SUBREDDIT, mVoteTargetThingInfo.getSubreddit());
+			i.putExtra(Constants.EXTRA_FEMDOM, mVoteTargetThingInfo.getfemdom());
 			i.putExtra(Constants.EXTRA_TITLE, mVoteTargetThingInfo.getTitle());
 			startActivity(i);
 			return true;
@@ -469,7 +469,7 @@ public final class InboxListActivity extends ListActivity
         
     
     /**
-     * Task takes in a subreddit name string and thread id, downloads its data, parses
+     * Task takes in a femdom name string and thread id, downloads its data, parses
      * out the comments, and communicates them back to the UI as they are read.
      */
     private class DownloadMessagesTask extends AsyncTask<Integer, Long, Void>
@@ -518,7 +518,7 @@ public final class InboxListActivity extends ListActivity
             
     		try {
             	String url;
-            	StringBuilder sb = new StringBuilder(Constants.REDDIT_BASE_URL + "/message/")
+            	StringBuilder sb = new StringBuilder(Constants.FEMPIRE_BASE_URL + "/message/")
             			.append(mWhichInbox)
             			.append("/.json?");
             	
@@ -561,10 +561,10 @@ public final class InboxListActivity extends ListActivity
             	
                 parseInboxJSON(pin);
                 
-                // XXX: HACK: http://code.reddit.com/ticket/709
+                // XXX: HACK: http://code.Fempire.com/ticket/709
                 // Marking messages as read is currently broken (even with mark=true)
                 // For now, just send an extra request to the regular non-JSON inbox
-                mClient.execute(new HttpGet(Constants.REDDIT_BASE_URL + "/message/" + mWhichInbox));
+                mClient.execute(new HttpGet(Constants.FEMPIRE_BASE_URL + "/message/" + mWhichInbox));
 
             	mLastCount = mCount;
             	if (isAfter)
@@ -747,10 +747,10 @@ public final class InboxListActivity extends ListActivity
     			List<NameValuePair> nvps = new ArrayList<NameValuePair>();
     			nvps.add(new BasicNameValuePair("id", _mTargetThingInfo.getName()));
     			nvps.add(new BasicNameValuePair("uh", mSettings.getModhash().toString()));
-    			// Votehash is currently unused by reddit 
+    			// Votehash is currently unused by Fempire 
 //    				nvps.add(new BasicNameValuePair("vh", "0d4ab0ffd56ad0f66841c15609e9a45aeec6b015"));
     			
-    			HttpPost httppost = new HttpPost(Constants.REDDIT_BASE_URL + "/api/read_message");
+    			HttpPost httppost = new HttpPost(Constants.FEMPIRE_BASE_URL + "/api/read_message");
     	        httppost.setEntity(new UrlEncodedFormEntity(nvps, HTTP.UTF_8));
     	        
     	        if (Constants.LOGGING) Log.d(TAG, nvps.toString());
@@ -858,10 +858,10 @@ public final class InboxListActivity extends ListActivity
     			nvps.add(new BasicNameValuePair("thing_id", _mParentThingId));
     			nvps.add(new BasicNameValuePair("text", text[0]));
     			nvps.add(new BasicNameValuePair("uh", mSettings.getModhash()));
-    			// Votehash is currently unused by reddit 
+    			// Votehash is currently unused by Fempire 
 //    				nvps.add(new BasicNameValuePair("vh", "0d4ab0ffd56ad0f66841c15609e9a45aeec6b015"));
     			
-    			HttpPost httppost = new HttpPost(Constants.REDDIT_BASE_URL + "/api/comment");
+    			HttpPost httppost = new HttpPost(Constants.FEMPIRE_BASE_URL + "/api/comment");
     	        httppost.setEntity(new UrlEncodedFormEntity(nvps, HTTP.UTF_8));
     	        
     	        if (Constants.LOGGING) Log.d(TAG, nvps.toString());

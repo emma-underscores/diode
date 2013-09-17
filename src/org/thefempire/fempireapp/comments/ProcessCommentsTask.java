@@ -114,7 +114,7 @@ public class ProcessCommentsTask extends AsyncTask<Void, Integer, Void> {
 	}
 	
 	/**
-	 * @param bodyHtml escaped HTML (like in reddit Thing's body_html)
+	 * @param bodyHtml escaped HTML (like in Fempire Thing's body_html)
 	 */
     private CharSequence createSpanned(String bodyHtml) {
     	try {

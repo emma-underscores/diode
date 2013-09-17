@@ -1,23 +1,25 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <!-- Created with Inkscape (http://www.inkscape.org/) -->
+
 <!--
  * Copyright 2009 Andrew Shu
  *
- * This file is part of "diode".
+ * This file is part of "Fempire App".
  *
- * "diode" is free software: you can redistribute it and/or modify
+ * "Fempire App" is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
  * the Free Software Foundation, either version 3 of the License, or
  * (at your option) any later version.
  *
- * "diode" is distributed in the hope that it will be useful,
+ * "Fempire App" is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  * GNU General Public License for more details.
  *
  * You should have received a copy of the GNU General Public License
- * along with "diode".  If not, see <http://www.gnu.org/licenses/>.
+ * along with "Fempire App".  If not, see <http://www.gnu.org/licenses/>.
 -->
+
 <svg
    xmlns:dc="http://purl.org/dc/elements/1.1/"
    xmlns:cc="http://creativecommons.org/ns#"
@@ -30,9 +32,10 @@
    height="1052.3622047"
    id="svg2"
    sodipodi:version="0.32"
-   inkscape:version="0.46"
+   inkscape:version="0.48.4 r9939"
    sodipodi:docname="mail.svg"
-   inkscape:output_extension="org.inkscape.output.svg.inkscape">
+   inkscape:output_extension="org.inkscape.output.svg.inkscape"
+   version="1.1">
   <defs
      id="defs4">
     <inkscape:perspective
@@ -62,14 +65,15 @@
      inkscape:pageshadow="2"
      inkscape:zoom="1"
      inkscape:cx="250.61693"
-     inkscape:cy="527.09592"
+     inkscape:cy="567.09592"
      inkscape:document-units="px"
      inkscape:current-layer="layer1"
      showgrid="false"
-     inkscape:window-width="1680"
-     inkscape:window-height="1001"
-     inkscape:window-x="-4"
-     inkscape:window-y="628" />
+     inkscape:window-width="1272"
+     inkscape:window-height="712"
+     inkscape:window-x="0"
+     inkscape:window-y="0"
+     inkscape:window-maximized="0" />
   <metadata
      id="metadata7">
     <rdf:RDF>
@@ -85,60 +89,26 @@
      inkscape:label="Layer 1"
      inkscape:groupmode="layer"
      id="layer1">
-    <rect
-       style="opacity:1;fill:#ffffff;fill-opacity:1;stroke:none;stroke-width:20;stroke-linecap:square;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
-       id="rect3202"
-       width="286"
-       height="178"
-       x="74"
-       y="429.36218"
-       inkscape:export-filename="C:\code\eclipse\reddit is fun\res\drawable\mail_big.png"
-       inkscape:export-xdpi="22.5"
-       inkscape:export-ydpi="22.5" />
-    <path
-       style="fill:none;fill-rule:evenodd;stroke:#ff7500;stroke-width:20;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
-       d="M 80,605.36218 L 176,509.36218"
-       id="path3196"
-       inkscape:export-filename="C:\code\eclipse\reddit is fun\res\drawable\mail_big.png"
-       inkscape:export-xdpi="22.5"
-       inkscape:export-ydpi="22.5" />
-    <path
-       style="fill:none;fill-rule:evenodd;stroke:#ff7500;stroke-width:20;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
-       d="M 358,605.36218 L 262,509.36218"
-       id="path3198"
-       inkscape:export-filename="C:\code\eclipse\reddit is fun\res\drawable\mail_big.png"
-       inkscape:export-xdpi="22.5"
-       inkscape:export-ydpi="22.5" />
-    <rect
-       style="fill:none;fill-opacity:1;stroke:#ff4500;stroke-width:18.4591732;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
-       id="rect2396"
-       width="281.54083"
-       height="181.54083"
-       x="78.593887"
-       y="425.50452"
-       inkscape:export-filename="C:\code\eclipse\reddit is fun\res\drawable\mail_big.png"
-       inkscape:export-xdpi="22.5"
-       inkscape:export-ydpi="22.5" />
-    <path
-       style="fill:#ff7500;fill-opacity:1;fill-rule:evenodd;stroke:#ff4500;stroke-width:20.02619553;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
-       d="M 79.377398,426.28803 L 199.35121,546.26184"
-       id="path3186"
-       inkscape:export-filename="C:\code\eclipse\reddit is fun\res\drawable\mail_big.png"
-       inkscape:export-xdpi="22.5"
-       inkscape:export-ydpi="22.5" />
-    <path
-       style="fill:#ff7500;fill-opacity:1;fill-rule:evenodd;stroke:#ff4500;stroke-width:20.02619553;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
-       d="M 359.35121,426.28803 L 239.37739,546.26184"
-       id="path3188"
-       inkscape:export-filename="C:\code\eclipse\reddit is fun\res\drawable\mail_big.png"
-       inkscape:export-xdpi="22.5"
-       inkscape:export-ydpi="22.5" />
-    <path
-       style="fill:none;fill-rule:evenodd;stroke:#ff4500;stroke-width:20.9017067;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
-       d="M 191.69492,543.36218 L 246.30508,543.36218"
-       id="path3200"
-       inkscape:export-filename="C:\code\eclipse\reddit is fun\res\drawable\mail_big.png"
-       inkscape:export-xdpi="22.5"
-       inkscape:export-ydpi="22.5" />
+    <g
+       transform="matrix(2.2173633,0,0,2.2173633,-777.56049,-444.53345)"
+       id="g3097">
+      <path
+         sodipodi:nodetypes="ccccc"
+         inkscape:connector-curvature="0"
+         id="path3013"
+         d="m 384.02886,420.18144 c -5.02101,22.54955 11.74508,35.44384 54.90787,37.30249 31.79723,2.12718 47.58846,-1.36985 75.22363,14.6353 l -70.97895,-57.53145 z"
+         style="fill:#d4aa00;stroke:#cb1901;stroke-width:3.82632494;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1" />
+      <path
+         sodipodi:nodetypes="ccccccc"
+         inkscape:connector-curvature="0"
+         id="path3011"
+         d="m 383.99973,409.50366 c 5.44173,-10.72291 11.71239,-8.56379 18.21472,-18.67024 11.09306,-1.3281 21.27284,4.5571 32.10734,5.70472 46.09286,14.65424 67.12885,27.34139 78.8404,68.75941 2.71815,2.43264 4.42498,13.49449 -1.14058,7.80595 -10.35733,-15.78804 -28.00055,-25.87109 -47.9267,-32.2216 -36.43952,-7.24558 -84.85883,-3.91186 -80.09518,-31.37824 z"
+         style="fill:#ffcc00;stroke:#cb1901;stroke-width:3.82632494;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1" />
+      <path
+         inkscape:connector-curvature="0"
+         id="path4176"
+         d="m 403.98357,403.70595 c -0.8334,2.82921 -1.74764,5.71944 -1.65644,8.70187 0.005,0.87027 0.41064,2.16837 1.50262,2.03358 1.24786,-0.22825 2.14434,-1.26786 2.91744,-2.19669 1.15213,-1.58346 2.13656,-3.50397 1.952,-5.51824 -0.0996,-1.28631 -1.10003,-2.3406 -2.31312,-2.68881 -0.77178,-0.26007 -1.59279,-0.32803 -2.4025,-0.33171 z"
+         style="fill:#d45500;stroke:#552200;stroke-width:2;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1" />
+    </g>
   </g>
 </svg>

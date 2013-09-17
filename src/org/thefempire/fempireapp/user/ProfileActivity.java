@@ -1,20 +1,20 @@
 /*
  * Copyright 2009 Andrew Shu
  *
- * This file is part of "diode".
+ * This file is part of "Fempire App".
  *
- * "diode" is free software: you can redistribute it and/or modify
+ * "Fempire App" is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
  * the Free Software Foundation, either version 3 of the License, or
  * (at your option) any later version.
  *
- * "diode" is distributed in the hope that it will be useful,
+ * "Fempire App" is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  * GNU General Public License for more details.
  *
  * You should have received a copy of the GNU General Public License
- * along with "diode".  If not, see <http://www.gnu.org/licenses/>.
+ * along with "Fempire App".  If not, see <http://www.gnu.org/licenses/>.
  */
 
 package org.thefempire.fempireapp.user;
@@ -44,14 +44,14 @@ import org.thefempire.fempireapp.common.Common;
 import org.thefempire.fempireapp.common.Constants;
 import org.thefempire.fempireapp.common.FormValidation;
 import org.thefempire.fempireapp.common.ProgressInputStream;
-import org.thefempire.fempireapp.common.RedditIsFunHttpClientFactory;
+import org.thefempire.fempireapp.common.FempireAppHttpClientFactory;
 import org.thefempire.fempireapp.common.tasks.VoteTask;
 import org.thefempire.fempireapp.common.util.StringUtils;
 import org.thefempire.fempireapp.common.util.Util;
 import org.thefempire.fempireapp.login.LoginDialog;
 import org.thefempire.fempireapp.login.LoginTask;
 import org.thefempire.fempireapp.mail.MessageComposeTask;
-import org.thefempire.fempireapp.settings.RedditSettings;
+import org.thefempire.fempireapp.settings.FempireSettings;
 import org.thefempire.fempireapp.things.Listing;
 import org.thefempire.fempireapp.things.ListingData;
 import org.thefempire.fempireapp.things.ThingInfo;
@@ -123,11 +123,11 @@ public final class ProfileActivity extends ListActivity
     private static final Object MESSAGE_ADAPTER_LOCK = new Object();
     
     
-    private final HttpClient mClient = RedditIsFunHttpClientFactory.getGzipHttpClient();
+    private final HttpClient mClient = FempireAppHttpClientFactory.getGzipHttpClient();
     
     
     // Common settings are stored here
-    private final RedditSettings mSettings = new RedditSettings();
+    private final FempireSettings mSettings = new FempireSettings();
     
     // UI State
     private View mVoteTargetView = null;
@@ -173,7 +173,7 @@ public final class ProfileActivity extends ListActivity
         
 		CookieSyncManager.createInstance(getApplicationContext());
 		
-        mSettings.loadRedditPreferences(this, mClient);
+        mSettings.loadFempirePreferences(this, mClient);
         setRequestedOrientation(mSettings.getRotation());
         setTheme(mSettings.getTheme());
         requestWindowFeature(Window.FEATURE_PROGRESS);
@@ -215,7 +215,7 @@ public final class ProfileActivity extends ListActivity
 		    }
 		    return;
         }
-		// Handle subreddit Uri passed via Intent
+		// Handle femdom Uri passed via Intent
         else if (getIntent().getData() != null) {
 	    	Matcher userPathMatcher = USER_PATH_PATTERN.matcher(getIntent().getData().getPath());
 			if (userPathMatcher.matches()) {
@@ -243,7 +243,7 @@ public final class ProfileActivity extends ListActivity
 		CookieSyncManager.getInstance().startSync();
     	int previousTheme = mSettings.getTheme();
     	boolean previousLoggedIn = mSettings.isLoggedIn();
-    	mSettings.loadRedditPreferences(this, mClient);
+    	mSettings.loadFempirePreferences(this, mClient);
     	setRequestedOrientation(mSettings.getRotation());
     	if (mSettings.getTheme() != previousTheme) {
     		resetUI(mThingsAdapter);
@@ -259,7 +259,7 @@ public final class ProfileActivity extends ListActivity
     protected void onPause() {
     	super.onPause();
 		CookieSyncManager.getInstance().stopSync();
-		mSettings.saveRedditPreferences(this);
+		mSettings.saveFempirePreferences(this);
     }
     
     @Override
@@ -396,7 +396,7 @@ public final class ProfileActivity extends ListActivity
     	case Constants.DIALOG_COMMENT_CLICK:
 			i = new Intent(getApplicationContext(), CommentsListActivity.class);
 			i.setData(Util.createCommentUri(mVoteTargetThingInfo, 0));
-			i.putExtra(Constants.EXTRA_SUBREDDIT, mVoteTargetThingInfo.getSubreddit());
+			i.putExtra(Constants.EXTRA_FEMDOM, mVoteTargetThingInfo.getfemdom());
 			i.putExtra(Constants.EXTRA_TITLE, mVoteTargetThingInfo.getTitle());
 			startActivity(i);
 			return true;
@@ -405,7 +405,7 @@ public final class ProfileActivity extends ListActivity
 			CacheInfo.invalidateCachedThread(getApplicationContext());
 			i = new Intent(getApplicationContext(), CommentsListActivity.class);
 			i.setData(Util.createThreadUri(mVoteTargetThingInfo));
-			i.putExtra(Constants.EXTRA_SUBREDDIT, mVoteTargetThingInfo.getSubreddit());
+			i.putExtra(Constants.EXTRA_FEMDOM, mVoteTargetThingInfo.getfemdom());
 			i.putExtra(Constants.EXTRA_TITLE, mVoteTargetThingInfo.getTitle());
 			i.putExtra(Constants.EXTRA_NUM_COMMENTS, Integer.valueOf(mVoteTargetThingInfo.getNum_comments()));
 			startActivity(i);
@@ -577,7 +577,7 @@ public final class ProfileActivity extends ListActivity
     				mKarma = getKarma();
     			
             	String url;
-        		StringBuilder sb = new StringBuilder(Constants.REDDIT_BASE_URL).append("/user/").append(mUsername.trim()).append("/.json?");
+        		StringBuilder sb = new StringBuilder(Constants.FEMPIRE_BASE_URL).append("/user/").append(mUsername.trim()).append("/.json?");
         		
         		if (mSortByUrl != null)
         			sb = sb.append(mSortByUrl).append("&");
@@ -663,7 +663,7 @@ public final class ProfileActivity extends ListActivity
     	 * @return [linkKarma, commentKarma]
     	 */
     	private int[] getKarma() throws IOException {
-        	String url = new StringBuilder(Constants.REDDIT_BASE_URL).append("/user/").append(mUsername.trim()).append("/about.json").toString();
+        	String url = new StringBuilder(Constants.FEMPIRE_BASE_URL).append("/user/").append(mUsername.trim()).append("/about.json").toString();
     		
     		if (Constants.LOGGING) Log.d(TAG, "karma url=" + url);
     		
@@ -845,8 +845,8 @@ public final class ProfileActivity extends ListActivity
     	private Boolean _mPreviousLikes;
     	private ThingInfo _mTargetThingInfo;
     	
-    	public MyVoteTask(ThingInfo thingInfo, int direction, String subreddit) {
-    		super(thingInfo.getName(), direction, subreddit, getApplicationContext(), mSettings, mClient);
+    	public MyVoteTask(ThingInfo thingInfo, int direction, String femdom) {
+    		super(thingInfo.getName(), direction, femdom, getApplicationContext(), mSettings, mClient);
     		_mTargetThingInfo = thingInfo;
     		_mPreviousScore = thingInfo.getScore();
     		_mPreviousLikes = thingInfo.getLikes();
@@ -909,7 +909,7 @@ public final class ProfileActivity extends ListActivity
     	@Override
     	public void onPostExecute(Boolean success) {
     		if (success) {
-    			CacheInfo.invalidateCachedSubreddit(_mContext);
+    			CacheInfo.invalidateCachedfemdom(_mContext);
     		} else {
     			// Vote failed. Undo the score.
             	_mTargetThingInfo.setLikes(_mPreviousLikes);
@@ -926,7 +926,7 @@ public final class ProfileActivity extends ListActivity
     	Dialog _mDialog;
     	
 		public MyCaptchaCheckRequiredTask(Dialog dialog) {
-			super(Constants.REDDIT_BASE_URL + "/message/compose/", mClient);
+			super(Constants.FEMPIRE_BASE_URL + "/message/compose/", mClient);
 			_mDialog = dialog;
 		}
 		
@@ -1232,7 +1232,7 @@ public final class ProfileActivity extends ListActivity
 					CacheInfo.invalidateCachedThread(ProfileActivity.this);
 					Intent i = new Intent(ProfileActivity.this, CommentsListActivity.class);
 					i.setData(Util.createThreadUri(info));
-					i.putExtra(Constants.EXTRA_SUBREDDIT, info.getSubreddit());
+					i.putExtra(Constants.EXTRA_FEMDOM, info.getfemdom());
 					i.putExtra(Constants.EXTRA_TITLE, info.getTitle());
 					i.putExtra(Constants.EXTRA_NUM_COMMENTS, Integer.valueOf(info.getNum_comments()));
 					startActivity(i);
@@ -1246,9 +1246,9 @@ public final class ProfileActivity extends ListActivity
 		    	public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
 		    		removeDialog(Constants.DIALOG_THREAD_CLICK);
 			    	if (isChecked) {
-						new MyVoteTask(info, 1, info.getSubreddit()).execute();
+						new MyVoteTask(info, 1, info.getfemdom()).execute();
 					} else {
-						new MyVoteTask(info, 0, info.getSubreddit()).execute();
+						new MyVoteTask(info, 0, info.getfemdom()).execute();
 					}
 				}
 		    };
@@ -1260,9 +1260,9 @@ public final class ProfileActivity extends ListActivity
 		        public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
 			    	removeDialog(Constants.DIALOG_THREAD_CLICK);
 					if (isChecked) {
-						new MyVoteTask(info, -1, info.getSubreddit()).execute();
+						new MyVoteTask(info, -1, info.getfemdom()).execute();
 					} else {
-						new MyVoteTask(info, 0, info.getSubreddit()).execute();
+						new MyVoteTask(info, 0, info.getfemdom()).execute();
 					}
 				}
 		    };

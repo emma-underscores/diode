@@ -14,7 +14,7 @@ public class FormValidation {
 			final EditText composeText,
 			final EditText composeCaptcha
 	) {
-		// reddit.com performs these sanity checks too.
+		// Fempire.com performs these sanity checks too.
 		if ("".equals(composeDestination.getText().toString().trim())) {
 			Toast.makeText(context, "please enter a username", Toast.LENGTH_LONG).show();
 			return false;

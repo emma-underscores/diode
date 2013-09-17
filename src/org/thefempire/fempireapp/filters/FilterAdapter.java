@@ -28,9 +28,9 @@ import android.widget.ToggleButton;
  * @author tordo
  *
  */
-public class FilterAdapter extends ArrayAdapter<SubredditFilter>
+public class FilterAdapter extends ArrayAdapter<FemdomFilter>
 {
-	public FilterAdapter(Context ctx, ArrayList<SubredditFilter> filters) 
+	public FilterAdapter(Context ctx, ArrayList<FemdomFilter> filters) 
 	{
 		super(ctx,0,filters);
 	}
@@ -50,14 +50,14 @@ public class FilterAdapter extends ArrayAdapter<SubredditFilter>
 			view = arg1;
 		}
 	
-		// Now fill the view with the information from the SubredditFilter
+		// Now fill the view with the information from the FemdomFilter
 		
 		// Get ToggleButton and TextView
 		ToggleButton b = (ToggleButton)view.findViewById(R.id.enabled);
 		TextView t = (TextView)view.findViewById(R.id.name);
 		
 		// Get the filter we're displaying
-		SubredditFilter filter = getItem(itemId);
+		FemdomFilter filter = getItem(itemId);
 		
 		b.setChecked(filter.isEnabled());
 		t.setText(filter.getName());

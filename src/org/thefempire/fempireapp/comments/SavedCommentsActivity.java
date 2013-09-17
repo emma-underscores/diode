@@ -8,15 +8,15 @@ import org.apache.http.client.HttpClient;
 import org.thefempire.fempireapp.R;
 import org.thefempire.fempireapp.common.Common;
 import org.thefempire.fempireapp.common.Constants;
-import org.thefempire.fempireapp.common.RedditIsFunHttpClientFactory;
+import org.thefempire.fempireapp.common.FempireAppHttpClientFactory;
 import org.thefempire.fempireapp.common.util.Util;
 import org.thefempire.fempireapp.mail.PeekEnvelopeTask;
 import org.thefempire.fempireapp.markdown.Markdown;
 import org.thefempire.fempireapp.markdown.MarkdownURL;
 import org.thefempire.fempireapp.saved.SavedContent;
 import org.thefempire.fempireapp.saved.SavedDBHandler;
-import org.thefempire.fempireapp.settings.RedditPreferencesPage;
-import org.thefempire.fempireapp.settings.RedditSettings;
+import org.thefempire.fempireapp.settings.FempirePreferencesPage;
+import org.thefempire.fempireapp.settings.FempireSettings;
 import org.thefempire.fempireapp.things.ThingInfo;
 import org.thefempire.fempireapp.user.ProfileActivity;
 
@@ -97,9 +97,9 @@ public class SavedCommentsActivity extends Activity
     
     private static final String TAG = "SavedCommentsActivity";
     
-    private final HttpClient mClient = RedditIsFunHttpClientFactory.getGzipHttpClient();
+    private final HttpClient mClient = FempireAppHttpClientFactory.getGzipHttpClient();
     
-    private final RedditSettings mSettings = new RedditSettings();
+    private final FempireSettings mSettings = new FempireSettings();
     
     private List<SavedContent> savedContent;
     
@@ -114,7 +114,7 @@ public class SavedCommentsActivity extends Activity
     {
         super.onCreate(savedInstanceState);
         CookieSyncManager.createInstance(getApplicationContext());
-        mSettings.loadRedditPreferences(this, mClient);
+        mSettings.loadFempirePreferences(this, mClient);
         
         setRequestedOrientation(mSettings.getRotation());
         setTheme(mSettings.getTheme());
@@ -150,7 +150,7 @@ public class SavedCommentsActivity extends Activity
     {
         super.onPause();
         CookieSyncManager.getInstance().stopSync();
-        mSettings.saveRedditPreferences(this);
+        mSettings.saveFempirePreferences(this);
     }
     
     @Override
@@ -159,7 +159,7 @@ public class SavedCommentsActivity extends Activity
         super.onResume();
         
         int prevTheme = mSettings.getTheme();
-        mSettings.loadRedditPreferences(this, mClient);
+        mSettings.loadFempirePreferences(this, mClient);
         
         if (mSettings.getTheme() != prevTheme)
         {
@@ -228,7 +228,7 @@ public class SavedCommentsActivity extends Activity
             startActivity(profileIntent);
             break;
         case R.id.preferences_menu_id:
-            Intent prefsIntent = new Intent(getApplicationContext(), RedditPreferencesPage.class);
+            Intent prefsIntent = new Intent(getApplicationContext(), FempirePreferencesPage.class);
             startActivity(prefsIntent);
             break;
         case R.id.light_dark_menu_id:
@@ -326,7 +326,7 @@ public class SavedCommentsActivity extends Activity
                     
                     Intent i = new Intent(SavedCommentsActivity.this, CommentsListActivity.class);
                     i.setData(Util.createCommentUriNoContext(commentThing));
-                    i.putExtra(Constants.EXTRA_SUBREDDIT, currentSavedContent.getSubreddit());
+                    i.putExtra(Constants.EXTRA_FEMDOM, currentSavedContent.getfemdom());
                     startActivity(i);
                 }
                 
@@ -338,7 +338,7 @@ public class SavedCommentsActivity extends Activity
     }
     
     /**
-     * @param bodyHtml escaped HTML (like in reddit Thing's body_html)
+     * @param bodyHtml escaped HTML (like in Fempire Thing's body_html)
      */
     private CharSequence createSpanned(String bodyHtml)
     {

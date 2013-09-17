@@ -3,7 +3,7 @@ package org.thefempire.fempireapp.filters;
 import java.util.ArrayList;
 
 import org.thefempire.fempireapp.R;
-import org.thefempire.fempireapp.settings.RedditSettings;
+import org.thefempire.fempireapp.settings.FempireSettings;
 
 import android.app.Activity;
 import android.content.Intent;
@@ -23,10 +23,10 @@ public class FilterEditActivity extends Activity
 {
 	
 	private TextView m_tw_name;
-	private TextView m_tw_subreddit;
+	private TextView m_tw_femdom;
 	private TextView m_tw_filtertxt;
 	private Button m_btn_add;
-	private RedditSettings m_settings;
+	private FempireSettings m_settings;
 	/** Index of the filter */
 	private int m_filteridx;
 	/** Key for Intent.putIntExtra to pass along filter index */
@@ -38,7 +38,7 @@ public class FilterEditActivity extends Activity
 		super.onCreate(b);
 		setContentView(R.layout.edit_filter_layout);
 		m_tw_name = (TextView)findViewById(R.id.filter_name);
-		m_tw_subreddit = (TextView)findViewById(R.id.subreddit_name);
+		m_tw_femdom = (TextView)findViewById(R.id.femdom_name);
 		m_tw_filtertxt = (TextView)findViewById(R.id.filter_text);
 		m_btn_add = (Button)findViewById(R.id.filter_addbtn);
 	
@@ -47,8 +47,8 @@ public class FilterEditActivity extends Activity
 		m_filteridx = i.getIntExtra(INTENT_FILTERID, -1);
 	
 		// Load settings
-		m_settings = new RedditSettings();
-		m_settings.loadRedditPreferences(this,null);
+		m_settings = new FempireSettings();
+		m_settings.loadFempirePreferences(this,null);
 	
 		m_btn_add.setOnClickListener(new OnClickListener() 
 		{
@@ -63,9 +63,9 @@ public class FilterEditActivity extends Activity
 		
 		if(m_filteridx != -1) 
 		{
-			SubredditFilter f = m_settings.getFilters().get(m_filteridx);
+			FemdomFilter f = m_settings.getFilters().get(m_filteridx);
 			m_tw_name.setText(f.getName());
-			m_tw_subreddit.setText(f.getSubReddit());
+			m_tw_femdom.setText(f.getfemdom());
 			m_tw_filtertxt.setText(f.getPatternString());
 		}
 		
@@ -78,16 +78,16 @@ public class FilterEditActivity extends Activity
 	{
 		// Extract data from the UI
 		String name = m_tw_name.getText().toString().trim();
-		String subreddit = m_tw_subreddit.getText().toString().trim();
+		String femdom = m_tw_femdom.getText().toString().trim();
 		String filtertxt = m_tw_filtertxt.getText().toString();
 		
 		// Build filter
-		SubredditFilter f;
-		ArrayList<SubredditFilter> filters = m_settings.getFilters();
+		FemdomFilter f;
+		ArrayList<FemdomFilter> filters = m_settings.getFilters();
 		if(m_filteridx == -1)
 		{
 			// We're adding a filter
-			f = new SubredditFilter(name, subreddit,true,filtertxt);
+			f = new FemdomFilter(name, femdom,true,filtertxt);
 			filters.add(f);
 		}
 		else 
@@ -95,11 +95,11 @@ public class FilterEditActivity extends Activity
 			// We're editing, get a reference from filters
 			f = filters.get(m_filteridx);
 			f.setName(name);
-			f.setSubreddit(subreddit);
+			f.setfemdom(femdom);
 			f.setPattern(filtertxt);
 		}
 		m_settings.setFilters(filters);
-		m_settings.saveRedditPreferences(this);
+		m_settings.saveFempirePreferences(this);
 		finish();
 	}
 	

@@ -16,9 +16,9 @@ import org.apache.http.message.BasicNameValuePair;
 import org.apache.http.protocol.HTTP;
 import org.thefempire.fempireapp.common.Common;
 import org.thefempire.fempireapp.common.Constants;
-import org.thefempire.fempireapp.common.RedditIsFunHttpClientFactory;
+import org.thefempire.fempireapp.common.FempireAppHttpClientFactory;
 import org.thefempire.fempireapp.common.util.StringUtils;
-import org.thefempire.fempireapp.settings.RedditSettings;
+import org.thefempire.fempireapp.settings.FempireSettings;
 import org.thefempire.fempireapp.things.ThingInfo;
 
 
@@ -34,17 +34,17 @@ public class SaveTask extends AsyncTask<Void, Void, Boolean> {
 	private String mUserError = "Error voting.";
 	private String mUrl;
 	private boolean mSave;
-	private RedditSettings mSettings;
+	private FempireSettings mSettings;
 	private Context mContext;
 	
-	private final HttpClient mClient = RedditIsFunHttpClientFactory.getGzipHttpClient();
+	private final HttpClient mClient = FempireAppHttpClientFactory.getGzipHttpClient();
 	
 	public SaveTask(boolean mSave, ThingInfo mVoteTargetThreadInfo, 
-								RedditSettings mSettings, Context mContext){
+								FempireSettings mSettings, Context mContext){
 		if(mSave){
-			this.mUrl = Constants.REDDIT_BASE_URL + "/api/save";
+			this.mUrl = Constants.FEMPIRE_BASE_URL + "/api/save";
 		} else {
-			this.mUrl = Constants.REDDIT_BASE_URL + "/api/unsave";
+			this.mUrl = Constants.FEMPIRE_BASE_URL + "/api/unsave";
 		}
 		
 		this.mSave = mSave;

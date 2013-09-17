@@ -18,8 +18,8 @@ import org.thefempire.fempireapp.common.Common;
 import org.thefempire.fempireapp.common.Constants;
 import org.thefempire.fempireapp.common.ProgressInputStream;
 import org.thefempire.fempireapp.common.util.StringUtils;
-import org.thefempire.fempireapp.filters.RedditFilterEngine;
-import org.thefempire.fempireapp.settings.RedditSettings;
+import org.thefempire.fempireapp.filters.FempireFilterEngine;
+import org.thefempire.fempireapp.settings.FempireSettings;
 import org.thefempire.fempireapp.things.Listing;
 import org.thefempire.fempireapp.things.ListingData;
 import org.thefempire.fempireapp.things.ThingInfo;
@@ -33,10 +33,10 @@ import android.util.Log;
 
 
 /**
- * Given a subreddit name string, starts the threadlist-download-thread going.
+ * Given a femdom name string, starts the threadlist-download-thread going.
  * 
- * @param subreddit The name of a subreddit ("android", "gaming", etc.)
- *        If the number of elements in subreddit is >= 2, treat 2nd element as "after" 
+ * @param femdom The name of a femdom ("android", "gaming", etc.)
+ *        If the number of elements in femdom is >= 2, treat 2nd element as "after" 
  */
 public abstract class DownloadThreadsTask extends AsyncTask<Void, Long, Boolean> implements PropertyChangeListener {
 	
@@ -46,7 +46,7 @@ public abstract class DownloadThreadsTask extends AsyncTask<Void, Long, Boolean>
 	protected final HttpClient mClient;
 	private ObjectMapper mOm;
 	
-	protected String mSubreddit;
+	protected String mfemdom;
 	protected String mSortByUrl = Constants.ThreadsSort.SORT_BY_HOT_URL;
 	protected String mSortByUrlExtra = "";
 	protected String mAfter;
@@ -55,16 +55,16 @@ public abstract class DownloadThreadsTask extends AsyncTask<Void, Long, Boolean>
 	protected String mLastAfter = null;
 	protected String mLastBefore = null;
 	protected int mLastCount = 0;
-    protected RedditSettings mSettings = new RedditSettings();
+    protected FempireSettings mSettings = new FempireSettings();
 	
 	//the GET parameters to be passed when performing a search
 	//just get it to recognize the query first, get sort working later.
 	protected String mSearchQuery;
 	protected String mSortSearch; //not implemented yet
 	
-	protected String mUserError = "Error retrieving subreddit info.";
+	protected String mUserError = "Error retrieving femdom info.";
 	
-	protected RedditFilterEngine mFilterEngine;
+	protected FempireFilterEngine mFilterEngine;
 	// Progress bar
 	protected long mContentLength = 0;
 	
@@ -74,36 +74,36 @@ public abstract class DownloadThreadsTask extends AsyncTask<Void, Long, Boolean>
 	
 	public DownloadThreadsTask(Context context, HttpClient client, ObjectMapper om,
 			String sortByUrl, String sortByUrlExtra,
-			String subreddit, String query, String sort) { 
-		this(context, client, om, sortByUrl, sortByUrlExtra, subreddit, null, null, Constants.DEFAULT_THREAD_DOWNLOAD_LIMIT);
+			String femdom, String query, String sort) { 
+		this(context, client, om, sortByUrl, sortByUrlExtra, femdom, null, null, Constants.DEFAULT_THREAD_DOWNLOAD_LIMIT);
 		mSearchQuery = query;
 		mSortSearch = sort;
 	}
 
 	public DownloadThreadsTask(Context context, HttpClient client, ObjectMapper om,
 			String sortByUrl, String sortByUrlExtra,
-			String subreddit) {
-		this(context, client, om, sortByUrl, sortByUrlExtra, subreddit, null, null, Constants.DEFAULT_THREAD_DOWNLOAD_LIMIT);
+			String femdom) {
+		this(context, client, om, sortByUrl, sortByUrlExtra, femdom, null, null, Constants.DEFAULT_THREAD_DOWNLOAD_LIMIT);
 	}
 	
 	public DownloadThreadsTask(Context context, HttpClient client, ObjectMapper om,
 			String sortByUrl, String sortByUrlExtra,
-			String subreddit, String after, String before, int count) {
-        mSettings.loadRedditPreferences(context, null);
+			String femdom, String after, String before, int count) {
+        mSettings.loadFempirePreferences(context, null);
 		mContext = context;
 		mClient = client;
 		mOm = om;
 		mSortByUrl = sortByUrl;
 		mSortByUrlExtra = sortByUrlExtra;
-		if (subreddit != null)
-			mSubreddit = subreddit;
+		if (femdom != null)
+			mfemdom = femdom;
 		else
-			mSubreddit = Constants.FRONTPAGE_STRING;
+			mfemdom = Constants.FRONTPAGE_STRING;
 
 		mAfter = after;
 		mBefore = before;
 		mCount = count;
-		mFilterEngine = new RedditFilterEngine(mContext);
+		mFilterEngine = new FempireFilterEngine(mContext);
 	}
 	
 	public Boolean doInBackground(Void... zzz) {
@@ -114,20 +114,20 @@ public abstract class DownloadThreadsTask extends AsyncTask<Void, Long, Boolean>
     		String url;
     		StringBuilder sb;
     		// If refreshing or something, use the previously used URL to get the threads.
-    		// Picking a new subreddit will erase the saved URL, getting rid of after= and before=.
-    		// subreddit.length != 0 means you are going Next or Prev, which creates new URL.
-			if (Constants.FRONTPAGE_STRING.equals(mSubreddit)) {
-    			sb = new StringBuilder(Constants.REDDIT_BASE_URL + "/").append(mSortByUrl)
+    		// Picking a new femdom will erase the saved URL, getting rid of after= and before=.
+    		// femdom.length != 0 means you are going Next or Prev, which creates new URL.
+			if (Constants.FRONTPAGE_STRING.equals(mfemdom)) {
+    			sb = new StringBuilder(Constants.FEMPIRE_BASE_URL + "/").append(mSortByUrl)
     				.append(".json?").append(mSortByUrlExtra).append("&");
     		} 
 			//prepare a search query
-			else if(Constants.REDDIT_SEARCH_STRING.equals(mSubreddit)){
-				sb = new StringBuilder(Constants.REDDIT_BASE_URL + "/search/").append(".json?q=")
+			else if(Constants.FEMPIRE_SEARCH_STRING.equals(mfemdom)){
+				sb = new StringBuilder(Constants.FEMPIRE_BASE_URL + "/search/").append(".json?q=")
 					.append(URLEncoder.encode(mSearchQuery, "utf8")).append("&sort=" + mSortSearch);
 			}
 			else {
-    			sb = new StringBuilder(Constants.REDDIT_BASE_URL + "/r/")
-        			.append(mSubreddit.toString().trim())
+    			sb = new StringBuilder(Constants.FEMPIRE_BASE_URL + "/r/")
+        			.append(mfemdom.toString().trim())
         			.append("/").append(mSortByUrl).append(".json?")
         			.append(mSortByUrlExtra).append("&");
     		}
@@ -150,7 +150,7 @@ public abstract class DownloadThreadsTask extends AsyncTask<Void, Long, Boolean>
         	int duration = Toast.LENGTH_LONG;
         	Toast toast = Toast.makeText(mContext, text, duration);
         	toast.show();*/
-    		//https://pay.reddit.com/.json?&
+    		//https://pay.Fempire.com/.json?&
     		if (Constants.LOGGING) Log.d(TAG, "url=" + url);
 
     		InputStream in = null;
@@ -158,12 +158,12 @@ public abstract class DownloadThreadsTask extends AsyncTask<Void, Long, Boolean>
     		
     		if (Constants.USE_THREADS_CACHE) {
     			try {
-	    			if (CacheInfo.checkFreshSubredditCache(mContext)
-	    					&& url.equals(CacheInfo.getCachedSubredditUrl(mContext))) {
-	    				in = mContext.openFileInput(Constants.FILENAME_SUBREDDIT_CACHE);
-	    				mContentLength = mContext.getFileStreamPath(Constants.FILENAME_SUBREDDIT_CACHE).length();
+	    			if (CacheInfo.checkFreshfemdomCache(mContext)
+	    					&& url.equals(CacheInfo.getCachedfemdomUrl(mContext))) {
+	    				in = mContext.openFileInput(Constants.FILENAME_FEMDOM_CACHE);
+	    				mContentLength = mContext.getFileStreamPath(Constants.FILENAME_FEMDOM_CACHE).length();
 	    				currentlyUsingCache = true;
-	    				if (Constants.LOGGING) Log.d(TAG, "Using cached subreddit JSON, length=" + mContentLength);
+	    				if (Constants.LOGGING) Log.d(TAG, "Using cached femdom JSON, length=" + mContentLength);
 	    			}
     			} catch (Exception cacheEx) {
     				if (Constants.LOGGING) Log.w(TAG, "skip cache", cacheEx);
@@ -176,7 +176,7 @@ public abstract class DownloadThreadsTask extends AsyncTask<Void, Long, Boolean>
     			try {
     				request = new HttpGet(url);
     			} catch (IllegalArgumentException e) {
-    				mUserError = "Invalid subreddit.";
+    				mUserError = "Invalid femdom.";
                 	if (Constants.LOGGING) Log.e(TAG, "IllegalArgumentException", e);
                 	return false;
     			}
@@ -198,11 +198,11 @@ public abstract class DownloadThreadsTask extends AsyncTask<Void, Long, Boolean>
             	}
            	
             	if (Constants.USE_THREADS_CACHE) {
-                	in = CacheInfo.writeThenRead(mContext, in, Constants.FILENAME_SUBREDDIT_CACHE);
+                	in = CacheInfo.writeThenRead(mContext, in, Constants.FILENAME_FEMDOM_CACHE);
                 	try {
-                		CacheInfo.setCachedSubredditUrl(mContext, url);
+                		CacheInfo.setCachedfemdomUrl(mContext, url);
                 	} catch (IOException e) {
-                		if (Constants.LOGGING) Log.e(TAG, "error on setCachedSubreddit", e);
+                		if (Constants.LOGGING) Log.e(TAG, "error on setCachedfemdom", e);
                 	}
             	}
     		}
@@ -211,7 +211,7 @@ public abstract class DownloadThreadsTask extends AsyncTask<Void, Long, Boolean>
         	pin.addPropertyChangeListener(this);
         	
         	try {
-            	parseSubredditJSON(pin);
+            	parsefemdomJSON(pin);
             	
             	mLastCount = mCount;
             	if (isAfter)
@@ -224,7 +224,7 @@ public abstract class DownloadThreadsTask extends AsyncTask<Void, Long, Boolean>
             	return true;
             	
             } catch (IllegalStateException e) {
-            	mUserError = "Invalid subreddit.";
+            	mUserError = "Invalid femdom.";
             	if (Constants.LOGGING) Log.e(TAG, "IllegalStateException", e);
             } catch (Exception e) {
             	if (Constants.LOGGING) Log.e(TAG, "Exception", e);
@@ -246,10 +246,10 @@ public abstract class DownloadThreadsTask extends AsyncTask<Void, Long, Boolean>
         return false;
     }
 	
-	protected void parseSubredditJSON(InputStream in)
+	protected void parsefemdomJSON(InputStream in)
 			throws IOException, JsonParseException, IllegalStateException {
 		
-		String genericListingError = "Not a subreddit listing";
+		String genericListingError = "Not a femdom listing";
 		try {
 			Listing listing = mOm.readValue(in, Listing.class);
 			
@@ -279,7 +279,7 @@ public abstract class DownloadThreadsTask extends AsyncTask<Void, Long, Boolean>
 				}
 			}
 		} catch (Exception ex) {
-			if (Constants.LOGGING) Log.e(TAG, "parseSubredditJSON", ex);
+			if (Constants.LOGGING) Log.e(TAG, "parsefemdomJSON", ex);
 		}
 	}
 	

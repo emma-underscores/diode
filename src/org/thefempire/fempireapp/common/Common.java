@@ -1,20 +1,20 @@
 /*
  * Copyright 2009 Andrew Shu
  *
- * This file is part of "diode".
+ * This file is part of "Fempire App".
  *
- * "diode" is free software: you can redistribute it and/or modify
+ * "Fempire App" is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
  * the Free Software Foundation, either version 3 of the License, or
  * (at your option) any later version.
  *
- * "diode" is distributed in the hope that it will be useful,
+ * "Fempire App" is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  * GNU General Public License for more details.
  *
  * You should have received a copy of the GNU General Public License
- * along with "diode".  If not, see <http://www.gnu.org/licenses/>.
+ * along with "Fempire App".  If not, see <http://www.gnu.org/licenses/>.
  */
 
 package org.thefempire.fempireapp.common;
@@ -41,7 +41,7 @@ import org.thefempire.fempireapp.comments.CommentsListActivity;
 import org.thefempire.fempireapp.common.util.StringUtils;
 import org.thefempire.fempireapp.common.util.Util;
 import org.thefempire.fempireapp.mail.InboxActivity;
-import org.thefempire.fempireapp.settings.RedditSettings;
+import org.thefempire.fempireapp.settings.FempireSettings;
 import org.thefempire.fempireapp.threads.ThreadsListActivity;
 import org.thefempire.fempireapp.user.ProfileActivity;
 
@@ -75,9 +75,9 @@ public class Common {
 	
 	private static final String TAG = "Common";
 	
-	// 1:subreddit 2:threadId 3:commentId
+	// 1:femdom 2:threadId 3:commentId
 	private static final Pattern COMMENT_LINK = Pattern.compile(Constants.COMMENT_PATH_PATTERN_STRING);
-	private static final Pattern REDDIT_LINK = Pattern.compile(Constants.REDDIT_PATH_PATTERN_STRING);
+	private static final Pattern FEMPIRE_LINK = Pattern.compile(Constants.FEMDOM_PATH_PATTERN_STRING);
 	private static final Pattern USER_LINK = Pattern.compile(Constants.USER_PATH_PATTERN_STRING);
 	private static final ObjectMapper mObjectMapper =
             new ObjectMapper().configure(DeserializationConfig.Feature.FAIL_ON_UNKNOWN_PROPERTIES, false);
@@ -93,7 +93,7 @@ public class Common {
 		t.show();
 	}
 	
-    public static boolean shouldLoadThumbnails(Activity activity, RedditSettings settings) {
+    public static boolean shouldLoadThumbnails(Activity activity, FempireSettings settings) {
     	//check for wifi connection and wifi thumbnail setting
     	boolean thumbOkay = true;
     	if (settings.isLoadThumbnailsOnlyWifi())
@@ -122,7 +122,7 @@ public class Common {
 	}
 	
     public static void updateNextPreviousButtons(ListActivity act, View nextPreviousView,
-    		String after, String before, int count, RedditSettings settings,
+    		String after, String before, int count, FempireSettings settings,
     		OnClickListener downloadAfterOnClickListener, OnClickListener downloadBeforeOnClickListener) {
     	boolean shouldShow = after != null || before != null;
     	Button nextButton = null;
@@ -186,32 +186,32 @@ public class Common {
     public static void setTextColorFromTheme(int theme, Resources resources, TextView... textViews) {
     	int color;
     	if (Util.isLightTheme(theme))
-    		color = resources.getColor(R.color.reddit_light_dialog_text_color);
+    		color = resources.getColor(R.color.Fempire_light_dialog_text_color);
     	else
-    		color = resources.getColor(R.color.reddit_dark_dialog_text_color);
+    		color = resources.getColor(R.color.Fempire_dark_dialog_text_color);
     	for (TextView textView : textViews)
     		textView.setTextColor(color);
     }
     
     
 	
-    static void clearCookies(RedditSettings settings, HttpClient client, Context context) {
-        settings.setRedditSessionCookie(null);
+    static void clearCookies(FempireSettings settings, HttpClient client, Context context) {
+        settings.setfemdomsessionCookie(null);
 
-        RedditIsFunHttpClientFactory.getCookieStore().clear();
+        FempireAppHttpClientFactory.getCookieStore().clear();
         CookieSyncManager.getInstance().sync();
         
         SharedPreferences sessionPrefs = PreferenceManager.getDefaultSharedPreferences(context);
     	SharedPreferences.Editor editor = sessionPrefs.edit();
-    	editor.remove("reddit_sessionValue");
-    	editor.remove("reddit_sessionDomain");
-    	editor.remove("reddit_sessionPath");
-    	editor.remove("reddit_sessionExpiryDate");
+    	editor.remove("Fempire_sessionValue");
+    	editor.remove("Fempire_sessionDomain");
+    	editor.remove("Fempire_sessionPath");
+    	editor.remove("Fempire_sessionExpiryDate");
         editor.commit();
     }
     
         
-    public static void doLogout(RedditSettings settings, HttpClient client, Context context) {
+    public static void doLogout(FempireSettings settings, HttpClient client, Context context) {
     	clearCookies(settings, client, context);
     	CacheInfo.invalidateAllCaches(context);
     	settings.setUsername(null);
@@ -312,11 +312,11 @@ public class Common {
     		// The modhash probably expired
     		return "Login expired.";
     	}
-    	if (line.contains("SUBREDDIT_NOEXIST")) {
-    		return "That subreddit does not exist.";
+    	if (line.contains("femdom_NOEXIST")) {
+    		return "That femdom does not exist.";
     	}
-    	if (line.contains("SUBREDDIT_NOTALLOWED")) {
-    		return "You are not allowed to post to that subreddit.";
+    	if (line.contains("femdom_NOTALLOWED")) {
+    		return "You are not allowed to post to that femdom.";
     	}
     	
     	return null;
@@ -356,11 +356,11 @@ public class Common {
     		// The modhash probably expired
     		throw new Exception("Login expired.");
     	}
-    	if (line.contains("SUBREDDIT_NOEXIST")) {
-    		throw new Exception("That subreddit does not exist.");
+    	if (line.contains("femdom_NOEXIST")) {
+    		throw new Exception("That femdom does not exist.");
     	}
-    	if (line.contains("SUBREDDIT_NOTALLOWED")) {
-    		throw new Exception("You are not allowed to post to that subreddit.");
+    	if (line.contains("femdom_NOTALLOWED")) {
+    		throw new Exception("You are not allowed to post to that femdom.");
     	}
     	
     	String newId;
@@ -436,7 +436,7 @@ public class Common {
     	Uri uri = Uri.parse(url);
     	
     	if (!bypassParser) {
-    		if (Util.isRedditUri(uri)) {
+    		if (Util.isFempireUri(uri)) {
 	    		String path = uri.getPath();
 	    		Matcher matcher = COMMENT_LINK.matcher(path);
 		    	if (matcher.matches()) {
@@ -451,9 +451,9 @@ public class Common {
 		    			return;
 		    		}
 		    	}
-		    	matcher = REDDIT_LINK.matcher(path);
+		    	matcher = FEMPIRE_LINK.matcher(path);
 		    	if (matcher.matches()) {
-	    			CacheInfo.invalidateCachedSubreddit(context);
+	    			CacheInfo.invalidateCachedfemdom(context);
 	    			Intent intent = new Intent(context, ThreadsListActivity.class);
 	    			intent.setData(uri);
 	    			if (requireNewTask)
@@ -470,10 +470,10 @@ public class Common {
 	    			context.startActivity(intent);
 	    			return;
 		    	}
-	    	} else if (Util.isRedditShortenedUri(uri)) {
+	    	} else if (Util.isfemdomshortenedUri(uri)) {
 	    		String path = uri.getPath();
 	    		if (path.equals("") || path.equals("/")) {
-	    			CacheInfo.invalidateCachedSubreddit(context);
+	    			CacheInfo.invalidateCachedfemdom(context);
 	    			Intent intent = new Intent(context, ThreadsListActivity.class);
 	    			intent.setData(uri);
 	    			if (requireNewTask)
@@ -563,16 +563,16 @@ public class Common {
 		}
 	} 
     
-    public static String getSubredditId(String mSubreddit){
-    	String subreddit_id = null;
-    	JsonNode subredditInfo = 
-    	RestJsonClient.connect(Constants.REDDIT_BASE_URL + "/r/" + mSubreddit + "/.json?count=1");
+    public static String getfemdomId(String mfemdom){
+    	String femdom_id = null;
+    	JsonNode FemdomInfo = 
+    	RestJsonClient.connect(Constants.FEMPIRE_BASE_URL + "/r/" + mfemdom + "/.json?count=1");
     	    	
-    	if(subredditInfo != null){
-    		ArrayNode children = (ArrayNode) subredditInfo.path("data").path("children");
-    		subreddit_id = children.get(0).get("data").get("subreddit_id").getTextValue();
+    	if(FemdomInfo != null){
+    		ArrayNode children = (ArrayNode) FemdomInfo.path("data").path("children");
+    		femdom_id = children.get(0).get("data").get("femdom_id").getTextValue();
     	}
-    	return subreddit_id;
+    	return femdom_id;
     }
 
     /** http://developer.android.com/guide/topics/ui/actionbar.html#Home */

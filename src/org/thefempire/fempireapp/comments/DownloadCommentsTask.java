@@ -23,7 +23,7 @@ import org.thefempire.fempireapp.common.util.Assert;
 import org.thefempire.fempireapp.common.util.StringUtils;
 import org.thefempire.fempireapp.common.util.Util;
 import org.thefempire.fempireapp.markdown.Markdown;
-import org.thefempire.fempireapp.settings.RedditSettings;
+import org.thefempire.fempireapp.settings.FempireSettings;
 import org.thefempire.fempireapp.things.Listing;
 import org.thefempire.fempireapp.things.ListingData;
 import org.thefempire.fempireapp.things.ThingInfo;
@@ -39,11 +39,11 @@ import java.util.Collection;
 import java.util.LinkedList;
 
 /**
- * Task takes in a subreddit name string and thread id, downloads its data, parses
+ * Task takes in a femdom name string and thread id, downloads its data, parses
  * out the comments, and communicates them back to the UI as they are read.
  * 
  * Requires the following navigation variables to be set:
- * mSettings.subreddit
+ * mSettings.femdom
  * mSettings.threadId
  * mMoreChildrenId (can be "")
  * mSortByUrl
@@ -65,10 +65,10 @@ public class DownloadCommentsTask extends AsyncTask<Integer, Long, Boolean>
     private ProcessCommentsTask mProcessCommentsTask;
     
     private CommentsListActivity mActivity;
-    private String mSubreddit;
+    private String mfemdom;
     private String mThreadId;
     private String mThreadTitle;
-    private RedditSettings mSettings;
+    private FempireSettings mSettings;
     private HttpClient mClient;
 	
 	// offset of the first comment being loaded; 0 if it includes OP
@@ -101,13 +101,13 @@ public class DownloadCommentsTask extends AsyncTask<Integer, Long, Boolean>
 	 */
 	public DownloadCommentsTask(
 			CommentsListActivity activity,
-			String subreddit,
+			String femdom,
 			String threadId,
-			RedditSettings settings,
+			FempireSettings settings,
 			HttpClient client
 	) {
 		attach(activity);
-		this.mSubreddit = subreddit;
+		this.mfemdom = femdom;
 		this.mThreadId = threadId;
 		this.mSettings = settings;
 		this.mClient = client;
@@ -116,7 +116,7 @@ public class DownloadCommentsTask extends AsyncTask<Integer, Long, Boolean>
 	
 	/**
 	 * "load more comments" starting at this position
-	 * @param moreChildrenId The reddit thing-id of the "more" children comment
+	 * @param moreChildrenId The Fempire thing-id of the "more" children comment
 	 * @param morePosition Position in local list to insert
 	 * @param indentation The indentation level of the child.
 	 */
@@ -137,9 +137,9 @@ public class DownloadCommentsTask extends AsyncTask<Integer, Long, Boolean>
 	public Boolean doInBackground(Integer... maxComments) {
 		HttpEntity entity = null;
         try {
-        	StringBuilder sb = new StringBuilder(Constants.REDDIT_BASE_URL);
-    		if (mSubreddit != null) {
-    			sb.append("/r/").append(mSubreddit.trim());
+        	StringBuilder sb = new StringBuilder(Constants.FEMPIRE_BASE_URL);
+    		if (mfemdom != null) {
+    			sb.append("/r/").append(mfemdom.trim());
     		}
     		sb.append("/comments/")
         		.append(mThreadId)
@@ -338,7 +338,7 @@ public class DownloadCommentsTask extends AsyncTask<Integer, Long, Boolean>
 		// We might not have a title if we've intercepted a plain link to a thread.
 		mThreadTitle = data.getTitle();
 		mActivity.setThreadTitle(mThreadTitle);
-		mSubreddit = data.getSubreddit();
+		mfemdom = data.getfemdom();
 		mThreadId = data.getId();
 		
 		mOpThingInfo = data;
@@ -495,7 +495,7 @@ public class DownloadCommentsTask extends AsyncTask<Integer, Long, Boolean>
 			mActivity.getWindow().setFeatureInt(Window.FEATURE_PROGRESS, Window.PROGRESS_INDETERMINATE_ON);
 
 		if (mThreadTitle != null)
-			mActivity.setTitle(mThreadTitle + " : " + mSubreddit);
+			mActivity.setTitle(mThreadTitle + " : " + mfemdom);
 	}
     
 	@Override
@@ -529,7 +529,7 @@ public class DownloadCommentsTask extends AsyncTask<Integer, Long, Boolean>
 
 			// Set title in android titlebar
 			if (mThreadTitle != null)
-				mActivity.setTitle(mThreadTitle + " : " + mSubreddit);
+				mActivity.setTitle(mThreadTitle + " : " + mfemdom);
 		} else {
 			if (!isCancelled()) {
 				Common.showErrorToast("Error downloading comments. Please try again.", Toast.LENGTH_LONG, mActivity);

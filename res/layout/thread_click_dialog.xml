@@ -2,20 +2,20 @@
 <!--
  * Copyright 2009 Andrew Shu
  *
- * This file is part of "diode".
+ * This file is part of "Fempire App".
  *
- * "diode" is free software: you can redistribute it and/or modify
+ * "Fempire App" is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
  * the Free Software Foundation, either version 3 of the License, or
  * (at your option) any later version.
  *
- * "diode" is distributed in the hope that it will be useful,
+ * "Fempire App" is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  * GNU General Public License for more details.
  *
  * You should have received a copy of the GNU General Public License
- * along with "diode".  If not, see <http://www.gnu.org/licenses/>.
+ * along with "Fempire App".  If not, see <http://www.gnu.org/licenses/>.
 -->
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
               android:layout_width="fill_parent"
@@ -42,7 +42,7 @@
    		/>
    	
    	
-  	<TextView android:id="@+id/submissionTime_submitter_subreddit"
+  	<TextView android:id="@+id/submissionTime_submitter_femdom"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
 		android:layout_below="@id/url"
@@ -60,7 +60,7 @@
 		android:layout_width="100dip"
 		android:layout_height="50dip"
 		android:layout_marginBottom="10dip"
-		android:layout_below="@id/submissionTime_submitter_subreddit"
+		android:layout_below="@id/submissionTime_submitter_femdom"
 		android:layout_alignParentLeft="true"
 		android:background="@android:color/transparent"
 		android:button="@drawable/vote_up_big_statelist"
@@ -79,7 +79,7 @@
 		android:layout_width="100dip"
 		android:layout_height="75dip"
 		android:layout_marginTop="25dip"
-		android:layout_below="@id/submissionTime_submitter_subreddit"
+		android:layout_below="@id/submissionTime_submitter_femdom"
 		android:visibility="gone"
 		android:text="@string/login_button"
 		/>
@@ -90,7 +90,7 @@
    	<Button android:id="@+id/thread_link_button"
    		android:layout_width="110dip"
    		android:layout_height="50dip"
-   		android:layout_below="@id/submissionTime_submitter_subreddit"
+   		android:layout_below="@id/submissionTime_submitter_femdom"
    		android:layout_alignParentRight="true"
    		android:singleLine="true"
    		android:text="@string/thread_link_button"
@@ -99,7 +99,7 @@
    		android:layout_width="110dip"
    		android:layout_height="50dip"
    		android:layout_marginTop="75dip"
-   		android:layout_below="@id/submissionTime_submitter_subreddit"
+   		android:layout_below="@id/submissionTime_submitter_femdom"
    		android:layout_alignParentRight="true"
    		android:singleLine="true"
    		android:text="@string/thread_comments_button"

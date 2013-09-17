@@ -1,20 +1,20 @@
 /*
  * Copyright 2009 Andrew Shu
  *
- * This file is part of "diode".
+ * This file is part of "Fempire App".
  *
- * "diode" is free software: you can redistribute it and/or modify
+ * "Fempire App" is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
  * the Free Software Foundation, either version 3 of the License, or
  * (at your option) any later version.
  *
- * "diode" is distributed in the hope that it will be useful,
+ * "Fempire App" is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  * GNU General Public License for more details.
  *
  * You should have received a copy of the GNU General Public License
- * along with "diode".  If not, see <http://www.gnu.org/licenses/>.
+ * along with "Fempire App".  If not, see <http://www.gnu.org/licenses/>.
  */
 
 package org.thefempire.fempireapp.common.util;
@@ -88,7 +88,7 @@ public class Util {
 	}
 	
 	/**
-	 * To the second, not millisecond like reddit
+	 * To the second, not millisecond like Fempire
 	 * @param timeSeconds
 	 * @return
 	 */
@@ -163,7 +163,7 @@ public class Util {
 	
 	public static String absolutePathToURL(String path) {
 		if (path.startsWith("/"))
-			return Constants.REDDIT_BASE_URL + path;
+			return Constants.FEMPIRE_BASE_URL + path;
 		return path;
 	}
 	
@@ -204,57 +204,57 @@ public class Util {
 	// ===============
 
 	public static boolean isLightTheme(int theme) {
-		return theme == R.style.Reddit_Light_Medium || theme == R.style.Reddit_Light_Large || theme == R.style.Reddit_Light_Larger || theme == R.style.Reddit_Light_Huge;
+		return theme == R.style.Fempire_Light_Medium || theme == R.style.Fempire_Light_Large || theme == R.style.Fempire_Light_Larger || theme == R.style.Fempire_Light_Huge;
 	}
 	
 	public static boolean isDarkTheme(int theme) {
-		return theme == R.style.Reddit_Dark_Medium || theme == R.style.Reddit_Dark_Large || theme == R.style.Reddit_Dark_Larger || theme == R.style.Reddit_Dark_Huge;
+		return theme == R.style.Fempire_Dark_Medium || theme == R.style.Fempire_Dark_Large || theme == R.style.Fempire_Dark_Larger || theme == R.style.Fempire_Dark_Huge;
 	}
 	
 	public static int getInvertedTheme(int theme) {
 		switch (theme) {
-		case R.style.Reddit_Light_Medium:
-			return R.style.Reddit_Dark_Medium;
-		case R.style.Reddit_Light_Large:
-			return R.style.Reddit_Dark_Large;
-		case R.style.Reddit_Light_Larger:
-			return R.style.Reddit_Dark_Larger;
-		case R.style.Reddit_Light_Huge:
-			return R.style.Reddit_Dark_Huge;
-		case R.style.Reddit_Dark_Medium:
-			return R.style.Reddit_Light_Medium;
-		case R.style.Reddit_Dark_Large:
-			return R.style.Reddit_Light_Large;
-		case R.style.Reddit_Dark_Larger:
-			return R.style.Reddit_Light_Larger;
-		case R.style.Reddit_Dark_Huge:
-			return R.style.Reddit_Light_Huge;
+		case R.style.Fempire_Light_Medium:
+			return R.style.Fempire_Dark_Medium;
+		case R.style.Fempire_Light_Large:
+			return R.style.Fempire_Dark_Large;
+		case R.style.Fempire_Light_Larger:
+			return R.style.Fempire_Dark_Larger;
+		case R.style.Fempire_Light_Huge:
+			return R.style.Fempire_Dark_Huge;
+		case R.style.Fempire_Dark_Medium:
+			return R.style.Fempire_Light_Medium;
+		case R.style.Fempire_Dark_Large:
+			return R.style.Fempire_Light_Large;
+		case R.style.Fempire_Dark_Larger:
+			return R.style.Fempire_Light_Larger;
+		case R.style.Fempire_Dark_Huge:
+			return R.style.Fempire_Light_Huge;
 		default:
-			return R.style.Reddit_Light_Medium;	
+			return R.style.Fempire_Light_Medium;	
 		}
 	}
 	
 	public static int getThemeResourceFromPrefs(String themePref, String textSizePref) {
 		if (Constants.PREF_THEME_LIGHT.equals(themePref)) {
 			if (Constants.PREF_TEXT_SIZE_MEDIUM.equals(textSizePref))
-				return R.style.Reddit_Light_Medium;
+				return R.style.Fempire_Light_Medium;
 			else if (Constants.PREF_TEXT_SIZE_LARGE.equals(textSizePref))
-				return R.style.Reddit_Light_Large;
+				return R.style.Fempire_Light_Large;
 			else if (Constants.PREF_TEXT_SIZE_LARGER.equals(textSizePref))
-				return R.style.Reddit_Light_Larger;
+				return R.style.Fempire_Light_Larger;
 			else if (Constants.PREF_TEXT_SIZE_HUGE.equals(textSizePref))
-				return R.style.Reddit_Light_Huge;
+				return R.style.Fempire_Light_Huge;
 		} else /* if (Constants.PREF_THEME_DARK.equals(themePref)) */ {
 			if (Constants.PREF_TEXT_SIZE_MEDIUM.equals(textSizePref))
-				return R.style.Reddit_Dark_Medium;
+				return R.style.Fempire_Dark_Medium;
 			else if (Constants.PREF_TEXT_SIZE_LARGE.equals(textSizePref))
-				return R.style.Reddit_Dark_Large;
+				return R.style.Fempire_Dark_Large;
 			else if (Constants.PREF_TEXT_SIZE_LARGER.equals(textSizePref))
-				return R.style.Reddit_Dark_Larger;
+				return R.style.Fempire_Dark_Larger;
 			else if (Constants.PREF_TEXT_SIZE_HUGE.equals(textSizePref))
-				return R.style.Reddit_Dark_Huge;
+				return R.style.Fempire_Dark_Huge;
 		}
-		return R.style.Reddit_Light_Medium;
+		return R.style.Fempire_Light_Medium;
 	}
 	
 	/**
@@ -262,21 +262,21 @@ public class Util {
 	 */
 	public static String[] getPrefsFromThemeResource(int theme) {
 		switch (theme) {
-		case R.style.Reddit_Light_Medium:
+		case R.style.Fempire_Light_Medium:
 			return new String[] { Constants.PREF_THEME_LIGHT, Constants.PREF_TEXT_SIZE_MEDIUM };
-		case R.style.Reddit_Light_Large:
+		case R.style.Fempire_Light_Large:
 			return new String[] { Constants.PREF_THEME_LIGHT, Constants.PREF_TEXT_SIZE_LARGE };
-		case R.style.Reddit_Light_Larger:
+		case R.style.Fempire_Light_Larger:
 			return new String[] { Constants.PREF_THEME_LIGHT, Constants.PREF_TEXT_SIZE_LARGER };
-		case R.style.Reddit_Light_Huge:
+		case R.style.Fempire_Light_Huge:
 			return new String[] { Constants.PREF_THEME_LIGHT, Constants.PREF_TEXT_SIZE_HUGE };
-		case R.style.Reddit_Dark_Medium:
+		case R.style.Fempire_Dark_Medium:
 			return new String[] { Constants.PREF_THEME_DARK, Constants.PREF_TEXT_SIZE_MEDIUM };
-		case R.style.Reddit_Dark_Large:
+		case R.style.Fempire_Dark_Large:
 			return new String[] { Constants.PREF_THEME_DARK, Constants.PREF_TEXT_SIZE_LARGE };
-		case R.style.Reddit_Dark_Larger:
+		case R.style.Fempire_Dark_Larger:
 			return new String[] { Constants.PREF_THEME_DARK, Constants.PREF_TEXT_SIZE_LARGER };
-		case R.style.Reddit_Dark_Huge:
+		case R.style.Fempire_Dark_Huge:
 			return new String[] { Constants.PREF_THEME_DARK, Constants.PREF_TEXT_SIZE_HUGE };
 		default:
 			return new String[] { Constants.PREF_THEME_LIGHT, Constants.PREF_TEXT_SIZE_MEDIUM };
@@ -285,8 +285,8 @@ public class Util {
 	
 	public static int getTextAppearanceResource(int themeResource, int androidTextAppearanceStyle) {
 		switch (themeResource) {
-		case R.style.Reddit_Light_Medium:
-		case R.style.Reddit_Dark_Medium:
+		case R.style.Fempire_Light_Medium:
+		case R.style.Fempire_Dark_Medium:
 			switch (androidTextAppearanceStyle) {
 			case android.R.style.TextAppearance_Small:
 				return R.style.TextAppearance_Medium_Small;
@@ -297,8 +297,8 @@ public class Util {
 			default:
 				return R.style.TextAppearance_Medium_Medium;
 			}
-		case R.style.Reddit_Light_Large:
-		case R.style.Reddit_Dark_Large:
+		case R.style.Fempire_Light_Large:
+		case R.style.Fempire_Dark_Large:
 			switch (androidTextAppearanceStyle) {
 			case android.R.style.TextAppearance_Small:
 				return R.style.TextAppearance_Large_Small;
@@ -309,8 +309,8 @@ public class Util {
 			default:
 				return R.style.TextAppearance_Large_Medium;
 			}
-		case R.style.Reddit_Light_Larger:
-		case R.style.Reddit_Dark_Larger:
+		case R.style.Fempire_Light_Larger:
+		case R.style.Fempire_Dark_Larger:
 			switch (androidTextAppearanceStyle) {
 			case android.R.style.TextAppearance_Small:
 				return R.style.TextAppearance_Larger_Small;
@@ -321,8 +321,8 @@ public class Util {
 			default:
 				return R.style.TextAppearance_Larger_Medium;
 			}
-		case R.style.Reddit_Light_Huge: 
-		case R.style.Reddit_Dark_Huge:
+		case R.style.Fempire_Light_Huge: 
+		case R.style.Fempire_Dark_Huge:
 			switch (androidTextAppearanceStyle) {
 			case android.R.style.TextAppearance_Small:
 				return R.style.TextAppearance_Huge_Small;
@@ -380,7 +380,7 @@ public class Util {
 	// ===============
 	static Uri createCommentUriNoContext(String linkId, String commentId)
 	{
-	    return Uri.parse(new StringBuilder(Constants.REDDIT_BASE_URL + "/comments/")
+	    return Uri.parse(new StringBuilder(Constants.FEMPIRE_BASE_URL + "/comments/")
 	            .append(linkId)
 	            .append("/z/")
 	            .append(commentId)
@@ -398,7 +398,7 @@ public class Util {
 	
 	
 	static Uri createCommentUri(String linkId, String commentId, int commentContext) {
-		return Uri.parse(new StringBuilder(Constants.REDDIT_BASE_URL + "/comments/")
+		return Uri.parse(new StringBuilder(Constants.FEMPIRE_BASE_URL + "/comments/")
 			.append(linkId)
 			.append("/z/")
 			.append(commentId)
@@ -416,57 +416,57 @@ public class Util {
 	}
 	
 	public static Uri createProfileUri(String username) {
-		return Uri.parse(new StringBuilder(Constants.REDDIT_BASE_URL + "/user/")
+		return Uri.parse(new StringBuilder(Constants.FEMPIRE_BASE_URL + "/user/")
 			.append(username)
 			.toString());
 	}
 	
-	public static Uri createSubmitUri(String subreddit) {
-		if (Constants.FRONTPAGE_STRING.equals(subreddit))
-			return Uri.parse(Constants.REDDIT_BASE_URL + "/submit");
+	public static Uri createSubmitUri(String femdom) {
+		if (Constants.FRONTPAGE_STRING.equals(femdom))
+			return Uri.parse(Constants.FEMPIRE_BASE_URL + "/submit");
 		
-		return Uri.parse(new StringBuilder(Constants.REDDIT_BASE_URL + "/r/")
-			.append(subreddit)
+		return Uri.parse(new StringBuilder(Constants.FEMPIRE_BASE_URL + "/r/")
+			.append(femdom)
 			.append("/submit")
 			.toString());
 	}
 	
 	static Uri createSubmitUri(ThingInfo thingInfo) {
-		return createSubmitUri(thingInfo.getSubreddit());
+		return createSubmitUri(thingInfo.getfemdom());
 	}
 	
-	public static Uri createSubredditUri(String subreddit) {
-		if (Constants.FRONTPAGE_STRING.equals(subreddit))
-			return Uri.parse(Constants.REDDIT_BASE_URL + "/");
+	public static Uri createfemdomUri(String femdom) {
+		if (Constants.FRONTPAGE_STRING.equals(femdom))
+			return Uri.parse(Constants.FEMPIRE_BASE_URL + "/");
 		
-		return Uri.parse(new StringBuilder(Constants.REDDIT_BASE_URL + "/r/")
-			.append(subreddit)
+		return Uri.parse(new StringBuilder(Constants.FEMPIRE_BASE_URL + "/r/")
+			.append(femdom)
 			.toString());
 	}
 	
-	static Uri createSubredditUri(ThingInfo thingInfo) {
-		return createSubredditUri(thingInfo.getSubreddit());
+	static Uri createfemdomUri(ThingInfo thingInfo) {
+		return createfemdomUri(thingInfo.getfemdom());
 	}
 	
-	static Uri createThreadUri(String subreddit, String threadId) {
-		return Uri.parse(new StringBuilder(Constants.REDDIT_BASE_URL + "/r/")
-			.append(subreddit)
+	static Uri createThreadUri(String femdom, String threadId) {
+		return Uri.parse(new StringBuilder(Constants.FEMPIRE_BASE_URL + "/r/")
+			.append(femdom)
 			.append("/comments/")
 			.append(threadId)
 			.toString());
 	}
 	
 	public static Uri createThreadUri(ThingInfo threadThingInfo) {
-		return createThreadUri(threadThingInfo.getSubreddit(), threadThingInfo.getId());
+		return createThreadUri(threadThingInfo.getfemdom(), threadThingInfo.getId());
 	}
 	
-	public static boolean isRedditUri(Uri uri) {
+	public static boolean isFempireUri(Uri uri) {
 		if (uri == null) return false;
 		String host = uri.getHost();
-		return host != null && (host.equals("reddit.com") || host.endsWith(".reddit.com"));
+		return host != null && (host.equals("Fempire.com") || host.endsWith(".Fempire.com"));
 	}
 	
-	public static boolean isRedditShortenedUri(Uri uri) {
+	public static boolean isfemdomshortenedUri(Uri uri) {
 		if (uri == null) return false;
 		String host = uri.getHost();
 		return host != null && host.equals("redd.it");

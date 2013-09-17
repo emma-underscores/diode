@@ -1,20 +1,20 @@
 /*
  * Copyright 2011 Andrew Shu
  *
- * This file is part of "diode".
+ * This file is part of "Fempire App".
  *
- * "diode" is free software: you can redistribute it and/or modify
+ * "Fempire App" is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
  * the Free Software Foundation, either version 3 of the License, or
  * (at your option) any later version.
  *
- * "diode" is distributed in the hope that it will be useful,
+ * "Fempire App" is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  * GNU General Public License for more details.
  *
  * You should have received a copy of the GNU General Public License
- * along with "diode".  If not, see <http://www.gnu.org/licenses/>.
+ * along with "Fempire App".  If not, see <http://www.gnu.org/licenses/>.
  */
 
 package org.thefempire.fempireapp.mail;
@@ -26,8 +26,8 @@ import org.thefempire.fempireapp.captcha.CaptchaDownloadTask;
 import org.thefempire.fempireapp.common.Common;
 import org.thefempire.fempireapp.common.Constants;
 import org.thefempire.fempireapp.common.FormValidation;
-import org.thefempire.fempireapp.common.RedditIsFunHttpClientFactory;
-import org.thefempire.fempireapp.settings.RedditSettings;
+import org.thefempire.fempireapp.common.FempireAppHttpClientFactory;
+import org.thefempire.fempireapp.settings.FempireSettings;
 import org.thefempire.fempireapp.things.ThingInfo;
 
 import android.app.AlertDialog;
@@ -55,8 +55,8 @@ import android.widget.Toast;
 
 public class InboxActivity extends TabActivity {
 	
-	private final RedditSettings mSettings = new RedditSettings();
-	private final HttpClient mClient = RedditIsFunHttpClientFactory.getGzipHttpClient();
+	private final FempireSettings mSettings = new FempireSettings();
+	private final HttpClient mClient = FempireAppHttpClientFactory.getGzipHttpClient();
 	
 	private static final String[] whichInboxes = {"inbox", "moderator"};
 	
@@ -67,7 +67,7 @@ public class InboxActivity extends TabActivity {
 	protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        mSettings.loadRedditPreferences(this, mClient);
+        mSettings.loadFempirePreferences(this, mClient);
         setRequestedOrientation(mSettings.getRotation());
         setTheme(mSettings.getTheme());
         
@@ -85,7 +85,7 @@ public class InboxActivity extends TabActivity {
 		super.onResume();
 		int previousTheme = mSettings.getTheme();
 
-    	mSettings.loadRedditPreferences(this, mClient);
+    	mSettings.loadFempirePreferences(this, mClient);
 
     	if (mSettings.getTheme() != previousTheme) {
     		relaunchActivity();
@@ -227,7 +227,7 @@ public class InboxActivity extends TabActivity {
     	
     	public MyMessageComposeTask(Dialog dialog,
 				ThingInfo targetThingInfo, String captcha, String captchaIden,
-				RedditSettings settings, HttpClient client, Context context) {
+				FempireSettings settings, HttpClient client, Context context) {
 			super(dialog, targetThingInfo, captcha, captchaIden, settings, client, context);
 		}
 
@@ -253,7 +253,7 @@ public class InboxActivity extends TabActivity {
     	Dialog _mDialog;
     	
 		public MyCaptchaCheckRequiredTask(Dialog dialog) {
-			super(Constants.REDDIT_BASE_URL + "/message/compose/", mClient);
+			super(Constants.FEMPIRE_BASE_URL + "/message/compose/", mClient);
 			_mDialog = dialog;
 		}
 		

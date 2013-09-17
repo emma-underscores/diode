@@ -30,7 +30,7 @@ public class SavedDBHandler extends SQLiteOpenHelper
     private static final String KEY_BODY = "body";
     private static final String KEY_LINK_ID = "link_id";
     private static final String KEY_COMMENT_ID = "comment_id";
-    private static final String KEY_SUBREDDIT = "subreddit";
+    private static final String KEY_femdom = "femdom";
 
     public SavedDBHandler(Context context)
     {
@@ -42,7 +42,7 @@ public class SavedDBHandler extends SQLiteOpenHelper
     {
         String createSavedContentTable = "CREATE TABLE " + TABLE_SAVED_CONTENT + "(" + KEY_ID + " INTEGER PRIMARY KEY,"
                 + KEY_USER + " TEXT," + KEY_AUTHOR + " TEXT," + KEY_BODY + " TEXT,"
-                + KEY_LINK_ID + " TEXT," + KEY_COMMENT_ID + " TEXT," + KEY_SUBREDDIT + " TEXT)";
+                + KEY_LINK_ID + " TEXT," + KEY_COMMENT_ID + " TEXT," + KEY_femdom + " TEXT)";
         db.execSQL(createSavedContentTable);
     }
 
@@ -67,7 +67,7 @@ public class SavedDBHandler extends SQLiteOpenHelper
         cValues.put(KEY_BODY, sc.getBody());
         cValues.put(KEY_LINK_ID, sc.getLinkId());
         cValues.put(KEY_COMMENT_ID, sc.getCommentId());
-        cValues.put(KEY_SUBREDDIT, sc.getSubreddit());
+        cValues.put(KEY_femdom, sc.getfemdom());
         
         sdb.insert(TABLE_SAVED_CONTENT, null, cValues);
         sdb.close();
@@ -110,7 +110,7 @@ public class SavedDBHandler extends SQLiteOpenHelper
     {
         SQLiteDatabase sdb = this.getReadableDatabase();
         
-        String[] columns = {KEY_ID, KEY_USER, KEY_AUTHOR, KEY_BODY, KEY_LINK_ID, KEY_COMMENT_ID, KEY_SUBREDDIT};
+        String[] columns = {KEY_ID, KEY_USER, KEY_AUTHOR, KEY_BODY, KEY_LINK_ID, KEY_COMMENT_ID, KEY_femdom};
         String[] args = {user, commentId};
         Cursor cursor = sdb.query(TABLE_SAVED_CONTENT, columns, KEY_USER + "= ? AND " +
                 KEY_COMMENT_ID + "= ?", args, null, null, null);
@@ -133,7 +133,7 @@ public class SavedDBHandler extends SQLiteOpenHelper
     {
         SQLiteDatabase sdb = this.getReadableDatabase();
         
-        String[] columns = {KEY_ID, KEY_USER, KEY_AUTHOR, KEY_BODY, KEY_LINK_ID, KEY_COMMENT_ID, KEY_SUBREDDIT};
+        String[] columns = {KEY_ID, KEY_USER, KEY_AUTHOR, KEY_BODY, KEY_LINK_ID, KEY_COMMENT_ID, KEY_femdom};
         String[] arg = {String.valueOf(id)};
         Cursor cursor = sdb.query(TABLE_SAVED_CONTENT, columns, KEY_ID + "= ?", arg, null, null, null);
         
@@ -147,11 +147,11 @@ public class SavedDBHandler extends SQLiteOpenHelper
         String body = cursor.getString(3);
         String linkId = cursor.getString(4);
         String commentId = cursor.getString(5);
-        String subreddit = cursor.getString(6);
+        String femdom = cursor.getString(6);
         
         cursor.close();
         sdb.close();
-        return new SavedContent(id, user, author, body, linkId, commentId, subreddit);
+        return new SavedContent(id, user, author, body, linkId, commentId, femdom);
     }
     
     /**
@@ -165,7 +165,7 @@ public class SavedDBHandler extends SQLiteOpenHelper
         
         SQLiteDatabase sdb = this.getReadableDatabase();
         
-        String[] columns = {KEY_ID, KEY_USER, KEY_AUTHOR, KEY_BODY, KEY_LINK_ID, KEY_COMMENT_ID, KEY_SUBREDDIT};
+        String[] columns = {KEY_ID, KEY_USER, KEY_AUTHOR, KEY_BODY, KEY_LINK_ID, KEY_COMMENT_ID, KEY_femdom};
         String[] arg = {user};
         Cursor cursor = sdb.query(TABLE_SAVED_CONTENT, columns, KEY_USER + "= ?", arg, null, null, null);
         
@@ -180,7 +180,7 @@ public class SavedDBHandler extends SQLiteOpenHelper
             String body;
             String linkId;
             String commentId;
-            String subreddit;
+            String femdom;
             do
             {
                 id = Integer.parseInt(cursor.getString(0));
@@ -188,8 +188,8 @@ public class SavedDBHandler extends SQLiteOpenHelper
                 body = cursor.getString(3);
                 linkId = cursor.getString(4);
                 commentId = cursor.getString(5);
-                subreddit = cursor.getString(6);
-                saved.addFirst(new SavedContent(id, user, author, body, linkId, commentId, subreddit));
+                femdom = cursor.getString(6);
+                saved.addFirst(new SavedContent(id, user, author, body, linkId, commentId, femdom));
             }
             while (cursor.moveToNext());
         }

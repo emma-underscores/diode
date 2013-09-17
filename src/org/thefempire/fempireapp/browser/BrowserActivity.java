@@ -7,7 +7,7 @@ import org.thefempire.fempireapp.comments.CommentsListActivity;
 import org.thefempire.fempireapp.common.Common;
 import org.thefempire.fempireapp.common.Constants;
 import org.thefempire.fempireapp.common.util.Util;
-import org.thefempire.fempireapp.settings.RedditSettings;
+import org.thefempire.fempireapp.settings.FempireSettings;
 
 import android.app.Activity;
 import android.content.Intent;
@@ -39,7 +39,7 @@ public class BrowserActivity extends Activity {
 	private String mTitle = null;
 	
     // Common settings are stored here
-    private final RedditSettings mSettings = new RedditSettings();
+    private final FempireSettings mSettings = new FempireSettings();
     
     // WebSettings available on Android 2.1 (API level 7)
     private static Method mWebSettings_setDomStorageEnabled;
@@ -64,7 +64,7 @@ public class BrowserActivity extends Activity {
 		
 		CookieSyncManager.createInstance(getApplicationContext());
 		
-        mSettings.loadRedditPreferences(this, null);
+        mSettings.loadFempirePreferences(this, null);
         setRequestedOrientation(mSettings.getRotation());
 		requestWindowFeature(Window.FEATURE_PROGRESS);
         requestWindowFeature(Window.FEATURE_INDETERMINATE_PROGRESS);
@@ -162,7 +162,7 @@ public class BrowserActivity extends Activity {
 	public void onResume() {
 		super.onResume();
 		CookieSyncManager.getInstance().startSync();
-    	mSettings.loadRedditPreferences(this, null);
+    	mSettings.loadFempirePreferences(this, null);
     	setRequestedOrientation(mSettings.getRotation());
     	int previousTheme = mSettings.getTheme();
     	if (mSettings.getTheme() != previousTheme) {

@@ -1,20 +1,20 @@
 /*
  * Copyright 2009 Andrew Shu
  *
- * This file is part of "diode".
+ * This file is part of "Fempire App".
  *
- * "diode" is free software: you can redistribute it and/or modify
+ * "Fempire App" is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
  * the Free Software Foundation, either version 3 of the License, or
  * (at your option) any later version.
  *
- * "diode" is distributed in the hope that it will be useful,
+ * "Fempire App" is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  * GNU General Public License for more details.
  *
  * You should have received a copy of the GNU General Public License
- * along with "diode".  If not, see <http://www.gnu.org/licenses/>.
+ * along with "Fempire App".  If not, see <http://www.gnu.org/licenses/>.
  */
 
 package org.thefempire.fempireapp.common;
@@ -27,48 +27,48 @@ public class Constants {
 	
 	public static final boolean USE_COMMENTS_CACHE = false;
 	public static final boolean USE_THREADS_CACHE = false;
-	public static final boolean USE_SUBREDDITS_CACHE = true;
+	public static final boolean USE_FEMDOMS_CACHE = true;
 	
-	// File containing the serialized variables of last subreddit viewed
-	public static final String FILENAME_SUBREDDIT_CACHE = "subreddit.dat";
+	// File containing the serialized variables of last femdom viewed
+	public static final String FILENAME_FEMDOM_CACHE = "femdom.dat";
 	// File containing the serialized variables of last comments viewed
 	public static final String FILENAME_THREAD_CACHE = "thread.dat";
 	// File containing a long integer System.currentTimeMillis(). Timestamp is shared among caches.
 	public static final String FILENAME_CACHE_INFO = "cacheinfo.dat";
 	public static final String[] FILENAMES_CACHE = {
-		FILENAME_SUBREDDIT_CACHE, FILENAME_THREAD_CACHE, FILENAME_CACHE_INFO
+		FILENAME_FEMDOM_CACHE, FILENAME_THREAD_CACHE, FILENAME_CACHE_INFO
 	};
 	
     public static final long MESSAGE_CHECK_MINIMUM_INTERVAL_MILLIS = 5 * 60 * 1000;  // 5 minutes
     public static final String LAST_MAIL_CHECK_TIME_MILLIS_KEY = "LAST_MAIL_CHECK_TIME_MILLIS_KEY";
 	
-	// 1:subreddit 2:threadId 3:commentId
+	// 1:femdom 2:threadId 3:commentId
 	// The following commented-out one is good, but tough to get right, e.g.,
-	// http://www.reddit.com/eorhm vs. http://www.reddit.com/prefs, mobile, store, etc.
+	// http://www.thefempire.org/eorhm vs. http://www.thefempire.org/prefs, mobile, store, etc.
 	// So, for now require the captured URLs to have /comments or /tb prefix.
 //	public static final String COMMENT_PATH_PATTERN_STRING
 //		= "(?:/r/([^/]+)/comments|/comments|/tb)?/([^/]+)(?:/?$|/[^/]+/([a-zA-Z0-9]+)?)?";
 	public static final String COMMENT_PATH_PATTERN_STRING
 		= "(?:/r/([^/]+)/comments|/comments|/tb)/([^/]+)(?:/?$|/[^/]+/([a-zA-Z0-9]+)?)?";
-	public static final String REDDIT_PATH_PATTERN_STRING = "(?:/r/([^/]+))?/?$";
+	public static final String FEMDOM_PATH_PATTERN_STRING = "(?:/r/([^/]+))?/?$";
 	public static final String USER_PATH_PATTERN_STRING = "/user/([^/]+)/?$";
 
 	
 	public static final String COMMENT_KIND = "t1";
 	public static final String THREAD_KIND = "t3";
 	public static final String MESSAGE_KIND = "t4";
-	public static final String SUBREDDIT_KIND = "t5";
+	public static final String FEMDOM_KIND = "t5";
 	public static final String MORE_KIND = "more";
     
 	public static final int DEFAULT_THREAD_DOWNLOAD_LIMIT = 25;
     public static final int DEFAULT_COMMENT_DOWNLOAD_LIMIT = 200;
     public static final long DEFAULT_FRESH_DURATION = 1800000;  // 30 minutes
-    public static final long DEFAULT_FRESH_SUBREDDIT_LIST_DURATION = 86400000;  // 24 hours
+    public static final long DEFAULT_FRESH_FEMDOM_LIST_DURATION = 86400000;  // 24 hours
 
     // startActivityForResult request codes
-    public static final int ACTIVITY_PICK_SUBREDDIT = 0;
+    public static final int ACTIVITY_PICK_FEMDOM = 0;
     public static final int ACTIVITY_SUBMIT_LINK = 1;
-    public static final int ACTIVITY_SEARCH_REDDIT = 2;
+    public static final int ACTIVITY_SEARCH_FEMPIRE = 2;
     
     // notifications
     public static final int NOTIFICATION_HAVE_MAIL = 0;
@@ -77,15 +77,15 @@ public class Constants {
     public static final int SERVICE_ENVELOPE = 0;
     
     // --- Intent extras ---
-    // Tell PickSubredditActivity to hide the fake subreddits string
-    public static final String EXTRA_HIDE_FAKE_SUBREDDITS_STRING = "hideFakeSubreddits";
+    // Tell PickFemdomActivity to hide the fake femdoms string
+    public static final String EXTRA_HIDE_FAKE_FEMDOMS_STRING = "hideFakefemdoms";
     public static final String EXTRA_ID = "id";
     // Tell CommentsListActivity to jump to a comment context (a URL. pattern match)
     public static final String EXTRA_COMMENT_CONTEXT = "jumpToComment";
     // Tell CommentsListActivity to show "more children"
     public static final String EXTRA_MORE_CHILDREN_ID = "moreChildrenId";
     public static final String EXTRA_NUM_COMMENTS = "num_comments";
-    public static final String EXTRA_SUBREDDIT = "subreddit";
+    public static final String EXTRA_FEMDOM = "femdom";
     public static final String EXTRA_THREAD_URL = "thread_url";
     public static final String EXTRA_TITLE = "title";
     
@@ -121,7 +121,7 @@ public class Constants {
     public static final int DIALOG_LOGGING_IN = 1000;
     public static final int DIALOG_SUBMITTING = 1004;
     public static final int DIALOG_REPLYING = 1005;
-    public static final int DIALOG_LOADING_REDDITS_LIST = 1006;
+    public static final int DIALOG_LOADING_FEMDOMS_LIST = 1006;
     public static final int DIALOG_DELETING = 1008;
     public static final int DIALOG_EDITING = 1009;
     public static final int DIALOG_COMPOSING = 1012;
@@ -133,7 +133,7 @@ public class Constants {
 	public static final int UNSAVE_CONTEXT_ITEM = 1017;
 	public static final int HIDE_CONTEXT_ITEM = 1018;
 	public static final int UNHIDE_CONTEXT_ITEM = 1019;
-	public static final int VIEW_SUBREDDIT_CONTEXT_ITEM = 1020;
+	public static final int VIEW_FEMDOM_CONTEXT_ITEM = 1020;
 	public static final int COPY_CONTEXT_ITEM = 1021;
 
     
@@ -152,13 +152,13 @@ public class Constants {
     
     public static final String FRONTPAGE_STRING = "thefempire.org front page";
     
-    public static final String REDDIT_SEARCH_STRING = "search";
-    public static final String DEFAULT_REDDIT_SEARCH = "misandry";
+    public static final String FEMPIRE_SEARCH_STRING = "search";
+    public static final String DEFAULT_Fempire_SEARCH = "misandry";
     public static final String DEFAULT_SEARCH_SORT = "relevant";
     
-    public static final String HAVE_MAIL_TICKER = "thefempire.org mail";
-    public static final String HAVE_MAIL_TITLE = "thefempire.org";
-    public static final String HAVE_MAIL_TEXT = "You have thefempire.org mail.";
+    public static final String HAVE_MAIL_TICKER = "Fempire mail";
+    public static final String HAVE_MAIL_TITLE = "The Fempire";
+    public static final String HAVE_MAIL_TEXT = "You have Fempire mail.";
     
     // save instance state Bundle keys
     public static final String AFTER_KEY = "after";
@@ -172,7 +172,7 @@ public class Constants {
     public static final String LAST_BEFORE_KEY = "last_before";
     public static final String REPORT_TARGET_NAME_KEY = "report_target_name";
     public static final String REPLY_TARGET_NAME_KEY = "reply_target_name";
-    public static final String SUBREDDIT_KEY = "subreddit";
+    public static final String FEMDOM_KEY = "femdom";
     public static final String THREAD_COUNT_KEY = "thread_count";
     public static final String THREAD_ID_KEY = "thread_id";
     public static final String THREAD_LAST_COUNT_KEY = "last_thread_count";
@@ -278,7 +278,7 @@ public class Constants {
     public static final String JSON_NEW = "new";
     public static final String JSON_NUM_COMMENTS = "num_comments";
     public static final String JSON_TITLE = "title";
-    public static final String JSON_SUBREDDIT = "subreddit";
+    public static final String JSON_FEMDOM = "femdom";
 	public static final String JSON_REPLIES = "replies";
 	public static final String JSON_SELFTEXT = "selftext";
 	public static final String JSON_SELFTEXT_HTML = "selftext_html";
@@ -324,16 +324,16 @@ public class Constants {
     public static final String PREF_SHOW_NSFW = "SHOW_NSFW";
     public static final String PREF_FILTER_DELIM = "\n";
     public static final boolean PREF_SHOW_NSFW_DEFAULT = true;
-    public static final String PREF_REDDIT_FILTERS = "REDDIT_FILTERS";
+    public static final String PREF_FEMPIRE_FILTERS = "FEMPIRE_FILTERS";
 
     
-    // Reddit's base URL, without trailing slash
-    public static final String REDDIT_BASE_URL = "http://www.thefempire.org";
-    public static final String REDDIT_SSL_BASE_URL = "http://thefempire.org"; // SSL isn't enabled on thefempire.org
-	public static final String REDDIT_LOGIN_URL = "http://thefempire.org/api/login";
+    // Fempire's base URL, without trailing slash
+    public static final String FEMPIRE_BASE_URL = "http://www.thefempire.org";
+    public static final String FEMPIRE_SSL_BASE_URL = "http://www.thefempire.org"; // SSL isn't enabled on thefempire.org
+	public static final String FEMPIRE_LOGIN_URL = "http://www.thefempire.org/api/login";
 	
-    // A short HTML file returned by reddit, so we can get the modhash
-    public static final String MODHASH_URL = REDDIT_BASE_URL + "/r";
+    // A short HTML file returned by Fempire, so we can get the modhash
+    public static final String MODHASH_URL = FEMPIRE_BASE_URL + "/r";
 
 	
 }

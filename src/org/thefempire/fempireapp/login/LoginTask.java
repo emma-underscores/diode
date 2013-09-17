@@ -23,9 +23,9 @@ import org.codehaus.jackson.JsonToken;
 import org.thefempire.fempireapp.common.CacheInfo;
 import org.thefempire.fempireapp.common.Common;
 import org.thefempire.fempireapp.common.Constants;
-import org.thefempire.fempireapp.common.RedditIsFunHttpClientFactory;
+import org.thefempire.fempireapp.common.FempireAppHttpClientFactory;
 import org.thefempire.fempireapp.common.util.StringUtils;
-import org.thefempire.fempireapp.settings.RedditSettings;
+import org.thefempire.fempireapp.settings.FempireSettings;
 
 
 import android.content.Context;
@@ -41,11 +41,11 @@ public class LoginTask extends AsyncTask<Void, Void, Boolean> {
 	private String mPassword;
 	protected String mUserError = null;
 	
-	private RedditSettings mSettings;
+	private FempireSettings mSettings;
 	private HttpClient mClient;
 	private Context mContext;
 	
-	protected LoginTask(String username, String password, RedditSettings settings, HttpClient client, Context context) {
+	protected LoginTask(String username, String password, FempireSettings settings, HttpClient client, Context context) {
 		mUsername = username;
 		mPassword = password;
 		mSettings = settings;
@@ -59,12 +59,12 @@ public class LoginTask extends AsyncTask<Void, Void, Boolean> {
     }
 	
     /**
-     * On success stores the session cookie and modhash in your RedditSettings.
-     * On failure does not modify RedditSettings. 
+     * On success stores the session cookie and modhash in your FempireSettings.
+     * On failure does not modify FempireSettings. 
      * Should be called from a background thread.
      * @return Error message, or null on success
      */
-    private Boolean doLogin(String username, String password, RedditSettings settings, HttpClient client, Context context) {
+    private Boolean doLogin(String username, String password, FempireSettings settings, HttpClient client, Context context) {
 		String status = "";
     	String userError = "Error logging in. Please try again.";
     	HttpEntity entity = null;
@@ -75,7 +75,7 @@ public class LoginTask extends AsyncTask<Void, Void, Boolean> {
     		nvps.add(new BasicNameValuePair("passwd", password.toString()));
     		nvps.add(new BasicNameValuePair("api_type", "json"));
     		
-            HttpPost httppost = new HttpPost(Constants.REDDIT_LOGIN_URL);
+            HttpPost httppost = new HttpPost(Constants.FEMPIRE_LOGIN_URL);
             httppost.setEntity(new UrlEncodedFormEntity(nvps, HTTP.UTF_8));
             
             // Set timeout to 45 seconds for login
@@ -102,7 +102,7 @@ public class LoginTask extends AsyncTask<Void, Void, Boolean> {
         	
         	if (Constants.LOGGING) Common.logDLong(TAG, line);
         	
-        	if (RedditIsFunHttpClientFactory.getCookieStore().getCookies().isEmpty())
+        	if (FempireAppHttpClientFactory.getCookieStore().getCookies().isEmpty())
         		throw new HttpException("Failed to login: No cookies");
         	
         	final JsonFactory jsonFactory = new JsonFactory();
@@ -125,7 +125,7 @@ public class LoginTask extends AsyncTask<Void, Void, Boolean> {
 
         	// Getting here means you successfully logged in.
         	// Congratulations!
-        	// You are a true reddit master!
+        	// You are a true Fempire master!
         	
         	// Get modhash
         	while (jp.nextToken() != JsonToken.FIELD_NAME || !Constants.JSON_MODHASH.equals(jp.getCurrentName()))
@@ -134,10 +134,10 @@ public class LoginTask extends AsyncTask<Void, Void, Boolean> {
         	settings.setModhash(jp.getText());
 
         	// Could grab cookie from JSON too, but it lacks expiration date and stuff. So grab from HttpClient.
-			List<Cookie> cookies = RedditIsFunHttpClientFactory.getCookieStore().getCookies();
+			List<Cookie> cookies = FempireAppHttpClientFactory.getCookieStore().getCookies();
         	for (Cookie c : cookies) {
-        		if (c.getName().equals("reddit_session")) {
-        			settings.setRedditSessionCookie(c);
+        		if (c.getName().equals("fempire_session")) {
+        			settings.setfemdomsessionCookie(c);
         			break;
         		}
         	}

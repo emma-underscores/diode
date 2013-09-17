@@ -1,20 +1,20 @@
 /*
  * Copyright 2010 Andrew Shu
  *
- * This file is part of "diode".
+ * This file is part of "Fempire App".
  *
- * "diode" is free software: you can redistribute it and/or modify
+ * "Fempire App" is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
  * the Free Software Foundation, either version 3 of the License, or
  * (at your option) any later version.
  *
- * "diode" is distributed in the hope that it will be useful,
+ * "Fempire App" is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  * GNU General Public License for more details.
  *
  * You should have received a copy of the GNU General Public License
- * along with "diode".  If not, see <http://www.gnu.org/licenses/>.
+ * along with "Fempire App".  If not, see <http://www.gnu.org/licenses/>.
  */
 
 package org.thefempire.fempireapp.common;
@@ -28,7 +28,7 @@ import java.io.ObjectOutputStream;
 import java.io.Serializable;
 import java.util.ArrayList;
 
-import org.thefempire.fempireapp.reddits.SubredditInfo;
+import org.thefempire.fempireapp.femdoms.FemdomInfo;
 
 import android.content.Context;
 import android.util.Log;
@@ -41,14 +41,14 @@ public class CacheInfo implements Serializable {
 	static final Object CACHE_LOCK = new Object();
 	
 	// timestamps for each cache
-	public long subredditTime = 0;
+	public long femdomTime = 0;
 	public long threadTime = 0;
-	public long subredditListTime = 0;
+	public long femdomListTime = 0;
 	
 	// the ids for the cached JSON objects
-	public String subredditUrl = null;
+	public String femdomUrl = null;
 	public String threadUrl = null;
-	public ArrayList<SubredditInfo> subredditList = null;
+	public ArrayList<FemdomInfo> femdomList = null;
 
 	
 	
@@ -80,10 +80,10 @@ public class CacheInfo implements Serializable {
    		return context.openFileInput(filename);
 	}
 	
-	public static boolean checkFreshSubredditCache(Context context) {
+	public static boolean checkFreshfemdomCache(Context context) {
     	long time = System.currentTimeMillis();
-    	long subredditTime = getCachedSubredditTime(context);
-		return Math.abs(time - subredditTime) <= Constants.DEFAULT_FRESH_DURATION;
+    	long femdomTime = getCachedfemdomTime(context);
+		return Math.abs(time - femdomTime) <= Constants.DEFAULT_FRESH_DURATION;
 	}
     
     public static boolean checkFreshThreadCache(Context context) {
@@ -92,10 +92,10 @@ public class CacheInfo implements Serializable {
 		return Math.abs(time - threadTime) <= Constants.DEFAULT_FRESH_DURATION;
     }
     
-    public static boolean checkFreshSubredditListCache(Context context) {
+    public static boolean checkFreshfemdomListCache(Context context) {
     	long time = System.currentTimeMillis();
-    	long subredditListTime = getCachedSubredditListTime(context);
-    	return Math.abs(time - subredditListTime) <= Constants.DEFAULT_FRESH_SUBREDDIT_LIST_DURATION;
+    	long femdomListTime = getCachedfemdomListTime(context);
+    	return Math.abs(time - femdomListTime) <= Constants.DEFAULT_FRESH_FEMDOM_LIST_DURATION;
     }
     
     static CacheInfo getCacheInfo(Context context) throws IOException, ClassNotFoundException {
@@ -110,18 +110,18 @@ public class CacheInfo implements Serializable {
     	return ci;
     }
     
-    public static String getCachedSubredditUrl(Context context) {
+    public static String getCachedfemdomUrl(Context context) {
     	try {
-    		return getCacheInfo(context).subredditUrl;
+    		return getCacheInfo(context).femdomUrl;
     	} catch (Exception e) {
     		if (Constants.LOGGING) Log.e(TAG, "error w/ getCacheInfo", e);
     		return null;
     	}
     }
     
-    static long getCachedSubredditTime(Context context) {
+    static long getCachedfemdomTime(Context context) {
     	try {
-    		return getCacheInfo(context).subredditTime;
+    		return getCacheInfo(context).femdomTime;
     	} catch (Exception e) {
     		if (Constants.LOGGING) Log.e(TAG, "error w/ getCacheInfo", e);
     		return 0;
@@ -146,18 +146,18 @@ public class CacheInfo implements Serializable {
     	}
     }
     
-    public static ArrayList<SubredditInfo> getCachedSubredditList(Context context) {
+    public static ArrayList<FemdomInfo> getCachedfemdomList(Context context) {
     	try {
-    		return getCacheInfo(context).subredditList;
+    		return getCacheInfo(context).femdomList;
     	} catch (Exception e) {
     		if (Constants.LOGGING) Log.e(TAG, "error w/ getCacheInfo", e);
     		return null;
     	}
     }
     
-    static long getCachedSubredditListTime(Context context) {
+    static long getCachedfemdomListTime(Context context) {
     	try {
-    		return getCacheInfo(context).subredditListTime;
+    		return getCacheInfo(context).femdomListTime;
     	} catch (Exception e) {
     		if (Constants.LOGGING) Log.e(TAG, "error w/ getCacheInfo", e);
     		return 0;
@@ -167,7 +167,7 @@ public class CacheInfo implements Serializable {
     @SuppressWarnings("unused")
 	public
     static void invalidateAllCaches(Context context) {
-    	if (!Constants.USE_COMMENTS_CACHE && !Constants.USE_THREADS_CACHE && !Constants.USE_SUBREDDITS_CACHE)
+    	if (!Constants.USE_COMMENTS_CACHE && !Constants.USE_THREADS_CACHE && !Constants.USE_FEMDOMS_CACHE)
     		return;
     	
     	try {
@@ -186,7 +186,7 @@ public class CacheInfo implements Serializable {
     
     @SuppressWarnings("unused")
 	public
-    static void invalidateCachedSubreddit(Context context) {
+    static void invalidateCachedfemdom(Context context) {
     	if (!Constants.USE_THREADS_CACHE)
     		return;
     	
@@ -203,14 +203,14 @@ public class CacheInfo implements Serializable {
     		synchronized (CACHE_LOCK) {
 		    	FileOutputStream fos = context.openFileOutput(Constants.FILENAME_CACHE_INFO, Context.MODE_PRIVATE);
 		    	ObjectOutputStream oos = new ObjectOutputStream(fos);
-		    	ci.subredditUrl = null;
-		    	ci.subredditTime = 0;
+		    	ci.femdomUrl = null;
+		    	ci.femdomTime = 0;
 		    	oos.writeObject(ci);
 		    	oos.close();
 		    	fos.close();
     		}
     	} catch (IOException e) {
-    		if (Constants.LOGGING) Log.e(TAG, "invalidateCachedSubreddit: Error writing CacheInfo", e);
+    		if (Constants.LOGGING) Log.e(TAG, "invalidateCachedfemdom: Error writing CacheInfo", e);
     	}
     }
     
@@ -246,7 +246,7 @@ public class CacheInfo implements Serializable {
     
     @SuppressWarnings("unused")
 	public
-    static void setCachedSubredditUrl(Context context, String subredditUrl) throws IOException {
+    static void setCachedfemdomUrl(Context context, String femdomUrl) throws IOException {
     	if (!Constants.USE_THREADS_CACHE)
     		return;
     	
@@ -262,8 +262,8 @@ public class CacheInfo implements Serializable {
 		synchronized (CACHE_LOCK) {
 			FileOutputStream fos = context.openFileOutput(Constants.FILENAME_CACHE_INFO, Context.MODE_PRIVATE);
 	    	ObjectOutputStream oos = new ObjectOutputStream(fos);
-	    	ci.subredditUrl = subredditUrl;
-	    	ci.subredditTime = System.currentTimeMillis();
+	    	ci.femdomUrl = femdomUrl;
+	    	ci.femdomTime = System.currentTimeMillis();
 	    	oos.writeObject(ci);
 	    	oos.close();
 	    	fos.close();
@@ -296,8 +296,8 @@ public class CacheInfo implements Serializable {
 		}
     }
     
-    public static void setCachedSubredditList(Context context, ArrayList<SubredditInfo> subredditList) throws IOException {
-    	if (!Constants.USE_SUBREDDITS_CACHE)
+    public static void setCachedfemdomList(Context context, ArrayList<FemdomInfo> femdomList) throws IOException {
+    	if (!Constants.USE_FEMDOMS_CACHE)
     		return;
     	
     	CacheInfo ci = null;
@@ -312,8 +312,8 @@ public class CacheInfo implements Serializable {
 		synchronized (CACHE_LOCK) {
 			FileOutputStream fos = context.openFileOutput(Constants.FILENAME_CACHE_INFO, Context.MODE_PRIVATE);
 	    	ObjectOutputStream oos = new ObjectOutputStream(fos);
-	    	ci.subredditList = subredditList;
-	    	ci.subredditListTime = System.currentTimeMillis();
+	    	ci.femdomList = femdomList;
+	    	ci.femdomListTime = System.currentTimeMillis();
 	    	oos.writeObject(ci);
 	    	oos.close();
 	    	fos.close();

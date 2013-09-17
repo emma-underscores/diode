@@ -13,7 +13,7 @@ import org.apache.http.message.BasicNameValuePair;
 import org.apache.http.protocol.HTTP;
 import org.thefempire.fempireapp.common.Common;
 import org.thefempire.fempireapp.common.Constants;
-import org.thefempire.fempireapp.settings.RedditSettings;
+import org.thefempire.fempireapp.settings.FempireSettings;
 
 
 import android.content.Context;
@@ -23,22 +23,22 @@ import android.util.Log;
 public class VoteTask extends AsyncTask<Void, Void, Boolean> {
 	private static final String TAG = "VoteTask";
 	
-	protected String _mThingFullname, _mSubreddit;
+	protected String _mThingFullname, _mfemdom;
 	protected int _mDirection;
 	protected String _mUserError = "Error voting.";
 	
-	protected RedditSettings _mSettings;
+	protected FempireSettings _mSettings;
 	protected HttpClient _mClient;
 	protected Context _mContext;
 	
-	public VoteTask(String thingFullname, int direction, String subreddit,
-			Context context, RedditSettings settings, HttpClient client) {
+	public VoteTask(String thingFullname, int direction, String femdom,
+			Context context, FempireSettings settings, HttpClient client) {
 		_mClient = client;
 		_mSettings = settings;
 		_mContext = context;
 		_mThingFullname = thingFullname;
 		_mDirection = direction;
-		_mSubreddit = subreddit;
+		_mfemdom = femdom;
 	}
 	
 	@Override
@@ -67,12 +67,12 @@ public class VoteTask extends AsyncTask<Void, Void, Boolean> {
 			List<NameValuePair> nvps = new ArrayList<NameValuePair>();
 			nvps.add(new BasicNameValuePair("id", _mThingFullname));
 			nvps.add(new BasicNameValuePair("dir", String.valueOf(_mDirection)));
-			nvps.add(new BasicNameValuePair("r", _mSubreddit));
+			nvps.add(new BasicNameValuePair("r", _mfemdom));
 			nvps.add(new BasicNameValuePair("uh", _mSettings.getModhash()));
-			// Votehash is currently unused by reddit 
+			// Votehash is currently unused by Fempire 
 //				nvps.add(new BasicNameValuePair("vh", "0d4ab0ffd56ad0f66841c15609e9a45aeec6b015"));
 			
-			HttpPost httppost = new HttpPost(Constants.REDDIT_BASE_URL + "/api/vote");
+			HttpPost httppost = new HttpPost(Constants.FEMPIRE_BASE_URL + "/api/vote");
 	        httppost.setEntity(new UrlEncodedFormEntity(nvps, HTTP.UTF_8));
 	        
 	        if (Constants.LOGGING) Log.d(TAG, nvps.toString());
