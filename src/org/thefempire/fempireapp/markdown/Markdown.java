@@ -26,15 +26,13 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import org.thefempire.fempireapp.common.Constants;
+import org.thefempire.fempireapp.common.util.Util;
 
 import android.text.SpannableString;
 import android.text.SpannableStringBuilder;
 import android.text.Spanned;
 import android.text.style.ForegroundColorSpan;
 import android.util.Log;
-
-import in.shick.diode.common.util.Util;
-
 import dk.brics.automaton.AutomatonMatcher;
 import dk.brics.automaton.RegExp;
 import dk.brics.automaton.RunAutomaton;

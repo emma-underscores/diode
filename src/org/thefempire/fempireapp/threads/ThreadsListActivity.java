@@ -19,16 +19,6 @@
 
 package org.thefempire.fempireapp.threads;
 
-import in.shick.diode.common.tasks.HideTask;
-import in.shick.diode.common.tasks.SaveTask;
-import in.shick.diode.common.tasks.VoteTask;
-import in.shick.diode.reddits.PickSubredditActivity;
-import in.shick.diode.reddits.SubredditInfo;
-import in.shick.diode.reddits.SubscribeTask;
-import in.shick.diode.reddits.UnsubscribeTask;
-import in.shick.diode.search.RedditSearchActivity;
-import in.shick.diode.submit.SubmitLinkActivity;
-import in.shick.diode.threads.ShowThumbnailsTask.ThumbnailLoadAction;
 import java.beans.PropertyChangeEvent;
 import java.util.ArrayList;
 import java.util.List;
@@ -44,6 +34,9 @@ import org.thefempire.fempireapp.common.CacheInfo;
 import org.thefempire.fempireapp.common.Common;
 import org.thefempire.fempireapp.common.Constants;
 import org.thefempire.fempireapp.common.RedditIsFunHttpClientFactory;
+import org.thefempire.fempireapp.common.tasks.HideTask;
+import org.thefempire.fempireapp.common.tasks.SaveTask;
+import org.thefempire.fempireapp.common.tasks.VoteTask;
 import org.thefempire.fempireapp.common.util.StringUtils;
 import org.thefempire.fempireapp.common.util.Util;
 import org.thefempire.fempireapp.filters.FilterListActivity;
@@ -51,9 +44,16 @@ import org.thefempire.fempireapp.login.LoginDialog;
 import org.thefempire.fempireapp.login.LoginTask;
 import org.thefempire.fempireapp.mail.InboxActivity;
 import org.thefempire.fempireapp.mail.PeekEnvelopeTask;
+import org.thefempire.fempireapp.reddits.PickSubredditActivity;
+import org.thefempire.fempireapp.reddits.SubredditInfo;
+import org.thefempire.fempireapp.reddits.SubscribeTask;
+import org.thefempire.fempireapp.reddits.UnsubscribeTask;
+import org.thefempire.fempireapp.search.RedditSearchActivity;
 import org.thefempire.fempireapp.settings.RedditPreferencesPage;
 import org.thefempire.fempireapp.settings.RedditSettings;
+import org.thefempire.fempireapp.submit.SubmitLinkActivity;
 import org.thefempire.fempireapp.things.ThingInfo;
+import org.thefempire.fempireapp.threads.ShowThumbnailsTask.ThumbnailLoadAction;
 import org.thefempire.fempireapp.user.ProfileActivity;
 
 import android.app.Activity;

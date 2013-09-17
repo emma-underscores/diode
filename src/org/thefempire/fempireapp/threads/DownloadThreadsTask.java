@@ -18,6 +18,7 @@ import org.thefempire.fempireapp.common.Common;
 import org.thefempire.fempireapp.common.Constants;
 import org.thefempire.fempireapp.common.ProgressInputStream;
 import org.thefempire.fempireapp.common.util.StringUtils;
+import org.thefempire.fempireapp.filters.RedditFilterEngine;
 import org.thefempire.fempireapp.settings.RedditSettings;
 import org.thefempire.fempireapp.things.Listing;
 import org.thefempire.fempireapp.things.ListingData;
@@ -27,8 +28,6 @@ import org.thefempire.fempireapp.things.ThingListing;
 import android.content.Context;
 import android.os.AsyncTask;
 import android.util.Log;
-
-import in.shick.diode.filters.RedditFilterEngine;
 
 
 

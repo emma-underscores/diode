@@ -22,6 +22,7 @@ import org.thefempire.fempireapp.common.ProgressInputStream;
 import org.thefempire.fempireapp.common.util.Assert;
 import org.thefempire.fempireapp.common.util.StringUtils;
 import org.thefempire.fempireapp.common.util.Util;
+import org.thefempire.fempireapp.markdown.Markdown;
 import org.thefempire.fempireapp.settings.RedditSettings;
 import org.thefempire.fempireapp.things.Listing;
 import org.thefempire.fempireapp.things.ListingData;
@@ -36,8 +37,6 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.util.Collection;
 import java.util.LinkedList;
-
-import in.shick.diode.markdown.Markdown;
 
 /**
  * Task takes in a subreddit name string and thread id, downloads its data, parses

@@ -50,7 +50,13 @@ import org.thefempire.fempireapp.common.RedditIsFunHttpClientFactory;
 import org.thefempire.fempireapp.common.util.Assert;
 import org.thefempire.fempireapp.common.util.StringUtils;
 import org.thefempire.fempireapp.common.util.Util;
+import org.thefempire.fempireapp.login.LoginDialog;
+import org.thefempire.fempireapp.login.LoginTask;
 import org.thefempire.fempireapp.settings.RedditSettings;
+import org.thefempire.fempireapp.things.Listing;
+import org.thefempire.fempireapp.things.ListingData;
+import org.thefempire.fempireapp.things.ThingInfo;
+import org.thefempire.fempireapp.things.ThingListing;
 
 import android.app.Activity;
 import android.app.AlertDialog;
@@ -88,13 +94,6 @@ import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
-
-import in.shick.diode.login.LoginDialog;
-import in.shick.diode.login.LoginTask;
-import in.shick.diode.things.Listing;
-import in.shick.diode.things.ListingData;
-import in.shick.diode.things.ThingInfo;
-import in.shick.diode.things.ThingListing;
 
 /**
  * Main Activity class representing a Subreddit, i.e., a ThreadsList.

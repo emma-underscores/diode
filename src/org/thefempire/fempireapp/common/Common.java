@@ -34,6 +34,9 @@ import org.codehaus.jackson.JsonNode;
 import org.codehaus.jackson.map.ObjectMapper;
 import org.codehaus.jackson.map.DeserializationConfig;
 import org.codehaus.jackson.node.ArrayNode;
+import org.thefempire.fempireapp.R;
+import org.thefempire.fempireapp.browser.BrowserActivity;
+import org.thefempire.fempireapp.captcha.CaptchaException;
 import org.thefempire.fempireapp.comments.CommentsListActivity;
 import org.thefempire.fempireapp.common.util.StringUtils;
 import org.thefempire.fempireapp.common.util.Util;
@@ -67,10 +70,6 @@ import android.widget.ListView;
 import android.widget.RemoteViews;
 import android.widget.TextView;
 import android.widget.Toast;
-
-import in.shick.diode.R;
-import in.shick.diode.browser.BrowserActivity;
-import in.shick.diode.captcha.CaptchaException;
 
 public class Common {
 	

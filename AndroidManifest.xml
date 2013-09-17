@@ -18,7 +18,7 @@
  * along with "diode".  If not, see <http://www.gnu.org/licenses/>.
 -->
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-      package="in.shick.diode"
+      package="org.thefempire.fempireapp"
       
       android:versionCode="12"
       android:versionName="1.1.0"
