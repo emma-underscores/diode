@@ -20,17 +20,17 @@
 <resources>
     
     <!-- Old Android versions didn't have Dialog.Light -->
-    <color name="Fempire_light_dialog_text_color">@color/white</color>
+    <color name="fempire_light_dialog_text_color">@color/white</color>
     <style name="Fempire_Light_Dialog" parent="@android:style/Theme.Dialog">
-        <item name="android:textColor">@color/Fempire_light_dialog_text_color</item>
+        <item name="android:textColor">@color/fempire_light_dialog_text_color</item>
     </style>
     <style name="Fempire_Light_Dialog_NoTitle" parent="@style/Fempire_Light_Dialog">
         <item name="android:windowNoTitle">true</item>
     </style>
     
-    <color name="Fempire_dark_dialog_text_color">@color/white</color>
+    <color name="fempire_dark_dialog_text_color">@color/white</color>
     <style name="Fempire_Dark_Dialog" parent="@android:style/Theme.Dialog">
-        <item name="android:textColor">@color/Fempire_dark_dialog_text_color</item>
+        <item name="android:textColor">@color/fempire_dark_dialog_text_color</item>
     </style>
     <style name="Fempire_Dark_Dialog_NoTitle" parent="@style/Fempire_Dark_Dialog">
         <item name="android:windowNoTitle">true</item>

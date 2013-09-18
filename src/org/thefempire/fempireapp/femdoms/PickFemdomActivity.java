@@ -82,58 +82,33 @@ public final class PickFemdomActivity extends ListActivity {
     private static final String TAG = "PickFemdomActivity";
 
     // Group 1: inner
-    private final Pattern MY_femdomS_OUTER = Pattern.compile("YOUR FRONT PAGE femdomS.*?<ul>(.*?)</ul>", Pattern.CASE_INSENSITIVE);
+    private final Pattern MY_FEMDOMS_OUTER = Pattern.compile("YOUR FRONT PAGE FEMDOMS.*?<ul>(.*?)</ul>", Pattern.CASE_INSENSITIVE);
     // Group 3: femdom name. Repeat the matcher.find() until it fails.
-    private final Pattern MY_femdomS_INNER = Pattern.compile("<a(.*?)/r/(.*?)>(.+?)</a>");
+    private final Pattern MY_FEMDOMS_INNER = Pattern.compile("<a(.*?)/r/(.*?)>(.+?)</a>");
 
     private boolean refresh = true;
     private FempireSettings mSettings = new FempireSettings();
     private HttpClient mClient = FempireAppHttpClientFactory.getGzipHttpClient();
 
-    private PickfemdomAdapter mfemdomsAdapter;
-    private ArrayList<FemdomInfo> mfemdomsList;
+    private PickfemdomAdapter mFemdomsAdapter;
+    private ArrayList<FemdomInfo> mFemdomsList;
     private static final Object ADAPTER_LOCK = new Object();
     private EditText mEt;
 
     private AsyncTask<?, ?, ?> mCurrentTask = null;
     private final Object mCurrentTaskLock = new Object();
 
-    public static final String[] DEFAULT_femdomS = {
+    public static final String[] DEFAULT_FEMDOMS = {
         Constants.FRONTPAGE_STRING,
-        "Fempire App",
-        "pics",
-        "funny",
-        "politics",
-        "gaming",
-        "askFempire",
-        "worldnews",
-        "videos",
-        "iama",
-        "todayilearned",
-        "wtf",
-        "aww",
-        "technology",
-        "science",
-        "music",
-        "askscience",
-        "movies",
-        "bestof",
-        "fffffffuuuuuuuuuuuu",
-        "programming",
-        "comics",
-        "offbeat",
-        "environment",
-        "business",
-        "entertainment",
-        "economics",
-        "trees",
-        "linux",
-        "android"
+        "fempireapp",
+        "just_post",
+        "just_edit",
+        "vegan"
     };
 
     // A list of special femdoms that can be viewed, but cannot be used for submissions. They inherit from the Fakefemdom class
     // in the Fempiredev source, so we use the same naming here. Note: Should we add r/Random and r/Friends?
-    public static final String[] FAKE_femdomS = {
+    public static final String[] FAKE_FEMDOMS = {
         Constants.FRONTPAGE_STRING,
         "all"
     };
@@ -143,7 +118,7 @@ public final class PickFemdomActivity extends ListActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        mfemdomsList = new ArrayList<FemdomInfo>();
+        mFemdomsList = new ArrayList<FemdomInfo>();
 
         CookieSyncManager.createInstance(getApplicationContext());
 
@@ -156,16 +131,16 @@ public final class PickFemdomActivity extends ListActivity {
         setContentView(R.layout.pick_femdom_view);
         registerForContextMenu(getListView());
 
-        mfemdomsList = getCachedfemdomsList();
+        mFemdomsList = getCachedfemdomsList();
 
-        if (CollectionUtils.isEmpty(mfemdomsList))
+        if (CollectionUtils.isEmpty(mFemdomsList))
             restoreLastNonConfigurationInstance();
 
-        if (CollectionUtils.isEmpty(mfemdomsList)) {
+        if (CollectionUtils.isEmpty(mFemdomsList)) {
             new DownloadfemdomsTask().execute();
         }
         else {
-            resetUI(new PickfemdomAdapter(this, mfemdomsList));
+            resetUI(new PickfemdomAdapter(this, mFemdomsList));
         }
     }
 
@@ -185,12 +160,12 @@ public final class PickFemdomActivity extends ListActivity {
     public Object onRetainNonConfigurationInstance() {
         // Avoid having to re-download and re-parse the femdoms list
         // when rotating or opening keyboard.
-        return mfemdomsList;
+        return mFemdomsList;
     }
 
     @SuppressWarnings("unchecked")
     private void restoreLastNonConfigurationInstance() {
-        mfemdomsList = (ArrayList<FemdomInfo>) getLastNonConfigurationInstance();
+        mFemdomsList = (ArrayList<FemdomInfo>) getLastNonConfigurationInstance();
     }
 
     void resetUI(PickfemdomAdapter adapter) {
@@ -200,14 +175,14 @@ public final class PickFemdomActivity extends ListActivity {
         synchronized (ADAPTER_LOCK) {
             if (adapter == null) {
                 // Reset the list to be empty.
-                mfemdomsList = new ArrayList<FemdomInfo>();
-                mfemdomsAdapter = new PickfemdomAdapter(this, mfemdomsList);
+                mFemdomsList = new ArrayList<FemdomInfo>();
+                mFemdomsAdapter = new PickfemdomAdapter(this, mFemdomsList);
             } else {
-                mfemdomsAdapter = adapter;
+                mFemdomsAdapter = adapter;
             }
-            setListAdapter(mfemdomsAdapter);
-            mfemdomsAdapter.mLoading = false;
-            mfemdomsAdapter.notifyDataSetChanged();  // Just in case
+            setListAdapter(mFemdomsAdapter);
+            mFemdomsAdapter.mLoading = false;
+            mFemdomsAdapter.notifyDataSetChanged();  // Just in case
         }
         Common.updateListDrawables(this, mSettings.getTheme());
 
@@ -241,7 +216,7 @@ public final class PickFemdomActivity extends ListActivity {
     @Override
     protected void onListItemClick(ListView l, View v, int position, long id) {
         super.onListItemClick(l, v, position, id);
-        FemdomInfo item = mfemdomsAdapter.getItem(position);
+        FemdomInfo item = mFemdomsAdapter.getItem(position);
         returnfemdom(item.name);
     }
 
@@ -261,8 +236,8 @@ public final class PickFemdomActivity extends ListActivity {
             findViewById(R.id.loading_dark).setVisibility(View.VISIBLE);
         }
         synchronized (ADAPTER_LOCK) {
-            if (mfemdomsAdapter != null)
-                mfemdomsAdapter.mLoading = true;
+            if (mFemdomsAdapter != null)
+                mFemdomsAdapter.mLoading = true;
         }
         getWindow().setFeatureInt(Window.FEATURE_PROGRESS, Window.PROGRESS_START);
     }
@@ -282,7 +257,7 @@ public final class PickFemdomActivity extends ListActivity {
                 ArrayList<FemdomInfo> femdoms = null;
                 if(refresh) {
 
-                    HttpGet request = new HttpGet(Constants.FEMPIRE_BASE_URL + "/femdoms/mine/subscriber.json?limit=100");
+                    HttpGet request = new HttpGet(Constants.FEMPIRE_BASE_URL + "/subreddits/mine/subscriber.json?limit=100");
                     // Set timeout to 15 seconds
                     HttpParams params = request.getParams();
                     HttpConnectionParams.setConnectionTimeout(params, 15000);
@@ -345,17 +320,17 @@ public final class PickFemdomActivity extends ListActivity {
 
             if (femdoms == null || femdoms.size() == 0) {
                 // Need to make a copy because Arrays.asList returns List backed by original array
-                mfemdomsList = new ArrayList<FemdomInfo>();
-                for(String ee : DEFAULT_femdomS) {
+                mFemdomsList = new ArrayList<FemdomInfo>();
+                for(String ee : DEFAULT_FEMDOMS) {
                     FemdomInfo info = new FemdomInfo();
                     info.name = ee;
-                    mfemdomsList.add(info);
+                    mFemdomsList.add(info);
                 }
             } else {
-                mfemdomsList = femdoms;
+                mFemdomsList = femdoms;
             }
             //addFakefemdomsUnlessSuppressed();
-            resetUI(new PickfemdomAdapter(PickFemdomActivity.this, mfemdomsList));
+            resetUI(new PickfemdomAdapter(PickFemdomActivity.this, mFemdomsList));
             super.onPostExecute(femdoms);
         }
     }
@@ -405,7 +380,7 @@ public final class PickFemdomActivity extends ListActivity {
                 view = convertView;
             }
 
-            FemdomInfo subject = mfemdomsAdapter.getItem(position);
+            FemdomInfo subject = mFemdomsAdapter.getItem(position);
 
             TextView text = (TextView) view.findViewById(R.id.name);
             text.setText(subject.name);
@@ -512,8 +487,8 @@ public final class PickFemdomActivity extends ListActivity {
     protected ArrayList<FemdomInfo> getCachedfemdomsList(){
         ArrayList<FemdomInfo> femdoms = null;
         if (Constants.USE_FEMDOMS_CACHE) {
-            if (CacheInfo.checkFreshfemdomListCache(getApplicationContext())) {
-                femdoms = CacheInfo.getCachedfemdomList(getApplicationContext());
+            if (CacheInfo.checkFreshFemdomListCache(getApplicationContext())) {
+                femdoms = CacheInfo.getCachedFemdomList(getApplicationContext());
                 if (Constants.LOGGING) Log.d(TAG, "cached femdom list:" + femdoms);
             }
         }

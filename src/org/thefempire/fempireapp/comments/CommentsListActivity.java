@@ -137,7 +137,7 @@ public class CommentsListActivity extends ListActivity
     // Common settings are stored here
     private final FempireSettings mSettings = new FempireSettings();
     
-    private String mfemdom = null;
+    private String mFemdom = null;
     private String mThreadId = null;
     private String mThreadTitle = null;
 	
@@ -218,12 +218,12 @@ public class CommentsListActivity extends ListActivity
         	mEditTargetBody = savedInstanceState.getString(Constants.EDIT_TARGET_BODY_KEY);
         	mDeleteTargetKind = savedInstanceState.getString(Constants.DELETE_TARGET_KIND_KEY);
         	mThreadTitle = savedInstanceState.getString(Constants.THREAD_TITLE_KEY);
-        	mfemdom = savedInstanceState.getString(Constants.FEMDOM_KEY);
+        	mFemdom = savedInstanceState.getString(Constants.FEMDOM_KEY);
         	mThreadId = savedInstanceState.getString(Constants.THREAD_ID_KEY);
         	mVoteTargetThing = savedInstanceState.getParcelable(Constants.VOTE_TARGET_THING_INFO_KEY);
         	
         	if (mThreadTitle != null) {
-        	    setTitle(mThreadTitle + " : " + mfemdom);
+        	    setTitle(mThreadTitle + " : " + mFemdom);
         	}
 
         	if (mObjectStates.mCommentsList == null) {
@@ -255,14 +255,14 @@ public class CommentsListActivity extends ListActivity
         	if (commentPath != null) {
         		if (Constants.LOGGING) Log.d(TAG, "comment path: "+commentPath);
         		
-        		if (Util.isfemdomshortenedUri(data)) {
+        		if (Util.isFemdomShortenedUri(data)) {
         			// http://redd.it/abc12
         			mThreadId = commentPath.substring(1);
         		} else {
         			// http://www.thefempire.org/...
 	        		Matcher m = COMMENT_PATH_PATTERN.matcher(commentPath);
 	        		if (m.matches()) {
-	            		mfemdom = m.group(1);
+	            		mFemdom = m.group(1);
 	        			mThreadId = m.group(2);
 	        			jumpToCommentId = m.group(3);
 	        		}
@@ -288,11 +288,11 @@ public class CommentsListActivity extends ListActivity
         		// femdom could have already been set from the Intent.getData. don't overwrite with null here!
         		String femdom = extras.getString(Constants.EXTRA_FEMDOM);
         		if (femdom != null)
-        			mfemdom = femdom;
+        			mFemdom = femdom;
         		// mThreadTitle has not been set yet, so no need for null check before setting it
         		mThreadTitle = extras.getString(Constants.EXTRA_TITLE);
         		if (mThreadTitle != null) {
-            	    setTitle(mThreadTitle + " : " + mfemdom);
+            	    setTitle(mThreadTitle + " : " + mFemdom);
             	}
         		// TODO: use extras.getInt(Constants.EXTRA_NUM_COMMENTS) somehow
         	}
@@ -355,7 +355,7 @@ public class CommentsListActivity extends ListActivity
         if(mObjectStates.mDownloadCommentsTask == null || mObjectStates.mDownloadCommentsTask.getStatus() == Status.FINISHED)
             mObjectStates.mDownloadCommentsTask = new DownloadCommentsTask(
 				this,
-				mfemdom,
+				mFemdom,
 				mThreadId,
 				mSettings,
 				mClient
@@ -736,7 +736,7 @@ public class CommentsListActivity extends ListActivity
     			List<NameValuePair> nvps = new ArrayList<NameValuePair>();
     			nvps.add(new BasicNameValuePair("thing_id", _mParentThingId));
     			nvps.add(new BasicNameValuePair("text", text[0]));
-    			nvps.add(new BasicNameValuePair("r", mfemdom));
+    			nvps.add(new BasicNameValuePair("r", mFemdom));
     			nvps.add(new BasicNameValuePair("uh", mSettings.getModhash()));
     			// Votehash is currently unused by Fempire 
 //    				nvps.add(new BasicNameValuePair("vh", "0d4ab0ffd56ad0f66841c15609e9a45aeec6b015"));
@@ -823,7 +823,7 @@ public class CommentsListActivity extends ListActivity
     			List<NameValuePair> nvps = new ArrayList<NameValuePair>();
     			nvps.add(new BasicNameValuePair("thing_id", _mThingId.toString()));
     			nvps.add(new BasicNameValuePair("text", text[0].toString()));
-    			nvps.add(new BasicNameValuePair("r", mfemdom.toString()));
+    			nvps.add(new BasicNameValuePair("r", mFemdom.toString()));
     			nvps.add(new BasicNameValuePair("uh", mSettings.getModhash().toString()));
     			
     			HttpPost httppost = new HttpPost(Constants.FEMPIRE_BASE_URL + "/api/editusertext");
@@ -909,7 +909,7 @@ public class CommentsListActivity extends ListActivity
     			List<NameValuePair> nvps = new ArrayList<NameValuePair>();
     			nvps.add(new BasicNameValuePair("id", thingFullname[0].toString()));
     			nvps.add(new BasicNameValuePair("executed", "deleted"));
-    			nvps.add(new BasicNameValuePair("r", mfemdom.toString()));
+    			nvps.add(new BasicNameValuePair("r", mFemdom.toString()));
     			nvps.add(new BasicNameValuePair("uh", mSettings.getModhash().toString()));
     			
     			HttpPost httppost = new HttpPost(Constants.FEMPIRE_BASE_URL + "/api/del");
@@ -1017,7 +1017,7 @@ public class CommentsListActivity extends ListActivity
     			List<NameValuePair> nvps = new ArrayList<NameValuePair>();
     			nvps.add(new BasicNameValuePair("id", _mThingFullname.toString()));
     			nvps.add(new BasicNameValuePair("dir", String.valueOf(_mDirection)));
-    			nvps.add(new BasicNameValuePair("r", mfemdom.toString()));
+    			nvps.add(new BasicNameValuePair("r", mFemdom.toString()));
     			nvps.add(new BasicNameValuePair("uh", mSettings.getModhash().toString()));
     			// Votehash is currently unused by Fempire 
 //    				nvps.add(new BasicNameValuePair("vh", "0d4ab0ffd56ad0f66841c15609e9a45aeec6b015"));
@@ -1169,7 +1169,7 @@ public class CommentsListActivity extends ListActivity
     			List<NameValuePair> nvps = new ArrayList<NameValuePair>();
     			nvps.add(new BasicNameValuePair("id", _mFullId));
     			nvps.add(new BasicNameValuePair("executed", "reported"));
-    			nvps.add(new BasicNameValuePair("r", mfemdom.toString()));
+    			nvps.add(new BasicNameValuePair("r", mFemdom.toString()));
     			nvps.add(new BasicNameValuePair("uh", mSettings.getModhash().toString()));
     			// Votehash is currently unused by Fempire 
 //    				nvps.add(new BasicNameValuePair("vh", "0d4ab0ffd56ad0f66841c15609e9a45aeec6b015"));
@@ -1324,7 +1324,7 @@ public class CommentsListActivity extends ListActivity
     		break;
     	case R.id.op_femdom_menu_id:
 			Intent intent = new Intent(getApplicationContext(), ThreadsListActivity.class);
-			intent.setData(Util.createfemdomUri(mfemdom));
+			intent.setData(Util.createfemdomUri(mFemdom));
 			intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
 			startActivity(intent);
 			Util.overridePendingTransition(mActivity_overridePendingTransition, this,
@@ -1358,7 +1358,7 @@ public class CommentsListActivity extends ListActivity
     		break;
     	case R.id.open_browser_menu_id:
     		String url = new StringBuilder(Constants.FEMPIRE_BASE_URL + "/r/")
-				.append(mfemdom).append("/comments/").append(mThreadId).toString();
+				.append(mFemdom).append("/comments/").append(mThreadId).toString();
     		Common.launchBrowser(this, url, url, false, true, true, false);
     		break;
     	case R.id.op_delete_menu_id:
@@ -1512,7 +1512,7 @@ public class CommentsListActivity extends ListActivity
             String linkId = saveCommentThing.getLink_id();
             String commentId = saveCommentThing.getId();
 
-            sdb.addSavedContent(new SavedContent(user, author, body, linkId, commentId, mfemdom));
+            sdb.addSavedContent(new SavedContent(user, author, body, linkId, commentId, mFemdom));
             Toast.makeText(CommentsListActivity.this, "Comment saved", Toast.LENGTH_LONG).show();
     	    return true;
     	    
@@ -1523,7 +1523,7 @@ public class CommentsListActivity extends ListActivity
             linkId = saveCommentThing.getLink_id();
             commentId = saveCommentThing.getId();
             
-            sdb.deleteSavedContent(new SavedContent(user, author, body, linkId, commentId, mfemdom));
+            sdb.deleteSavedContent(new SavedContent(user, author, body, linkId, commentId, mFemdom));
             Toast.makeText(CommentsListActivity.this, "Comment unsaved", Toast.LENGTH_LONG).show();
             return true;
     	
@@ -2218,7 +2218,7 @@ public class CommentsListActivity extends ListActivity
     	state.putString(Constants.REPORT_TARGET_NAME_KEY, mReportTargetName);
     	state.putString(Constants.EDIT_TARGET_BODY_KEY, mEditTargetBody);
     	state.putString(Constants.DELETE_TARGET_KIND_KEY, mDeleteTargetKind);
-    	state.putString(Constants.FEMDOM_KEY, mfemdom);
+    	state.putString(Constants.FEMDOM_KEY, mFemdom);
     	state.putString(Constants.THREAD_ID_KEY, mThreadId);
     	state.putString(Constants.THREAD_TITLE_KEY, mThreadTitle);
     	state.putParcelable(Constants.VOTE_TARGET_THING_INFO_KEY, mVoteTargetThing);

@@ -78,14 +78,14 @@ public class Constants {
     
     // --- Intent extras ---
     // Tell PickFemdomActivity to hide the fake femdoms string
-    public static final String EXTRA_HIDE_FAKE_FEMDOMS_STRING = "hideFakefemdoms";
+    public static final String EXTRA_HIDE_FAKE_FEMDOMS_STRING = "hideFakeSubreddits";
     public static final String EXTRA_ID = "id";
     // Tell CommentsListActivity to jump to a comment context (a URL. pattern match)
     public static final String EXTRA_COMMENT_CONTEXT = "jumpToComment";
     // Tell CommentsListActivity to show "more children"
     public static final String EXTRA_MORE_CHILDREN_ID = "moreChildrenId";
     public static final String EXTRA_NUM_COMMENTS = "num_comments";
-    public static final String EXTRA_FEMDOM = "femdom";
+    public static final String EXTRA_FEMDOM = "subreddit";
     public static final String EXTRA_THREAD_URL = "thread_url";
     public static final String EXTRA_TITLE = "title";
     
@@ -153,7 +153,7 @@ public class Constants {
     public static final String FRONTPAGE_STRING = "thefempire.org front page";
     
     public static final String FEMPIRE_SEARCH_STRING = "search";
-    public static final String DEFAULT_Fempire_SEARCH = "misandry";
+    public static final String DEFAULT_FEMPIRE_SEARCH = "misandry";
     public static final String DEFAULT_SEARCH_SORT = "relevant";
     
     public static final String HAVE_MAIL_TICKER = "Fempire mail";
@@ -172,7 +172,7 @@ public class Constants {
     public static final String LAST_BEFORE_KEY = "last_before";
     public static final String REPORT_TARGET_NAME_KEY = "report_target_name";
     public static final String REPLY_TARGET_NAME_KEY = "reply_target_name";
-    public static final String FEMDOM_KEY = "femdom";
+    public static final String FEMDOM_KEY = "subreddit";
     public static final String THREAD_COUNT_KEY = "thread_count";
     public static final String THREAD_ID_KEY = "thread_id";
     public static final String THREAD_LAST_COUNT_KEY = "last_thread_count";
@@ -278,7 +278,7 @@ public class Constants {
     public static final String JSON_NEW = "new";
     public static final String JSON_NUM_COMMENTS = "num_comments";
     public static final String JSON_TITLE = "title";
-    public static final String JSON_FEMDOM = "femdom";
+    public static final String JSON_FEMDOM = "subreddit";
 	public static final String JSON_REPLIES = "replies";
 	public static final String JSON_SELFTEXT = "selftext";
 	public static final String JSON_SELFTEXT_HTML = "selftext_html";

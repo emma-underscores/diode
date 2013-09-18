@@ -88,7 +88,7 @@
 
         <Preference
             android:title="@string/pref_title_filter"
-            android:key="Fempire_FILTERS"
+            android:key="FEMPIRE_FILTERS"
             />
 	</PreferenceCategory>
 	

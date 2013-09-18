@@ -65,7 +65,7 @@ public class DownloadCommentsTask extends AsyncTask<Integer, Long, Boolean>
     private ProcessCommentsTask mProcessCommentsTask;
     
     private CommentsListActivity mActivity;
-    private String mfemdom;
+    private String mFemdom;
     private String mThreadId;
     private String mThreadTitle;
     private FempireSettings mSettings;
@@ -107,7 +107,7 @@ public class DownloadCommentsTask extends AsyncTask<Integer, Long, Boolean>
 			HttpClient client
 	) {
 		attach(activity);
-		this.mfemdom = femdom;
+		this.mFemdom = femdom;
 		this.mThreadId = threadId;
 		this.mSettings = settings;
 		this.mClient = client;
@@ -138,8 +138,8 @@ public class DownloadCommentsTask extends AsyncTask<Integer, Long, Boolean>
 		HttpEntity entity = null;
         try {
         	StringBuilder sb = new StringBuilder(Constants.FEMPIRE_BASE_URL);
-    		if (mfemdom != null) {
-    			sb.append("/r/").append(mfemdom.trim());
+    		if (mFemdom != null) {
+    			sb.append("/r/").append(mFemdom.trim());
     		}
     		sb.append("/comments/")
         		.append(mThreadId)
@@ -338,7 +338,7 @@ public class DownloadCommentsTask extends AsyncTask<Integer, Long, Boolean>
 		// We might not have a title if we've intercepted a plain link to a thread.
 		mThreadTitle = data.getTitle();
 		mActivity.setThreadTitle(mThreadTitle);
-		mfemdom = data.getfemdom();
+		mFemdom = data.getfemdom();
 		mThreadId = data.getId();
 		
 		mOpThingInfo = data;
@@ -495,7 +495,7 @@ public class DownloadCommentsTask extends AsyncTask<Integer, Long, Boolean>
 			mActivity.getWindow().setFeatureInt(Window.FEATURE_PROGRESS, Window.PROGRESS_INDETERMINATE_ON);
 
 		if (mThreadTitle != null)
-			mActivity.setTitle(mThreadTitle + " : " + mfemdom);
+			mActivity.setTitle(mThreadTitle + " : " + mFemdom);
 	}
     
 	@Override
@@ -529,7 +529,7 @@ public class DownloadCommentsTask extends AsyncTask<Integer, Long, Boolean>
 
 			// Set title in android titlebar
 			if (mThreadTitle != null)
-				mActivity.setTitle(mThreadTitle + " : " + mfemdom);
+				mActivity.setTitle(mThreadTitle + " : " + mFemdom);
 		} else {
 			if (!isCancelled()) {
 				Common.showErrorToast("Error downloading comments. Please try again.", Toast.LENGTH_LONG, mActivity);

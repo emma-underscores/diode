@@ -128,9 +128,9 @@ public class SubmitLinkActivity extends TabActivity {
 			public void onTabChanged(String tabId) {
 				// Copy everything (except url and text) from old tab to new tab
 				final EditText submitLinkTitle = (EditText) findViewById(R.id.submit_link_title);
-				final EditText submitLinkFempire = (EditText) findViewById(R.id.submit_link_Fempire);
+				final EditText submitLinkFempire = (EditText) findViewById(R.id.submit_link_femdom);
 	        	final EditText submitTextTitle = (EditText) findViewById(R.id.submit_text_title);
-	        	final EditText submitTextFempire = (EditText) findViewById(R.id.submit_text_Fempire);
+	        	final EditText submitTextFempire = (EditText) findViewById(R.id.submit_text_fempire);
 				if (Constants.TAB_LINK.equals(tabId)) {
 					submitLinkTitle.setText(submitTextTitle.getText());
 					submitLinkFempire.setText(submitTextFempire.getText());
@@ -194,9 +194,9 @@ public class SubmitLinkActivity extends TabActivity {
                         String url = bestUri.toString();
                         String title = titleBuilder.toString();
 	        	final EditText submitLinkUrl = (EditText) findViewById(R.id.submit_link_url);
-	        	final EditText submitLinkFempire = (EditText) findViewById(R.id.submit_link_Fempire);
+	        	final EditText submitLinkFempire = (EditText) findViewById(R.id.submit_link_femdom);
 			final EditText submitLinkTitle = (EditText) findViewById(R.id.submit_link_title);
-	        	final EditText submitTextFempire = (EditText) findViewById(R.id.submit_text_Fempire);
+	        	final EditText submitTextFempire = (EditText) findViewById(R.id.submit_text_fempire);
 	        	submitLinkUrl.setText(url);
 	        	submitLinkFempire.setText("");
         		submitTextFempire.setText("");
@@ -215,8 +215,8 @@ public class SubmitLinkActivity extends TabActivity {
         	mSubmitUrl = Util.absolutePathToURL(submitPath);
         	
         	// Put the femdom in the text field
-        	final EditText submitLinkFempire = (EditText) findViewById(R.id.submit_link_Fempire);
-        	final EditText submitTextFempire = (EditText) findViewById(R.id.submit_text_Fempire);
+        	final EditText submitLinkFempire = (EditText) findViewById(R.id.submit_link_femdom);
+        	final EditText submitTextFempire = (EditText) findViewById(R.id.submit_text_fempire);
         	Matcher m = SUBMIT_PATH_PATTERN.matcher(submitPath);
         	if (m.matches()) {
         		String femdom = m.group(1);
@@ -236,7 +236,7 @@ public class SubmitLinkActivity extends TabActivity {
         		if (validateLinkForm()) {
 	        		final EditText submitLinkTitle = (EditText) findViewById(R.id.submit_link_title);
 	        		final EditText submitLinkUrl = (EditText) findViewById(R.id.submit_link_url);
-	        		final EditText submitLinkFempire = (EditText) findViewById(R.id.submit_link_Fempire);
+	        		final EditText submitLinkFempire = (EditText) findViewById(R.id.submit_link_femdom);
 	        		final EditText submitLinkCaptcha = (EditText) findViewById(R.id.submit_link_captcha);
 	        		new SubmitLinkTask(submitLinkTitle.getText().toString(),
 	        				submitLinkUrl.getText().toString(),
@@ -252,7 +252,7 @@ public class SubmitLinkActivity extends TabActivity {
         		if (validateTextForm()) {
 	        		final EditText submitTextTitle = (EditText) findViewById(R.id.submit_text_title);
 	        		final EditText submitTextText = (EditText) findViewById(R.id.submit_text_text);
-	        		final EditText submitTextFempire = (EditText) findViewById(R.id.submit_text_Fempire);
+	        		final EditText submitTextFempire = (EditText) findViewById(R.id.submit_text_fempire);
 	        		final EditText submitTextCaptcha = (EditText) findViewById(R.id.submit_text_captcha);
 	        		new SubmitLinkTask(submitTextTitle.getText().toString(),
 	        				submitTextText.getText().toString(),
@@ -304,13 +304,13 @@ public class SubmitLinkActivity extends TabActivity {
     
 
 	private class SubmitLinkTask extends AsyncTask<Void, Void, ThingInfo> {
-    	String _mTitle, _mUrlOrText, _mfemdom, _mKind, _mCaptcha;
+    	String _mTitle, _mUrlOrText, _mFemdom, _mKind, _mCaptcha;
 		String _mUserError = "Error creating submission. Please try again.";
     	
     	SubmitLinkTask(String title, String urlOrText, String femdom, String kind, String captcha) {
     		_mTitle = title;
     		_mUrlOrText = urlOrText;
-    		_mfemdom = femdom;
+    		_mFemdom = femdom;
     		_mKind = kind;
     		_mCaptcha = captcha;
     	}
@@ -340,8 +340,8 @@ public class SubmitLinkActivity extends TabActivity {
         	try {
         		// Construct data
     			List<NameValuePair> nvps = new ArrayList<NameValuePair>();
-    			nvps.add(new BasicNameValuePair("sr", _mfemdom.toString()));
-    			nvps.add(new BasicNameValuePair("r", _mfemdom.toString()));
+    			nvps.add(new BasicNameValuePair("sr", _mFemdom.toString()));
+    			nvps.add(new BasicNameValuePair("r", _mFemdom.toString()));
     			nvps.add(new BasicNameValuePair("title", _mTitle.toString()));
     			nvps.add(new BasicNameValuePair("kind", _mKind.toString()));
     			// Put a url or selftext based on the kind of submission
@@ -390,11 +390,11 @@ public class SubmitLinkActivity extends TabActivity {
             	}
             	if (line.contains("femdom_NOEXIST")) {
             		_mUserError = "That femdom does not exist.";
-            		throw new Exception("femdom_NOEXIST: " + _mfemdom);
+            		throw new Exception("femdom_NOEXIST: " + _mFemdom);
             	}
             	if (line.contains("femdom_NOTALLOWED")) {
             		_mUserError = "You are not allowed to post to that femdom.";
-            		throw new Exception("femdom_NOTALLOWED: " + _mfemdom);
+            		throw new Exception("femdom_NOTALLOWED: " + _mFemdom);
             	}
             	
             	if (Constants.LOGGING) Common.logDLong(TAG, line);
@@ -612,7 +612,7 @@ public class SubmitLinkActivity extends TabActivity {
 	private boolean validateLinkForm() {
 		final EditText titleText = (EditText) findViewById(R.id.submit_link_title);
 		final EditText urlText = (EditText) findViewById(R.id.submit_link_url);
-		final EditText FempireText = (EditText) findViewById(R.id.submit_link_Fempire);
+		final EditText femdomText = (EditText) findViewById(R.id.submit_link_femdom);
 		if (StringUtils.isEmpty(titleText.getText())) {
 			Common.showErrorToast("Please provide a title.", Toast.LENGTH_LONG, this);
 			return false;
@@ -621,7 +621,7 @@ public class SubmitLinkActivity extends TabActivity {
 			Common.showErrorToast("Please provide a URL.", Toast.LENGTH_LONG, this);
 			return false;
 		}
-		if (StringUtils.isEmpty(FempireText.getText())) {
+		if (StringUtils.isEmpty(femdomText.getText())) {
 			Common.showErrorToast("Please provide a femdom.", Toast.LENGTH_LONG, this);
 			return false;
 		}
@@ -629,7 +629,7 @@ public class SubmitLinkActivity extends TabActivity {
 	}
 	private boolean validateTextForm() {
 		final EditText titleText = (EditText) findViewById(R.id.submit_text_title);
-		final EditText FempireText = (EditText) findViewById(R.id.submit_text_Fempire);
+		final EditText FempireText = (EditText) findViewById(R.id.submit_text_fempire);
 		if (StringUtils.isEmpty(titleText.getText())) {
 			Common.showErrorToast("Please provide a title.", Toast.LENGTH_LONG, this);
 			return false;
@@ -693,12 +693,12 @@ public class SubmitLinkActivity extends TabActivity {
     	case Constants.ACTIVITY_PICK_FEMDOM:
     		if (resultCode == Activity.RESULT_OK) {
     		    // Group 1: femdom.
-    		    final Pattern Fempire_PATH_PATTERN = Pattern.compile(Constants.FEMDOM_PATH_PATTERN_STRING);
-    			Matcher FempireContextMatcher = Fempire_PATH_PATTERN.matcher(intent.getData().getPath());
+    		    final Pattern FEMDOM_PATH_PATTERN = Pattern.compile(Constants.FEMDOM_PATH_PATTERN_STRING);
+    			Matcher FempireContextMatcher = FEMDOM_PATH_PATTERN.matcher(intent.getData().getPath());
     			if (FempireContextMatcher.find()) {
     				String newfemdom = FempireContextMatcher.group(1);
-    				final EditText linkfemdom = (EditText) findViewById(R.id.submit_link_Fempire);
-	    			final EditText textfemdom = (EditText) findViewById(R.id.submit_text_Fempire);
+    				final EditText linkfemdom = (EditText) findViewById(R.id.submit_link_femdom);
+	    			final EditText textfemdom = (EditText) findViewById(R.id.submit_text_fempire);
 	    			if (newfemdom != null) {
 	    				linkfemdom.setText(newfemdom);
 		    			textfemdom.setText(newfemdom);

@@ -34,7 +34,7 @@
         <item>new</item>
         <item>top</item>
     </string-array>
-    <string name="search_tips_text">Fempire:\'{name}\' find things posted in {name} only
+    <string name="search_tips_text">reddit:\'{name}\' find things posted in {name} only
         							author:\'{username}\' return things submitted by {username} only
 									site:\'{domain}\' get links to pages on {domain} only
 									url:\'{text}\' search for {text} in url
@@ -113,7 +113,7 @@
 	<string name="submit_title_label">title</string>
 	<string name="submit_url_label">url</string>
 	<string name="submit_text_label">text (optional)</string>
-	<string name="submit_Fempire_label">the fempire</string>
+	<string name="submit_femdom_label">femdom</string>
 	<string name="submit_captcha_label">are you human? (sorry)</string>
 	<string name="submit_captcha_loading">loading CAPTCHA…</string>
 	<string name="submit_button">submit</string>

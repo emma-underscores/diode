@@ -186,9 +186,9 @@ public class Common {
     public static void setTextColorFromTheme(int theme, Resources resources, TextView... textViews) {
     	int color;
     	if (Util.isLightTheme(theme))
-    		color = resources.getColor(R.color.Fempire_light_dialog_text_color);
+    		color = resources.getColor(R.color.fempire_light_dialog_text_color);
     	else
-    		color = resources.getColor(R.color.Fempire_dark_dialog_text_color);
+    		color = resources.getColor(R.color.fempire_dark_dialog_text_color);
     	for (TextView textView : textViews)
     		textView.setTextColor(color);
     }
@@ -196,7 +196,7 @@ public class Common {
     
 	
     static void clearCookies(FempireSettings settings, HttpClient client, Context context) {
-        settings.setfemdomsessionCookie(null);
+        settings.setfempireSessionCookie(null);
 
         FempireAppHttpClientFactory.getCookieStore().clear();
         CookieSyncManager.getInstance().sync();
@@ -453,7 +453,7 @@ public class Common {
 		    	}
 		    	matcher = FEMPIRE_LINK.matcher(path);
 		    	if (matcher.matches()) {
-	    			CacheInfo.invalidateCachedfemdom(context);
+	    			CacheInfo.invalidateCachedFemdom(context);
 	    			Intent intent = new Intent(context, ThreadsListActivity.class);
 	    			intent.setData(uri);
 	    			if (requireNewTask)
@@ -470,10 +470,10 @@ public class Common {
 	    			context.startActivity(intent);
 	    			return;
 		    	}
-	    	} else if (Util.isfemdomshortenedUri(uri)) {
+	    	} else if (Util.isFemdomShortenedUri(uri)) {
 	    		String path = uri.getPath();
 	    		if (path.equals("") || path.equals("/")) {
-	    			CacheInfo.invalidateCachedfemdom(context);
+	    			CacheInfo.invalidateCachedFemdom(context);
 	    			Intent intent = new Intent(context, ThreadsListActivity.class);
 	    			intent.setData(uri);
 	    			if (requireNewTask)
@@ -563,10 +563,10 @@ public class Common {
 		}
 	} 
     
-    public static String getfemdomId(String mfemdom){
+    public static String getfemdomId(String mFemdom){
     	String femdom_id = null;
     	JsonNode FemdomInfo = 
-    	RestJsonClient.connect(Constants.FEMPIRE_BASE_URL + "/r/" + mfemdom + "/.json?count=1");
+    	RestJsonClient.connect(Constants.FEMPIRE_BASE_URL + "/r/" + mFemdom + "/.json?count=1");
     	    	
     	if(FemdomInfo != null){
     		ArrayNode children = (ArrayNode) FemdomInfo.path("data").path("children");

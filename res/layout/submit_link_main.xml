@@ -66,12 +66,12 @@
 		            	android:inputType="textUri"
 		            	/>
 	            	<TextView
-	            		android:text="@string/submit_Fempire_label"
+	            		android:text="@string/submit_femdom_label"
 		                android:layout_width="wrap_content"
 		                android:layout_height="wrap_content"
 		                android:padding="4dip"
 		                />
-		            <EditText android:id="@+id/submit_link_Fempire"
+		            <EditText android:id="@+id/submit_link_femdom"
 		            	android:layout_width="fill_parent"
 		            	android:layout_height="wrap_content"
 		            	android:singleLine="true"
@@ -151,12 +151,12 @@
 		            	android:textAppearance="?android:attr/textAppearanceSmall"
 		            	/>
 	            	<TextView
-	            		android:text="@string/submit_Fempire_label"
+	            		android:text="@string/submit_femdom_label"
 		                android:layout_width="wrap_content"
 		                android:layout_height="wrap_content"
 		                android:padding="4dip"
 		                />
-		            <EditText android:id="@+id/submit_text_Fempire"
+		            <EditText android:id="@+id/submit_text_fempire"
 		            	android:layout_width="fill_parent"
 		            	android:layout_height="wrap_content"
 		            	android:singleLine="true"

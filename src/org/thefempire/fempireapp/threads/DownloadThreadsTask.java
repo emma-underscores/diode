@@ -46,7 +46,7 @@ public abstract class DownloadThreadsTask extends AsyncTask<Void, Long, Boolean>
 	protected final HttpClient mClient;
 	private ObjectMapper mOm;
 	
-	protected String mfemdom;
+	protected String mFemdom;
 	protected String mSortByUrl = Constants.ThreadsSort.SORT_BY_HOT_URL;
 	protected String mSortByUrlExtra = "";
 	protected String mAfter;
@@ -96,9 +96,9 @@ public abstract class DownloadThreadsTask extends AsyncTask<Void, Long, Boolean>
 		mSortByUrl = sortByUrl;
 		mSortByUrlExtra = sortByUrlExtra;
 		if (femdom != null)
-			mfemdom = femdom;
+			mFemdom = femdom;
 		else
-			mfemdom = Constants.FRONTPAGE_STRING;
+			mFemdom = Constants.FRONTPAGE_STRING;
 
 		mAfter = after;
 		mBefore = before;
@@ -116,18 +116,18 @@ public abstract class DownloadThreadsTask extends AsyncTask<Void, Long, Boolean>
     		// If refreshing or something, use the previously used URL to get the threads.
     		// Picking a new femdom will erase the saved URL, getting rid of after= and before=.
     		// femdom.length != 0 means you are going Next or Prev, which creates new URL.
-			if (Constants.FRONTPAGE_STRING.equals(mfemdom)) {
+			if (Constants.FRONTPAGE_STRING.equals(mFemdom)) {
     			sb = new StringBuilder(Constants.FEMPIRE_BASE_URL + "/").append(mSortByUrl)
     				.append(".json?").append(mSortByUrlExtra).append("&");
     		} 
 			//prepare a search query
-			else if(Constants.FEMPIRE_SEARCH_STRING.equals(mfemdom)){
+			else if(Constants.FEMPIRE_SEARCH_STRING.equals(mFemdom)){
 				sb = new StringBuilder(Constants.FEMPIRE_BASE_URL + "/search/").append(".json?q=")
 					.append(URLEncoder.encode(mSearchQuery, "utf8")).append("&sort=" + mSortSearch);
 			}
 			else {
     			sb = new StringBuilder(Constants.FEMPIRE_BASE_URL + "/r/")
-        			.append(mfemdom.toString().trim())
+        			.append(mFemdom.toString().trim())
         			.append("/").append(mSortByUrl).append(".json?")
         			.append(mSortByUrlExtra).append("&");
     		}
@@ -159,7 +159,7 @@ public abstract class DownloadThreadsTask extends AsyncTask<Void, Long, Boolean>
     		if (Constants.USE_THREADS_CACHE) {
     			try {
 	    			if (CacheInfo.checkFreshfemdomCache(mContext)
-	    					&& url.equals(CacheInfo.getCachedfemdomUrl(mContext))) {
+	    					&& url.equals(CacheInfo.getCachedFemdomUrl(mContext))) {
 	    				in = mContext.openFileInput(Constants.FILENAME_FEMDOM_CACHE);
 	    				mContentLength = mContext.getFileStreamPath(Constants.FILENAME_FEMDOM_CACHE).length();
 	    				currentlyUsingCache = true;

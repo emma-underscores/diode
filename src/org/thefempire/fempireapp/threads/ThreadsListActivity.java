@@ -138,7 +138,7 @@ public final class ThreadsListActivity extends ListActivity {
     private final Object mCurrentShowThumbnailsTaskLock = new Object();
     
     // Navigation that can be cached
-    private String mfemdom = Constants.FRONTPAGE_STRING;
+    private String mFemdom = Constants.FRONTPAGE_STRING;
     // The after, before, and count to navigate away from current page of results
     private String mAfter = null;
     private String mBefore = null;
@@ -182,9 +182,9 @@ public final class ThreadsListActivity extends ListActivity {
     	
 		if (savedInstanceState != null) {
         	if (Constants.LOGGING) Log.d(TAG, "using savedInstanceState");
-			mfemdom = savedInstanceState.getString(Constants.FEMDOM_KEY);
-	        if (mfemdom == null)
-	        	mfemdom = mSettings.getHomepage();
+			mFemdom = savedInstanceState.getString(Constants.FEMDOM_KEY);
+	        if (mFemdom == null)
+	        	mFemdom = mSettings.getHomepage();
 	        mAfter = savedInstanceState.getString(Constants.AFTER_KEY);
 	        mBefore = savedInstanceState.getString(Constants.BEFORE_KEY);
 	        mCount = savedInstanceState.getInt(Constants.THREAD_COUNT_KEY);
@@ -205,11 +205,11 @@ public final class ThreadsListActivity extends ListActivity {
 			    if (mObjectStates.mThreadsList == null) {
 		        	// Load previous view of threads
 			        if (mLastAfter != null) {
-			        	mObjectStates.mCurrentDownloadThreadsTask = new MyDownloadThreadsTask(mfemdom, mLastAfter, null, mLastCount);
+			        	mObjectStates.mCurrentDownloadThreadsTask = new MyDownloadThreadsTask(mFemdom, mLastAfter, null, mLastCount);
 			        } else if (mLastBefore != null) {
-			        	mObjectStates.mCurrentDownloadThreadsTask = new MyDownloadThreadsTask(mfemdom, null, mLastBefore, mLastCount);
+			        	mObjectStates.mCurrentDownloadThreadsTask = new MyDownloadThreadsTask(mFemdom, null, mLastBefore, mLastCount);
 			        } else {
-			        	mObjectStates.mCurrentDownloadThreadsTask = new MyDownloadThreadsTask(mfemdom);
+			        	mObjectStates.mCurrentDownloadThreadsTask = new MyDownloadThreadsTask(mFemdom);
 			        }
 			        mObjectStates.mCurrentDownloadThreadsTask.execute();
 			    }
@@ -220,14 +220,14 @@ public final class ThreadsListActivity extends ListActivity {
 	        	else {
 		    	// Orientation change. Use prior instance.
 		    	resetUI(new ThreadsListAdapter(this, mObjectStates.mThreadsList));
-		    	if (Constants.FRONTPAGE_STRING.equals(mfemdom)) {
+		    	if (Constants.FRONTPAGE_STRING.equals(mFemdom)) {
 		    		setTitle("thefempire.org: Feminism, You And Downvotes");
 		    	}
-		    	else if(Constants.FEMPIRE_SEARCH_STRING.equals(mfemdom)) {
+		    	else if(Constants.FEMPIRE_SEARCH_STRING.equals(mFemdom)) {
 		    		setTitle(getResources().getString(R.string.search_title_prefix) + mSearchQuery);
 		    	}
 		    	else {
-		    		setTitle("/r/" + mfemdom.trim());
+		    		setTitle("/r/" + mFemdom.trim());
 		    	}
 		    	}
 		    	return;
@@ -794,7 +794,7 @@ public final class ThreadsListActivity extends ListActivity {
 		@Override
     	protected void saveState() {
 			mSettings.setModhash(mModhash);
-			ThreadsListActivity.this.mfemdom = mfemdom;
+			ThreadsListActivity.this.mFemdom = mFemdom;
 			ThreadsListActivity.this.mSearchQuery = mSearchQuery;
 			ThreadsListActivity.this.mLastAfter = mLastAfter;
 			ThreadsListActivity.this.mLastBefore = mLastBefore;
@@ -818,12 +818,12 @@ public final class ThreadsListActivity extends ListActivity {
     			getWindow().setFeatureInt(Window.FEATURE_PROGRESS, 0);
     		}
     		
-	    	if (Constants.FRONTPAGE_STRING.equals(mfemdom))
+	    	if (Constants.FRONTPAGE_STRING.equals(mFemdom))
 	    		setTitle("thefempire.org: Feminism, Downvotes, And You");
-	    	else if(Constants.FEMPIRE_SEARCH_STRING.equals(mfemdom))
+	    	else if(Constants.FEMPIRE_SEARCH_STRING.equals(mFemdom))
 	    		setTitle(getResources().getString(R.string.search_title_prefix) + mSearchQuery);
 	    	else
-	    		setTitle("/r/" + mfemdom.trim());
+	    		setTitle("/r/" + mFemdom.trim());
     	}
     	
     	@Override
@@ -912,7 +912,7 @@ public final class ThreadsListActivity extends ListActivity {
     			// Check mail
     			new PeekEnvelopeTask(getApplicationContext(), mClient, mSettings.getMailNotificationStyle()).execute();
     			// Refresh the threads list
-    			mObjectStates.mCurrentDownloadThreadsTask = new MyDownloadThreadsTask(mfemdom);
+    			mObjectStates.mCurrentDownloadThreadsTask = new MyDownloadThreadsTask(mFemdom);
     			mObjectStates.mCurrentDownloadThreadsTask.execute();
         	} else {
             	Common.showErrorToast(mUserError, Toast.LENGTH_LONG, ThreadsListActivity.this);
@@ -991,7 +991,7 @@ public final class ThreadsListActivity extends ListActivity {
     	@Override
     	public void onPostExecute(Boolean success) {
     		if (success) {
-    			CacheInfo.invalidateCachedfemdom(_mContext);
+    			CacheInfo.invalidateCachedFemdom(_mContext);
     		} else {
     			// Vote failed. Undo the score.
             	_mTargetThingInfo.setLikes(_mPreviousLikes);
@@ -1138,12 +1138,12 @@ public final class ThreadsListActivity extends ListActivity {
     	if (mSettings.isLoggedIn()) {
     		menu.findItem(R.id.login_menu_id).setVisible(false);
 
-    		if(!mfemdom.equals(Constants.FRONTPAGE_STRING)){
-    			ArrayList<FemdomInfo> mfemdomsList = CacheInfo.getCachedfemdomList(getApplicationContext());	
+    		if(!mFemdom.equals(Constants.FRONTPAGE_STRING)){
+    			ArrayList<FemdomInfo> mFemdomsList = CacheInfo.getCachedFemdomList(getApplicationContext());	
                         FemdomInfo key = new FemdomInfo();
-                        key.name = mfemdom;
+                        key.name = mFemdom;
     			
-    			if(mfemdomsList != null && mfemdomsList.contains(key)){
+    			if(mFemdomsList != null && mFemdomsList.contains(key)){
 	    			menu.findItem(R.id.unsubscribe_menu_id).setVisible(true);
 	    			menu.findItem(R.id.subscribe_menu_id).setVisible(false);
 	    		}
@@ -1236,13 +1236,13 @@ public final class ThreadsListActivity extends ListActivity {
 			}
 			break;
     	case R.id.refresh_menu_id:
-    		CacheInfo.invalidateCachedfemdom(getApplicationContext());
-    		mObjectStates.mCurrentDownloadThreadsTask = new MyDownloadThreadsTask(mfemdom);
+    		CacheInfo.invalidateCachedFemdom(getApplicationContext());
+    		mObjectStates.mCurrentDownloadThreadsTask = new MyDownloadThreadsTask(mFemdom);
     		mObjectStates.mCurrentDownloadThreadsTask.execute();
     		break;
     	case R.id.submit_link_menu_id:
     		Intent submitLinkIntent = new Intent(getApplicationContext(), SubmitLinkActivity.class);
-    		submitLinkIntent.setData(Util.createSubmitUri(mfemdom));
+    		submitLinkIntent.setData(Util.createSubmitUri(mFemdom));
     		startActivity(submitLinkIntent);
     		break;
     	case R.id.sort_by_menu_id:
@@ -1250,10 +1250,10 @@ public final class ThreadsListActivity extends ListActivity {
     		break;
     	case R.id.open_browser_menu_id:
     		String url;
-    		if (mfemdom.equals(Constants.FRONTPAGE_STRING))
+    		if (mFemdom.equals(Constants.FRONTPAGE_STRING))
     			url = Constants.FEMPIRE_BASE_URL;
     		else
-        		url = new StringBuilder(Constants.FEMPIRE_BASE_URL + "/r/").append(mfemdom).toString();
+        		url = new StringBuilder(Constants.FEMPIRE_BASE_URL + "/r/").append(mFemdom).toString();
     		Common.launchBrowser(this, url, null, false, true, true, false);
     		break;
         case R.id.light_dark_menu_id:
@@ -1273,12 +1273,12 @@ public final class ThreadsListActivity extends ListActivity {
             startActivity(prefsIntent);
             break;
     	case R.id.subscribe_menu_id:
-    		CacheInfo.invalidateCachedfemdom(getApplicationContext());
-    		new SubscribeTask(mfemdom, getApplicationContext(), mSettings).execute();
+    		CacheInfo.invalidateCachedFemdom(getApplicationContext());
+    		new SubscribeTask(mFemdom, getApplicationContext(), mSettings).execute();
     		break;
     	case R.id.unsubscribe_menu_id:
-    		CacheInfo.invalidateCachedfemdom(getApplicationContext());
-    		new UnsubscribeTask(mfemdom, getApplicationContext(), mSettings).execute();
+    		CacheInfo.invalidateCachedFemdom(getApplicationContext());
+    		new UnsubscribeTask(mFemdom, getApplicationContext(), mSettings).execute();
     		break;
     	case android.R.id.home:
     		Common.goHome(this);
@@ -1302,7 +1302,7 @@ public final class ThreadsListActivity extends ListActivity {
 		Common.doLogout(mSettings, mClient, getApplicationContext());
 		Toast.makeText(this, "You have been logged out.", Toast.LENGTH_SHORT)
 				.show();
-		mObjectStates.mCurrentDownloadThreadsTask = new MyDownloadThreadsTask(mfemdom);
+		mObjectStates.mCurrentDownloadThreadsTask = new MyDownloadThreadsTask(mFemdom);
 		mObjectStates.mCurrentDownloadThreadsTask.execute();
 	}
 
@@ -1444,12 +1444,12 @@ public final class ThreadsListActivity extends ListActivity {
 
 	private final OnClickListener downloadAfterOnClickListener = new OnClickListener() {
 		public void onClick(View v) {
-			new MyDownloadThreadsTask(mfemdom, mAfter, null, mCount).execute();
+			new MyDownloadThreadsTask(mFemdom, mAfter, null, mCount).execute();
 		}
 	};
 	private final OnClickListener downloadBeforeOnClickListener = new OnClickListener() {
 		public void onClick(View v) {
-			mObjectStates.mCurrentDownloadThreadsTask = new MyDownloadThreadsTask(mfemdom, null, mBefore, mCount);
+			mObjectStates.mCurrentDownloadThreadsTask = new MyDownloadThreadsTask(mFemdom, null, mBefore, mCount);
 			mObjectStates.mCurrentDownloadThreadsTask.execute();
 		}
 	};
@@ -1462,7 +1462,7 @@ public final class ThreadsListActivity extends ListActivity {
 			if (Constants.ThreadsSort.SORT_BY_HOT.equals(itemString)) {
 				mSortByUrl = Constants.ThreadsSort.SORT_BY_HOT_URL;
 				mSortByUrlExtra = "";
-				mObjectStates.mCurrentDownloadThreadsTask = new MyDownloadThreadsTask(mfemdom);
+				mObjectStates.mCurrentDownloadThreadsTask = new MyDownloadThreadsTask(mFemdom);
 				mObjectStates.mCurrentDownloadThreadsTask.execute();
 			} else if (Constants.ThreadsSort.SORT_BY_NEW.equals(itemString)) {
 				showDialog(Constants.DIALOG_SORT_BY_NEW);
@@ -1478,7 +1478,7 @@ public final class ThreadsListActivity extends ListActivity {
 			dialog.dismiss();
 			mSortByUrl = Constants.ThreadsSort.SORT_BY_NEW_URL;
 			mSortByUrlExtra = Constants.ThreadsSort.SORT_BY_NEW_URL_CHOICES[item];
-			mObjectStates.mCurrentDownloadThreadsTask = new MyDownloadThreadsTask(mfemdom);
+			mObjectStates.mCurrentDownloadThreadsTask = new MyDownloadThreadsTask(mFemdom);
 			mObjectStates.mCurrentDownloadThreadsTask.execute();
 		}
 	};
@@ -1487,7 +1487,7 @@ public final class ThreadsListActivity extends ListActivity {
 			dialog.dismiss();
 			mSortByUrl = Constants.ThreadsSort.SORT_BY_CONTROVERSIAL_URL;
 			mSortByUrlExtra = Constants.ThreadsSort.SORT_BY_CONTROVERSIAL_URL_CHOICES[item];
-			mObjectStates.mCurrentDownloadThreadsTask = new MyDownloadThreadsTask(mfemdom);
+			mObjectStates.mCurrentDownloadThreadsTask = new MyDownloadThreadsTask(mFemdom);
 			mObjectStates.mCurrentDownloadThreadsTask.execute();
 		}
 	};
@@ -1496,7 +1496,7 @@ public final class ThreadsListActivity extends ListActivity {
 			dialog.dismiss();
 			mSortByUrl = Constants.ThreadsSort.SORT_BY_TOP_URL;
 			mSortByUrlExtra = Constants.ThreadsSort.SORT_BY_TOP_URL_CHOICES[item];
-			mObjectStates.mCurrentDownloadThreadsTask = new MyDownloadThreadsTask(mfemdom);
+			mObjectStates.mCurrentDownloadThreadsTask = new MyDownloadThreadsTask(mFemdom);
 			mObjectStates.mCurrentDownloadThreadsTask.execute();
 		}
 	};
@@ -1600,7 +1600,7 @@ public final class ThreadsListActivity extends ListActivity {
 	@Override
     protected void onSaveInstanceState(Bundle state) {
     	super.onSaveInstanceState(state);
-    	state.putString(Constants.FEMDOM_KEY, mfemdom);
+    	state.putString(Constants.FEMDOM_KEY, mFemdom);
     	state.putString(Constants.QUERY_KEY, mSearchQuery);
     	state.putString(Constants.ThreadsSort.SORT_BY_KEY, mSortByUrl);
     	state.putString(Constants.JUMP_TO_THREAD_ID_KEY, mJumpToThreadId);

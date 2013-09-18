@@ -909,7 +909,7 @@ public final class ProfileActivity extends ListActivity
     	@Override
     	public void onPostExecute(Boolean success) {
     		if (success) {
-    			CacheInfo.invalidateCachedfemdom(_mContext);
+    			CacheInfo.invalidateCachedFemdom(_mContext);
     		} else {
     			// Vote failed. Undo the score.
             	_mTargetThingInfo.setLikes(_mPreviousLikes);

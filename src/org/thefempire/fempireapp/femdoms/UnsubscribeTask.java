@@ -31,7 +31,7 @@ import android.widget.Toast;
 public class UnsubscribeTask extends AsyncTask<Void, Void, Boolean> {
 	private static final String TAG = "Unsubscribe To femdom";
 
-	private String mfemdom;
+	private String mFemdom;
 	private String mUserError = "Error Unsubscribing.";
 	private String mUrl;
 	private FempireSettings mSettings;
@@ -39,12 +39,12 @@ public class UnsubscribeTask extends AsyncTask<Void, Void, Boolean> {
 	
 	private final HttpClient mClient = FempireAppHttpClientFactory.getGzipHttpClient();
 
-	public UnsubscribeTask(String mfemdom, Context context, FempireSettings mSettings) {
+	public UnsubscribeTask(String mFemdom, Context context, FempireSettings mSettings) {
 		// TODO Auto-generated constructor stub
 		this.mUrl = Constants.FEMPIRE_BASE_URL + "/api/subscribe";
 		this.mContext = context;
 		this.mSettings = mSettings;
-		this.mfemdom = mfemdom;
+		this.mFemdom = mFemdom;
 	}
 
 	
@@ -74,8 +74,8 @@ public class UnsubscribeTask extends AsyncTask<Void, Void, Boolean> {
 		// Construct data
 		List<NameValuePair> nvps = new ArrayList<NameValuePair>();
 		nvps.add(new BasicNameValuePair("action", "unsub"));
-		nvps.add(new BasicNameValuePair("sr", Common.getfemdomId(mfemdom)));
-		nvps.add(new BasicNameValuePair("r", mfemdom));
+		nvps.add(new BasicNameValuePair("sr", Common.getfemdomId(mFemdom)));
+		nvps.add(new BasicNameValuePair("r", mFemdom));
 		nvps.add(new BasicNameValuePair("uh", mSettings.getModhash().toString()));
 		
 		try {
@@ -90,10 +90,10 @@ public class UnsubscribeTask extends AsyncTask<Void, Void, Boolean> {
         		throw new HttpException(mUrl);
         	}
         	
-			ArrayList<FemdomInfo> mfemdomsList = CacheInfo.getCachedfemdomList(mContext);	
-			mfemdomsList.remove(mfemdom.toLowerCase());
-			Collections.sort(mfemdomsList);
-			CacheInfo.setCachedfemdomList(mContext, mfemdomsList);
+			ArrayList<FemdomInfo> mFemdomsList = CacheInfo.getCachedFemdomList(mContext);	
+			mFemdomsList.remove(mFemdom.toLowerCase());
+			Collections.sort(mFemdomsList);
+			CacheInfo.setCachedfemdomList(mContext, mFemdomsList);
         	
         	entity = response.getEntity();
 

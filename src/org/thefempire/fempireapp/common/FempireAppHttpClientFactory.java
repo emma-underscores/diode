@@ -58,8 +58,10 @@ public class FempireAppHttpClientFactory {
 		        SchemeRegistry registry = new SchemeRegistry();
 		        registry.register(
 		                new Scheme("http", PlainSocketFactory.getSocketFactory(), 80));
-		        registry.register(
-		        		new Scheme("https", getHttpsSocketFactory(), 443));
+
+// * Disabled https until thefempire.org supports it *		        
+//		        registry.register(
+//		        		new Scheme("https", getHttpsSocketFactory(), 443));
 		        HttpParams params = getParams();
 				HttpConnectionParams.setConnectionTimeout(params, SOCKET_OPERATION_TIMEOUT);
 				HttpConnectionParams.setSoTimeout(params, SOCKET_OPERATION_TIMEOUT);

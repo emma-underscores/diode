@@ -53,7 +53,7 @@ public class FemdomSearchActivity extends Activity implements OnClickListener, O
 		intent.putExtra("searchurl", "search");
 		String query = searchText.getText().toString();
 		if(query == null){
-			query = Constants.DEFAULT_Fempire_SEARCH;
+			query = Constants.DEFAULT_FEMPIRE_SEARCH;
 		}
 		intent.putExtra("query", searchText.getText().toString());
 		intent.putExtra("sort", mSort);

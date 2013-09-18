@@ -23,7 +23,7 @@ import android.util.Log;
 public class VoteTask extends AsyncTask<Void, Void, Boolean> {
 	private static final String TAG = "VoteTask";
 	
-	protected String _mThingFullname, _mfemdom;
+	protected String _mThingFullname, _mFemdom;
 	protected int _mDirection;
 	protected String _mUserError = "Error voting.";
 	
@@ -38,7 +38,7 @@ public class VoteTask extends AsyncTask<Void, Void, Boolean> {
 		_mContext = context;
 		_mThingFullname = thingFullname;
 		_mDirection = direction;
-		_mfemdom = femdom;
+		_mFemdom = femdom;
 	}
 	
 	@Override
@@ -67,7 +67,7 @@ public class VoteTask extends AsyncTask<Void, Void, Boolean> {
 			List<NameValuePair> nvps = new ArrayList<NameValuePair>();
 			nvps.add(new BasicNameValuePair("id", _mThingFullname));
 			nvps.add(new BasicNameValuePair("dir", String.valueOf(_mDirection)));
-			nvps.add(new BasicNameValuePair("r", _mfemdom));
+			nvps.add(new BasicNameValuePair("r", _mFemdom));
 			nvps.add(new BasicNameValuePair("uh", _mSettings.getModhash()));
 			// Votehash is currently unused by Fempire 
 //				nvps.add(new BasicNameValuePair("vh", "0d4ab0ffd56ad0f66841c15609e9a45aeec6b015"));

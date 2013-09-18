@@ -50,7 +50,7 @@ public class FempireSettings {
 	private static final String TAG = "FempireSettings";
 	
 	private String username = null;
-	private Cookie femdomsessionCookie = null;
+	private Cookie fempireSessionCookie = null;
 	private String modhash = null;
 	private String homepage = Constants.FRONTPAGE_STRING;
 	private boolean useExternalBrowser = false;
@@ -123,12 +123,12 @@ public class FempireSettings {
     		editor.putString("username", this.username);
     	else
     		editor.remove("username");
-    	if (this.femdomsessionCookie != null) {
-    		editor.putString("Fempire_sessionValue",  this.femdomsessionCookie.getValue());
-    		editor.putString("Fempire_sessionDomain", this.femdomsessionCookie.getDomain());
-    		editor.putString("Fempire_sessionPath",   this.femdomsessionCookie.getPath());
-    		if (this.femdomsessionCookie.getExpiryDate() != null)
-    			editor.putLong("Fempire_sessionExpiryDate", this.femdomsessionCookie.getExpiryDate().getTime());
+    	if (this.fempireSessionCookie != null) {
+    		editor.putString("Fempire_sessionValue",  this.fempireSessionCookie.getValue());
+    		editor.putString("Fempire_sessionDomain", this.fempireSessionCookie.getDomain());
+    		editor.putString("Fempire_sessionPath",   this.fempireSessionCookie.getPath());
+    		if (this.fempireSessionCookie.getExpiryDate() != null)
+    			editor.putLong("Fempire_sessionExpiryDate", this.fempireSessionCookie.getExpiryDate().getTime());
     	}
     	if (this.modhash != null)
     		editor.putString("modhash", this.modhash.toString());
@@ -190,15 +190,15 @@ public class FempireSettings {
         String cookiePath = sessionPrefs.getString("Fempire_sessionPath", null);
         long cookieExpiryDate = sessionPrefs.getLong("Fempire_sessionExpiryDate", -1);
         if (cookieValue != null) {
-        	BasicClientCookie femdomsessionCookie = new BasicClientCookie("Fempire_session", cookieValue);
-        	femdomsessionCookie.setDomain(cookieDomain);
-        	femdomsessionCookie.setPath(cookiePath);
+        	BasicClientCookie fempireSessionCookie = new BasicClientCookie("Fempire_session", cookieValue);
+        	fempireSessionCookie.setDomain(cookieDomain);
+        	fempireSessionCookie.setPath(cookiePath);
         	if (cookieExpiryDate != -1)
-        		femdomsessionCookie.setExpiryDate(new Date(cookieExpiryDate));
+        		fempireSessionCookie.setExpiryDate(new Date(cookieExpiryDate));
         	else
-        		femdomsessionCookie.setExpiryDate(null);
-        	this.setfemdomsessionCookie(femdomsessionCookie);
-    		FempireAppHttpClientFactory.getCookieStore().addCookie(femdomsessionCookie);
+        		fempireSessionCookie.setExpiryDate(null);
+        	this.setfempireSessionCookie(fempireSessionCookie);
+    		FempireAppHttpClientFactory.getCookieStore().addCookie(fempireSessionCookie);
     		try {
     			CookieSyncManager.getInstance().sync();
     		} catch (IllegalStateException ex) {
@@ -283,12 +283,12 @@ public class FempireSettings {
 		this.username = username;
 	}
 
-	public Cookie getfemdomsessionCookie() {
-		return femdomsessionCookie;
+	public Cookie getfempireSessionCookie() {
+		return fempireSessionCookie;
 	}
 
-	public void setfemdomsessionCookie(Cookie femdomsessionCookie) {
-		this.femdomsessionCookie = femdomsessionCookie;
+	public void setfempireSessionCookie(Cookie fempireSessionCookie) {
+		this.fempireSessionCookie = fempireSessionCookie;
 	}
 
 	public String getModhash() {

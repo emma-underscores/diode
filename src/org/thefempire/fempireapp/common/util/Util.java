@@ -466,7 +466,7 @@ public class Util {
 		return host != null && (host.equals("Fempire.com") || host.endsWith(".Fempire.com"));
 	}
 	
-	public static boolean isfemdomshortenedUri(Uri uri) {
+	public static boolean isFemdomShortenedUri(Uri uri) {
 		if (uri == null) return false;
 		String host = uri.getHost();
 		return host != null && host.equals("redd.it");

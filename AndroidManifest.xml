@@ -64,7 +64,6 @@
                 <action android:name="android.intent.action.VIEW" />
                 <category android:name="android.intent.category.DEFAULT" />
                 <category android:name="android.intent.category.BROWSABLE" />
-                <data android:scheme="http" android:host="redd.it" android:pathPattern="/..*" />
             </intent-filter>
 	    </activity>
 	    <activity android:name=".femdoms.PickFemdomActivity"></activity>
@@ -103,8 +102,6 @@
                 <action android:name="android.intent.action.BOOT_COMPLETED" />
             </intent-filter>
         </receiver>
-        
-	    <meta-data android:name="com.google.android.backup.api_key" android:value="AEdPqrEAAAAIrd4RnBA8kUYJJVB22mBqXZPhyj0-SFigY4SqxA" />
 	    <activity android:name=".filters.FilterListActivity"></activity>
 	    <activity android:name=".filters.FilterEditActivity"></activity>
 	    <activity android:label="Saved Comments" android:name=".comments.SavedCommentsActivity"></activity>

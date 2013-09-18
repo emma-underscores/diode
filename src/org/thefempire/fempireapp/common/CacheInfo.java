@@ -92,9 +92,9 @@ public class CacheInfo implements Serializable {
 		return Math.abs(time - threadTime) <= Constants.DEFAULT_FRESH_DURATION;
     }
     
-    public static boolean checkFreshfemdomListCache(Context context) {
+    public static boolean checkFreshFemdomListCache(Context context) {
     	long time = System.currentTimeMillis();
-    	long femdomListTime = getCachedfemdomListTime(context);
+    	long femdomListTime = getCachedFemdomListTime(context);
     	return Math.abs(time - femdomListTime) <= Constants.DEFAULT_FRESH_FEMDOM_LIST_DURATION;
     }
     
@@ -110,7 +110,7 @@ public class CacheInfo implements Serializable {
     	return ci;
     }
     
-    public static String getCachedfemdomUrl(Context context) {
+    public static String getCachedFemdomUrl(Context context) {
     	try {
     		return getCacheInfo(context).femdomUrl;
     	} catch (Exception e) {
@@ -146,7 +146,7 @@ public class CacheInfo implements Serializable {
     	}
     }
     
-    public static ArrayList<FemdomInfo> getCachedfemdomList(Context context) {
+    public static ArrayList<FemdomInfo> getCachedFemdomList(Context context) {
     	try {
     		return getCacheInfo(context).femdomList;
     	} catch (Exception e) {
@@ -155,7 +155,7 @@ public class CacheInfo implements Serializable {
     	}
     }
     
-    static long getCachedfemdomListTime(Context context) {
+    static long getCachedFemdomListTime(Context context) {
     	try {
     		return getCacheInfo(context).femdomListTime;
     	} catch (Exception e) {
@@ -186,7 +186,7 @@ public class CacheInfo implements Serializable {
     
     @SuppressWarnings("unused")
 	public
-    static void invalidateCachedfemdom(Context context) {
+    static void invalidateCachedFemdom(Context context) {
     	if (!Constants.USE_THREADS_CACHE)
     		return;
     	

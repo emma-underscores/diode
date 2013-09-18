@@ -137,7 +137,7 @@ public class LoginTask extends AsyncTask<Void, Void, Boolean> {
 			List<Cookie> cookies = FempireAppHttpClientFactory.getCookieStore().getCookies();
         	for (Cookie c : cookies) {
         		if (c.getName().equals("fempire_session")) {
-        			settings.setfemdomsessionCookie(c);
+        			settings.setfempireSessionCookie(c);
         			break;
         		}
         	}
