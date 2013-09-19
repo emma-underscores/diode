@@ -432,7 +432,7 @@ public class Util {
 	}
 	
 	static Uri createSubmitUri(ThingInfo thingInfo) {
-		return createSubmitUri(thingInfo.getfemdom());
+		return createSubmitUri(thingInfo.getSubreddit());
 	}
 	
 	public static Uri createfemdomUri(String femdom) {
@@ -445,7 +445,7 @@ public class Util {
 	}
 	
 	static Uri createfemdomUri(ThingInfo thingInfo) {
-		return createfemdomUri(thingInfo.getfemdom());
+		return createfemdomUri(thingInfo.getSubreddit());
 	}
 	
 	static Uri createThreadUri(String femdom, String threadId) {
@@ -457,7 +457,7 @@ public class Util {
 	}
 	
 	public static Uri createThreadUri(ThingInfo threadThingInfo) {
-		return createThreadUri(threadThingInfo.getfemdom(), threadThingInfo.getId());
+		return createThreadUri(threadThingInfo.getSubreddit(), threadThingInfo.getId());
 	}
 	
 	public static boolean isFempireUri(Uri uri) {

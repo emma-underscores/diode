@@ -70,7 +70,7 @@ public class FempireFilterEngine
 		for(FemdomFilter f : m_filters)
 		{
 			// Check if the post is in the correct femdom
-			if(f.isEnabled() && t.getfemdom().equalsIgnoreCase(f.getfemdom())) 
+			if(f.isEnabled() && t.getSubreddit().equalsIgnoreCase(f.getSubreddit())) 
 			{
 				if(f.getPattern().matcher(t.getTitle()).find()) {
 					// We found a match! The post sohuld be filtered

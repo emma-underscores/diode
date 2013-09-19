@@ -326,7 +326,7 @@ public class SavedCommentsActivity extends Activity
                     
                     Intent i = new Intent(SavedCommentsActivity.this, CommentsListActivity.class);
                     i.setData(Util.createCommentUriNoContext(commentThing));
-                    i.putExtra(Constants.EXTRA_FEMDOM, currentSavedContent.getfemdom());
+                    i.putExtra(Constants.EXTRA_FEMDOM, currentSavedContent.getSubreddit());
                     startActivity(i);
                 }
                 

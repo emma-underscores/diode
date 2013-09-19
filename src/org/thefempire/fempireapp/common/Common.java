@@ -563,7 +563,7 @@ public class Common {
 		}
 	} 
     
-    public static String getfemdomId(String mFemdom){
+    public static String getSubredditId(String mFemdom){
     	String femdom_id = null;
     	JsonNode FemdomInfo = 
     	RestJsonClient.connect(Constants.FEMPIRE_BASE_URL + "/r/" + mFemdom + "/.json?count=1");

@@ -387,7 +387,7 @@ public final class InboxListActivity extends ListActivity
     	case Constants.DIALOG_COMMENT_CLICK:
 			Intent i = new Intent(getApplicationContext(), CommentsListActivity.class);
 			i.setData(Util.createCommentUri(mVoteTargetThingInfo, 0));
-			i.putExtra(Constants.EXTRA_FEMDOM, mVoteTargetThingInfo.getfemdom());
+			i.putExtra(Constants.EXTRA_FEMDOM, mVoteTargetThingInfo.getSubreddit());
 			i.putExtra(Constants.EXTRA_TITLE, mVoteTargetThingInfo.getTitle());
 			startActivity(i);
 			return true;

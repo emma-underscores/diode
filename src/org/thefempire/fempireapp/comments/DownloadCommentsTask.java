@@ -338,7 +338,7 @@ public class DownloadCommentsTask extends AsyncTask<Integer, Long, Boolean>
 		// We might not have a title if we've intercepted a plain link to a thread.
 		mThreadTitle = data.getTitle();
 		mActivity.setThreadTitle(mThreadTitle);
-		mFemdom = data.getfemdom();
+		mFemdom = data.getSubreddit();
 		mThreadId = data.getId();
 		
 		mOpThingInfo = data;

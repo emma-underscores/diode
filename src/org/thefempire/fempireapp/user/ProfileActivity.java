@@ -396,7 +396,7 @@ public final class ProfileActivity extends ListActivity
     	case Constants.DIALOG_COMMENT_CLICK:
 			i = new Intent(getApplicationContext(), CommentsListActivity.class);
 			i.setData(Util.createCommentUri(mVoteTargetThingInfo, 0));
-			i.putExtra(Constants.EXTRA_FEMDOM, mVoteTargetThingInfo.getfemdom());
+			i.putExtra(Constants.EXTRA_FEMDOM, mVoteTargetThingInfo.getSubreddit());
 			i.putExtra(Constants.EXTRA_TITLE, mVoteTargetThingInfo.getTitle());
 			startActivity(i);
 			return true;
@@ -405,7 +405,7 @@ public final class ProfileActivity extends ListActivity
 			CacheInfo.invalidateCachedThread(getApplicationContext());
 			i = new Intent(getApplicationContext(), CommentsListActivity.class);
 			i.setData(Util.createThreadUri(mVoteTargetThingInfo));
-			i.putExtra(Constants.EXTRA_FEMDOM, mVoteTargetThingInfo.getfemdom());
+			i.putExtra(Constants.EXTRA_FEMDOM, mVoteTargetThingInfo.getSubreddit());
 			i.putExtra(Constants.EXTRA_TITLE, mVoteTargetThingInfo.getTitle());
 			i.putExtra(Constants.EXTRA_NUM_COMMENTS, Integer.valueOf(mVoteTargetThingInfo.getNum_comments()));
 			startActivity(i);
@@ -1232,7 +1232,7 @@ public final class ProfileActivity extends ListActivity
 					CacheInfo.invalidateCachedThread(ProfileActivity.this);
 					Intent i = new Intent(ProfileActivity.this, CommentsListActivity.class);
 					i.setData(Util.createThreadUri(info));
-					i.putExtra(Constants.EXTRA_FEMDOM, info.getfemdom());
+					i.putExtra(Constants.EXTRA_FEMDOM, info.getSubreddit());
 					i.putExtra(Constants.EXTRA_TITLE, info.getTitle());
 					i.putExtra(Constants.EXTRA_NUM_COMMENTS, Integer.valueOf(info.getNum_comments()));
 					startActivity(i);
@@ -1246,9 +1246,9 @@ public final class ProfileActivity extends ListActivity
 		    	public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
 		    		removeDialog(Constants.DIALOG_THREAD_CLICK);
 			    	if (isChecked) {
-						new MyVoteTask(info, 1, info.getfemdom()).execute();
+						new MyVoteTask(info, 1, info.getSubreddit()).execute();
 					} else {
-						new MyVoteTask(info, 0, info.getfemdom()).execute();
+						new MyVoteTask(info, 0, info.getSubreddit()).execute();
 					}
 				}
 		    };
@@ -1260,9 +1260,9 @@ public final class ProfileActivity extends ListActivity
 		        public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
 			    	removeDialog(Constants.DIALOG_THREAD_CLICK);
 					if (isChecked) {
-						new MyVoteTask(info, -1, info.getfemdom()).execute();
+						new MyVoteTask(info, -1, info.getSubreddit()).execute();
 					} else {
-						new MyVoteTask(info, 0, info.getfemdom()).execute();
+						new MyVoteTask(info, 0, info.getSubreddit()).execute();
 					}
 				}
 		    };

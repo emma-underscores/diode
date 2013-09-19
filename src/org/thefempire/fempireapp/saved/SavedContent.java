@@ -88,7 +88,7 @@ public class SavedContent
         return commentId;
     }
     
-    public String getfemdom()
+    public String getSubreddit()
     {
         return femdom;
     }

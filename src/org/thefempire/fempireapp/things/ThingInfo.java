@@ -76,8 +76,8 @@ public class ThingInfo implements Serializable, Parcelable {
 	private String selftext;				// t
 	private String selftext_html;			// t
 	private String subject;					//     m
-	private String femdom;				// t c
-	private String femdom_id;			// t
+	private String subreddit;				// t c
+	private String subreddit_id;			// t
 	private String thumbnail;				// t
 	private String title;					// t
 	private int ups;						// t c
@@ -214,12 +214,12 @@ public class ThingInfo implements Serializable, Parcelable {
 		return subject;
 	}
 
-	public String getfemdom() {
-		return femdom;
+	public String getSubreddit() {
+		return subreddit;
 	}
 
-	public String getfemdom_id() {
-		return femdom_id;
+	public String getSemdom_id() {
+		return subreddit_id;
 	}
 
 	public String getThumbnail() {
@@ -443,12 +443,12 @@ public class ThingInfo implements Serializable, Parcelable {
 		this.subject = subject;
 	}
 
-	public void setfemdom(String femdom) {
-		this.femdom = femdom;
+	public void setSubreddit(String subreddit) {
+		this.subreddit = subreddit;
 	}
 
-	public void setfemdom_id(String femdom_id) {
-		this.femdom_id = femdom_id;
+	public void setSubreddit_id(String subreddit_id) {
+		this.subreddit_id = subreddit_id;
 	}
 
 	public void setThumbnail(String thumbnail) {
@@ -508,8 +508,8 @@ public class ThingInfo implements Serializable, Parcelable {
 		out.writeValue(selftext);
 		out.writeValue(selftext_html);
 		out.writeValue(subject);
-		out.writeValue(femdom);
-		out.writeValue(femdom_id);
+		out.writeValue(subreddit);
+		out.writeValue(subreddit_id);
 		out.writeValue(thumbnail);
 		out.writeValue(title);
 		out.writeInt(ups);
@@ -552,8 +552,8 @@ public class ThingInfo implements Serializable, Parcelable {
 		selftext      = (String) in.readValue(null);
 		selftext_html = (String) in.readValue(null);
 		subject       = (String) in.readValue(null);
-		femdom     = (String) in.readValue(null);
-		femdom_id  = (String) in.readValue(null);
+		subreddit     = (String) in.readValue(null);
+		subreddit_id  = (String) in.readValue(null);
 		thumbnail     = (String) in.readValue(null);
 		title         = (String) in.readValue(null);
 		ups           = in.readInt();

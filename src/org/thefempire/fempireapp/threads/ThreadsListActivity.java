@@ -511,7 +511,7 @@ public final class ThreadsListActivity extends ListActivity {
         titleView.setText(builder);
         
         votesView.setText("" + item.getScore());
-        numCommentsFemdomView.setText(Util.showNumComments(item.getNum_comments()) + "  " + item.getfemdom());
+        numCommentsFemdomView.setText(Util.showNumComments(item.getNum_comments()) + "  " + item.getSubreddit());
         
         if(item.isOver_18()){
             nsfwView.setVisibility(View.VISIBLE);
@@ -598,7 +598,7 @@ public final class ThreadsListActivity extends ListActivity {
 		urlView.setText(thingInfo.getUrl());
 		StringBuilder sb = new StringBuilder(Util.getTimeAgo(thingInfo.getCreated_utc()))
 			.append(" by ").append(thingInfo.getAuthor())
-			.append(" to ").append(thingInfo.getfemdom());
+			.append(" to ").append(thingInfo.getSubreddit());
 		submissionStuffView.setText(sb);
         
 		// Only show upvote/downvote if user is logged in
@@ -1076,7 +1076,7 @@ public final class ThreadsListActivity extends ListActivity {
         
         switch (item.getItemId()) {
         case Constants.VIEW_FEMDOM_CONTEXT_ITEM:
-        	mObjectStates.mCurrentDownloadThreadsTask = new MyDownloadThreadsTask(_item.getfemdom());
+        	mObjectStates.mCurrentDownloadThreadsTask = new MyDownloadThreadsTask(_item.getSubreddit());
         	mObjectStates.mCurrentDownloadThreadsTask.execute();
         	return true;
         
@@ -1557,7 +1557,7 @@ public final class ThreadsListActivity extends ListActivity {
 					// Launch an Intent for CommentsListActivity
 					Intent i = new Intent(ThreadsListActivity.this, CommentsListActivity.class);
 					i.setData(Util.createThreadUri(thingInfo));
-					i.putExtra(Constants.EXTRA_FEMDOM, thingInfo.getfemdom());
+					i.putExtra(Constants.EXTRA_FEMDOM, thingInfo.getSubreddit());
 					i.putExtra(Constants.EXTRA_TITLE, thingInfo.getTitle());
 					i.putExtra(Constants.EXTRA_NUM_COMMENTS, Integer.valueOf(thingInfo.getNum_comments()));
 					startActivity(i);
@@ -1570,9 +1570,9 @@ public final class ThreadsListActivity extends ListActivity {
 		    	public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
 		    		removeDialog(Constants.DIALOG_THREAD_CLICK);
 			    	if (isChecked) {
-						new MyVoteTask(thingInfo, 1, thingInfo.getfemdom()).execute();
+						new MyVoteTask(thingInfo, 1, thingInfo.getSubreddit()).execute();
 					} else {
-						new MyVoteTask(thingInfo, 0, thingInfo.getfemdom()).execute();
+						new MyVoteTask(thingInfo, 0, thingInfo.getSubreddit()).execute();
 					}
 				}
 		    };
@@ -1583,9 +1583,9 @@ public final class ThreadsListActivity extends ListActivity {
 		        public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
 			    	removeDialog(Constants.DIALOG_THREAD_CLICK);
 					if (isChecked) {
-						new MyVoteTask(thingInfo, -1, thingInfo.getfemdom()).execute();
+						new MyVoteTask(thingInfo, -1, thingInfo.getSubreddit()).execute();
 					} else {
-						new MyVoteTask(thingInfo, 0, thingInfo.getfemdom()).execute();
+						new MyVoteTask(thingInfo, 0, thingInfo.getSubreddit()).execute();
 					}
 				}
 		    };

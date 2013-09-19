@@ -388,13 +388,13 @@ public class SubmitLinkActivity extends TabActivity {
             		mSettings.setModhash(null);
             		throw new Exception("User required. Huh?");
             	}
-            	if (line.contains("femdom_NOEXIST")) {
+            	if (line.contains("SUBREDDIT_NOEXIST")) {
             		_mUserError = "That femdom does not exist.";
             		throw new Exception("femdom_NOEXIST: " + _mFemdom);
             	}
-            	if (line.contains("femdom_NOTALLOWED")) {
+            	if (line.contains("SUBREDDIT_NOTALLOWED")) {
             		_mUserError = "You are not allowed to post to that femdom.";
-            		throw new Exception("femdom_NOTALLOWED: " + _mFemdom);
+            		throw new Exception("SUBREDDIT_NOTALLOWED: " + _mFemdom);
             	}
             	
             	if (Constants.LOGGING) Common.logDLong(TAG, line);
@@ -427,7 +427,7 @@ public class SubmitLinkActivity extends TabActivity {
             	newlyCreatedThread = new ThingInfo();
             	// We only need to fill in a few fields.
             	newlyCreatedThread.setId(newId);
-            	newlyCreatedThread.setfemdom(newfemdom);
+            	newlyCreatedThread.setSubreddit(newfemdom);
             	newlyCreatedThread.setTitle(_mTitle.toString());
             	
             	return newlyCreatedThread;
@@ -460,7 +460,7 @@ public class SubmitLinkActivity extends TabActivity {
         		// Success. Return the femdom and thread id
     			Intent i = new Intent(getApplicationContext(), CommentsListActivity.class);
     			i.setData(Util.createThreadUri(newlyCreatedThread));
-    			i.putExtra(Constants.EXTRA_FEMDOM, newlyCreatedThread.getfemdom());
+    			i.putExtra(Constants.EXTRA_FEMDOM, newlyCreatedThread.getSubreddit());
     			i.putExtra(Constants.EXTRA_TITLE, newlyCreatedThread.getTitle());
     			i.putExtra(Constants.EXTRA_NUM_COMMENTS, 0);
     			startActivity(i);

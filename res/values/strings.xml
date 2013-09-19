@@ -20,8 +20,8 @@
 
 <resources>
 
-    <string name="app_label">fempire app</string>
-    <string name="app_name">Fempire App</string>
+    <string name="app_label">fempireapp</string>
+    <string name="app_name">FempireApp</string>
     <string name="user_agent">Fempire App (Android) %s</string>
  
     <!-- Searches -->

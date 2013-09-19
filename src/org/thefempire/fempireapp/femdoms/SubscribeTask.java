@@ -76,7 +76,7 @@ public class SubscribeTask extends AsyncTask<Void, Void, Boolean> {
 		// Construct data
 		List<NameValuePair> nvps = new ArrayList<NameValuePair>();
 		nvps.add(new BasicNameValuePair("action", "sub"));
-		nvps.add(new BasicNameValuePair("sr", Common.getfemdomId(mFemdom)));
+		nvps.add(new BasicNameValuePair("sr", Common.getSubredditId(mFemdom)));
 		nvps.add(new BasicNameValuePair("r", mFemdom));
 		nvps.add(new BasicNameValuePair("uh", mSettings.getModhash().toString()));
 		

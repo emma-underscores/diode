@@ -65,7 +65,7 @@ public class FilterEditActivity extends Activity
 		{
 			FemdomFilter f = m_settings.getFilters().get(m_filteridx);
 			m_tw_name.setText(f.getName());
-			m_tw_femdom.setText(f.getfemdom());
+			m_tw_femdom.setText(f.getSubreddit());
 			m_tw_filtertxt.setText(f.getPatternString());
 		}
 		

@@ -67,7 +67,7 @@ public class SavedDBHandler extends SQLiteOpenHelper
         cValues.put(KEY_BODY, sc.getBody());
         cValues.put(KEY_LINK_ID, sc.getLinkId());
         cValues.put(KEY_COMMENT_ID, sc.getCommentId());
-        cValues.put(KEY_femdom, sc.getfemdom());
+        cValues.put(KEY_femdom, sc.getSubreddit());
         
         sdb.insert(TABLE_SAVED_CONTENT, null, cValues);
         sdb.close();

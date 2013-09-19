@@ -97,7 +97,7 @@ public class FemdomFilter
 	 * Get femdom
 	 * @return name of femdom
 	 */
-	public String getfemdom()
+	public String getSubreddit()
 	{
 		return m_femdom;
 	}
