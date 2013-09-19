@@ -55,7 +55,7 @@ public class Constants {
 
 	
 	public static final String COMMENT_KIND = "t1";
-	public static final String THREAD_KIND = "t3";
+	public static final String THREAD_KIND = "t6"; // not t3
 	public static final String MESSAGE_KIND = "t4";
 	public static final String FEMDOM_KIND = "t5";
 	public static final String MORE_KIND = "more";
