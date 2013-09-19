@@ -244,7 +244,7 @@ public class Markdown {
 	        	urls.add(new MarkdownURL(am.start(), url, null));
 	        }
         }
-        // Don't autolink emails for now. Neither does Fempire.com
+        // Don't autolink emails for now. Neither does thefempire.org
 //        m = autoLinkEmail.matcher(ssb);
 //        int start = 0;
 //        while (m.find(start)) {
@@ -340,7 +340,7 @@ public class Markdown {
         	ssb.setSpan(fcs, am.start(), am.end(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
 	        urls.add(new MarkdownURL(am.start(), am.group(), null));
         }
-        // Don't autolink emails for now. Neither does Fempire.com
+        // Don't autolink emails for now. Neither does thefempire.org
 //        m = autoLinkEmail.matcher(ssb);
 //        int start = 0;
 //        while (m.find(start)) {

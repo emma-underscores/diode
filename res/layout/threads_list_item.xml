@@ -115,7 +115,7 @@
 			        android:textColor="@color/red"
 			    />
 			    
-		        <TextView android:id="@+id/numCommentsfemdom"
+		        <TextView android:id="@+id/numCommentsFemdom"
 			        android:layout_width="wrap_content"
 			        android:layout_height="wrap_content"
 			        android:layout_marginRight="5dip"

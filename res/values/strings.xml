@@ -281,7 +281,7 @@
     <string name="edit_filter">Edit filter</string>
     <string name="delete_filter">Delete filter</string>
     <string name="filter_name">Filter name</string>
-    <string name="femdom_name">femdom name</string>
+    <string name="femdom_name">Femdom name</string>
     <string name="filter_text">Filter text</string>
     <string name="clear_filters">Delete All</string>
     <string name="filter_help_text">Links with titles that contain filter text will not be displayed.</string>

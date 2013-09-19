@@ -150,7 +150,7 @@ public abstract class DownloadThreadsTask extends AsyncTask<Void, Long, Boolean>
         	int duration = Toast.LENGTH_LONG;
         	Toast toast = Toast.makeText(mContext, text, duration);
         	toast.show();*/
-    		//https://pay.Fempire.com/.json?&
+    		//http://www.thefempire.org/.json?&
     		if (Constants.LOGGING) Log.d(TAG, "url=" + url);
 
     		InputStream in = null;
@@ -211,7 +211,7 @@ public abstract class DownloadThreadsTask extends AsyncTask<Void, Long, Boolean>
         	pin.addPropertyChangeListener(this);
         	
         	try {
-            	parsefemdomJSON(pin);
+            	parseFemdomJSON(pin);
             	
             	mLastCount = mCount;
             	if (isAfter)
@@ -246,7 +246,7 @@ public abstract class DownloadThreadsTask extends AsyncTask<Void, Long, Boolean>
         return false;
     }
 	
-	protected void parsefemdomJSON(InputStream in)
+	protected void parseFemdomJSON(InputStream in)
 			throws IOException, JsonParseException, IllegalStateException {
 		
 		String genericListingError = "Not a femdom listing";
@@ -279,7 +279,7 @@ public abstract class DownloadThreadsTask extends AsyncTask<Void, Long, Boolean>
 				}
 			}
 		} catch (Exception ex) {
-			if (Constants.LOGGING) Log.e(TAG, "parsefemdomJSON", ex);
+			if (Constants.LOGGING) Log.e(TAG, "parseFemdomJSON", ex);
 		}
 	}
 	

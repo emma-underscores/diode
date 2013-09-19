@@ -27,7 +27,7 @@ public abstract class LoginDialog extends Dialog {
 		mSettings = settings;
 		
 		setContentView(R.layout.login_dialog);
-		setTitle("Login to Fempire.com");
+		setTitle("Login to thefempire.org");
 		if (finishActivityIfCanceled) {
 			// If user presses "back" then quit.
 			setOnCancelListener(new OnCancelListener() {

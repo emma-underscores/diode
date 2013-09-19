@@ -1461,6 +1461,7 @@ public class CommentsListActivity extends ListActivity
     }
     
     @SuppressLint("NewApi")
+    @Override
 	public boolean onContextItemSelected(MenuItem item) {
     	AdapterContextMenuInfo info = (AdapterContextMenuInfo) item.getMenuInfo();
     	int rowId = (int) info.id;
@@ -1709,6 +1710,7 @@ public class CommentsListActivity extends ListActivity
     					Common.showErrorToast("Error replying. Please try again.", Toast.LENGTH_SHORT, CommentsListActivity.this);
     				}
     			}
+
     		});
     		replyCancelButton.setOnClickListener(new OnClickListener() {
     			@Override

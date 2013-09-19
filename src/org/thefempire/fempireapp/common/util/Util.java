@@ -463,7 +463,7 @@ public class Util {
 	public static boolean isFempireUri(Uri uri) {
 		if (uri == null) return false;
 		String host = uri.getHost();
-		return host != null && (host.equals("Fempire.com") || host.endsWith(".Fempire.com"));
+		return host != null && (host.equals("thefempire.org") || host.endsWith(".thefempire.org"));
 	}
 	
 	public static boolean isFemdomShortenedUri(Uri uri) {
