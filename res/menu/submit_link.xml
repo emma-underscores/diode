@@ -22,7 +22,7 @@
     <group android:id="@+id/MAIN_MENU">
         <item android:id="@+id/pick_femdom_menu_id"
             android:title="@string/pick_femdom"
-            android:icon="@drawable/ic_menu_alien" />
+            android:icon="@drawable/ic_menu_brd" />
         <item android:id="@+id/update_captcha_menu_id"
             android:title="@string/update_captcha"
             android:icon="@drawable/ic_menu_refresh" />

@@ -123,7 +123,7 @@ public class SavedContent
         this.commentId = commentId;
     }
     
-    public void setfemdom(String femdom)
+    public void setSubreddit(String femdom)
     {
         this.femdom = femdom;
     }

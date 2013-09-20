@@ -218,7 +218,7 @@ public class ThingInfo implements Serializable, Parcelable {
 		return subreddit;
 	}
 
-	public String getSemdom_id() {
+	public String getSubreddit_id() {
 		return subreddit_id;
 	}
 

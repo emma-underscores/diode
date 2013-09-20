@@ -95,7 +95,7 @@ public class FilterEditActivity extends Activity
 			// We're editing, get a reference from filters
 			f = filters.get(m_filteridx);
 			f.setName(name);
-			f.setfemdom(femdom);
+			f.setSubreddit(femdom);
 			f.setPattern(filtertxt);
 		}
 		m_settings.setFilters(filters);

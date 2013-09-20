@@ -329,7 +329,7 @@ public class Constants {
     
     // Fempire's base URL, without trailing slash
     public static final String FEMPIRE_BASE_URL = "http://www.thefempire.org";
-    public static final String FEMPIRE_SSL_BASE_URL = "http://www.thefempire.org"; // SSL isn't enabled on thefempire.org
+//    public static final String FEMPIRE_SSL_BASE_URL = "http://www.thefempire.org"; // SSL isn't enabled on thefempire.org
 	public static final String FEMPIRE_LOGIN_URL = "http://www.thefempire.org/api/login";
 	
     // A short HTML file returned by Fempire, so we can get the modhash

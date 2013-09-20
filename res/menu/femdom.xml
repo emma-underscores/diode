@@ -20,7 +20,7 @@
 
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
 	<group android:id="@+id/MAIN_MENU">
-		<item android:id="@+id/pick_femdom_menu_id" android:title="@string/pick_femdom" android:icon="@drawable/ic_menu_alien" />
+		<item android:id="@+id/pick_femdom_menu_id" android:title="@string/pick_femdom" android:icon="@drawable/ic_menu_brd" />
         
         <!-- These 2 are mutually exclusive -->
         <item android:id="@+id/login_menu_id" android:title="@string/login" android:icon="@drawable/ic_menu_login" />

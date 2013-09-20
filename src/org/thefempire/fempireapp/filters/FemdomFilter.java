@@ -33,7 +33,7 @@ public class FemdomFilter
 	{
 		setName(name);
 		setPattern(pattern);
-		setfemdom(sub);
+		setSubreddit(sub);
 		setEnabled(enabled);
 	}
 	
@@ -88,7 +88,7 @@ public class FemdomFilter
 	 * Set femdom
 	 * @param sub femdom
 	 */
-	public void setfemdom(String sub) 
+	public void setSubreddit(String sub) 
 	{
 		m_femdom = sub;
 	}
