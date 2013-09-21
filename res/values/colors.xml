@@ -18,21 +18,21 @@
  * along with "Fempire App".  If not, see <http://www.gnu.org/licenses/>.
 -->
 <resources>
-    <color name="android_dark_background">#FF191919</color>
+    <color name="android_dark_background">#FF501919</color>
     
     <color name="error_toast_background">#ECCC</color>
     
-    <color name="markdown_link_color">#ff2288cc</color>
+    <color name="markdown_link_color">#ff4488cc</color>
     
     <color name="white">#ffffffff</color>
     <color name="black">#ff000000</color>
-    <color name="dark_gray">#ff1f1f1f</color>
-    <color name="gray_25">#ff3f3f3f</color>
-    <color name="gray_50">#ff7f7f7f</color>
-    <color name="gray_75">#ffbfbfbf</color>
-    <color name="light_gray">#ffdfdfdf</color>
-    <color name="light_light_gray">#ffefefef</color>
-    <color name="red">#ffff0000</color>
+    <color name="dark_gray">#ff2f1f1f</color>
+    <color name="gray_25">#ff4f3f3f</color>
+    <color name="gray_50">#ff8f7f7f</color>
+    <color name="gray_75">#ffcfbfbf</color>
+    <color name="light_gray">#ffefdfdf</color>
+    <color name="light_light_gray">#ffffefef</color>
+    <color name="red">#ffff0030</color>
     
     <color name="pale_blue">#ffcee2ff</color>
     <color name="blue">#ff0000ff</color>
@@ -45,6 +45,6 @@
     <color name="medium_pale_yellow">#ffffff99</color>
     <color name="translucent_yellow">#80ffff00</color>
 
-    <color name="dividers">#ff888888</color>
-    <color name="dividers_light">#ff888888</color>
+    <color name="dividers">#ff988888</color>
+    <color name="dividers_light">#ff988888</color>
 </resources>
