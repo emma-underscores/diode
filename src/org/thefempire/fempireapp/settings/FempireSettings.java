@@ -124,11 +124,11 @@ public class FempireSettings {
     	else
     		editor.remove("username");
     	if (this.fempireSessionCookie != null) {
-    		editor.putString("fempire_sessionValue",  this.fempireSessionCookie.getValue());
-    		editor.putString("fempire_sessionDomain", this.fempireSessionCookie.getDomain());
-    		editor.putString("fempire_sessionPath",   this.fempireSessionCookie.getPath());
+    		editor.putString("reddit_sessionValue",  this.fempireSessionCookie.getValue());
+    		editor.putString("reddit_sessionDomain", this.fempireSessionCookie.getDomain());
+    		editor.putString("reddit_sessionPath",   this.fempireSessionCookie.getPath());
     		if (this.fempireSessionCookie.getExpiryDate() != null)
-    			editor.putLong("fempire_sessionExpiryDate", this.fempireSessionCookie.getExpiryDate().getTime());
+    			editor.putLong("reddit_sessionExpiryDate", this.fempireSessionCookie.getExpiryDate().getTime());
     	}
     	if (this.modhash != null)
     		editor.putString("modhash", this.modhash.toString());
@@ -185,12 +185,12 @@ public class FempireSettings {
     	SharedPreferences sessionPrefs = PreferenceManager.getDefaultSharedPreferences(context);
     	this.setUsername(sessionPrefs.getString("username", null));
     	this.setModhash(sessionPrefs.getString("modhash", null));
-        String cookieValue = sessionPrefs.getString("fempire_sessionValue", null);
-        String cookieDomain = sessionPrefs.getString("fempire_sessionDomain", null);
-        String cookiePath = sessionPrefs.getString("fempire_sessionPath", null);
-        long cookieExpiryDate = sessionPrefs.getLong("fempire_sessionExpiryDate", -1);
+        String cookieValue = sessionPrefs.getString("reddit_sessionValue", null);
+        String cookieDomain = sessionPrefs.getString("reddit_sessionDomain", null);
+        String cookiePath = sessionPrefs.getString("reddit_sessionPath", null);
+        long cookieExpiryDate = sessionPrefs.getLong("reddit_sessionExpiryDate", -1);
         if (cookieValue != null) {
-        	BasicClientCookie fempireSessionCookie = new BasicClientCookie("fempire_session", cookieValue);
+        	BasicClientCookie fempireSessionCookie = new BasicClientCookie("reddit_session", cookieValue);
         	fempireSessionCookie.setDomain(cookieDomain);
         	fempireSessionCookie.setPath(cookiePath);
         	if (cookieExpiryDate != -1)

@@ -136,7 +136,7 @@ public class LoginTask extends AsyncTask<Void, Void, Boolean> {
         	// Could grab cookie from JSON too, but it lacks expiration date and stuff. So grab from HttpClient.
 			List<Cookie> cookies = FempireAppHttpClientFactory.getCookieStore().getCookies();
         	for (Cookie c : cookies) {
-        		if (c.getName().equals("fempire_session")) {
+        		if (c.getName().equals("reddit_session")) {
         			settings.setfempireSessionCookie(c);
         			break;
         		}

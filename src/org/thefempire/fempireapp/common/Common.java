@@ -203,10 +203,10 @@ public class Common {
         
         SharedPreferences sessionPrefs = PreferenceManager.getDefaultSharedPreferences(context);
     	SharedPreferences.Editor editor = sessionPrefs.edit();
-    	editor.remove("fempire_sessionValue");
-    	editor.remove("fempire_sessionDomain");
-    	editor.remove("fempire_sessionPath");
-    	editor.remove("fempire_sessionExpiryDate");
+    	editor.remove("reddit_sessionValue");
+    	editor.remove("reddit_sessionDomain");
+    	editor.remove("reddit_sessionPath");
+    	editor.remove("reddit_sessionExpiryDate");
         editor.commit();
     }
     
