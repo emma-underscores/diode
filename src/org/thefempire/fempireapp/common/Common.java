@@ -203,10 +203,10 @@ public class Common {
         
         SharedPreferences sessionPrefs = PreferenceManager.getDefaultSharedPreferences(context);
     	SharedPreferences.Editor editor = sessionPrefs.edit();
-    	editor.remove("Fempire_sessionValue");
-    	editor.remove("Fempire_sessionDomain");
-    	editor.remove("Fempire_sessionPath");
-    	editor.remove("Fempire_sessionExpiryDate");
+    	editor.remove("fempire_sessionValue");
+    	editor.remove("fempire_sessionDomain");
+    	editor.remove("fempire_sessionPath");
+    	editor.remove("fempire_sessionExpiryDate");
         editor.commit();
     }
     
@@ -312,10 +312,10 @@ public class Common {
     		// The modhash probably expired
     		return "Login expired.";
     	}
-    	if (line.contains("femdom_NOEXIST")) {
+    	if (line.contains("SUBREDDIT_NOEXIST")) {
     		return "That femdom does not exist.";
     	}
-    	if (line.contains("femdom_NOTALLOWED")) {
+    	if (line.contains("SUBREDDIT_NOTALLOWED")) {
     		return "You are not allowed to post to that femdom.";
     	}
     	

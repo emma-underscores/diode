@@ -124,11 +124,11 @@ public class FempireSettings {
     	else
     		editor.remove("username");
     	if (this.fempireSessionCookie != null) {
-    		editor.putString("Fempire_sessionValue",  this.fempireSessionCookie.getValue());
-    		editor.putString("Fempire_sessionDomain", this.fempireSessionCookie.getDomain());
-    		editor.putString("Fempire_sessionPath",   this.fempireSessionCookie.getPath());
+    		editor.putString("fempire_sessionValue",  this.fempireSessionCookie.getValue());
+    		editor.putString("fempire_sessionDomain", this.fempireSessionCookie.getDomain());
+    		editor.putString("fempire_sessionPath",   this.fempireSessionCookie.getPath());
     		if (this.fempireSessionCookie.getExpiryDate() != null)
-    			editor.putLong("Fempire_sessionExpiryDate", this.fempireSessionCookie.getExpiryDate().getTime());
+    			editor.putLong("fempire_sessionExpiryDate", this.fempireSessionCookie.getExpiryDate().getTime());
     	}
     	if (this.modhash != null)
     		editor.putString("modhash", this.modhash.toString());
@@ -185,12 +185,12 @@ public class FempireSettings {
     	SharedPreferences sessionPrefs = PreferenceManager.getDefaultSharedPreferences(context);
     	this.setUsername(sessionPrefs.getString("username", null));
     	this.setModhash(sessionPrefs.getString("modhash", null));
-        String cookieValue = sessionPrefs.getString("Fempire_sessionValue", null);
-        String cookieDomain = sessionPrefs.getString("Fempire_sessionDomain", null);
-        String cookiePath = sessionPrefs.getString("Fempire_sessionPath", null);
-        long cookieExpiryDate = sessionPrefs.getLong("Fempire_sessionExpiryDate", -1);
+        String cookieValue = sessionPrefs.getString("fempire_sessionValue", null);
+        String cookieDomain = sessionPrefs.getString("fempire_sessionDomain", null);
+        String cookiePath = sessionPrefs.getString("fempire_sessionPath", null);
+        long cookieExpiryDate = sessionPrefs.getLong("fempire_sessionExpiryDate", -1);
         if (cookieValue != null) {
-        	BasicClientCookie fempireSessionCookie = new BasicClientCookie("Fempire_session", cookieValue);
+        	BasicClientCookie fempireSessionCookie = new BasicClientCookie("fempire_session", cookieValue);
         	fempireSessionCookie.setDomain(cookieDomain);
         	fempireSessionCookie.setPath(cookiePath);
         	if (cookieExpiryDate != -1)
