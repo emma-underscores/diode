@@ -510,7 +510,8 @@ public final class ThreadsListActivity extends ListActivity {
         builder.append(titleSS).append(" ").append(domainSS);
         titleView.setText(builder);
         
-        votesView.setText("" + item.getScore());
+        votesView.setText("" + (item.getUps() - item.getDowns()));
+;
         numCommentsFemdomView.setText(Util.showNumComments(item.getNum_comments()) + "  " + item.getSubreddit());
         
         if(item.isOver_18()){
